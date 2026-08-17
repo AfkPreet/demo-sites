@@ -1,0 +1,615 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Preet Kumar — Interaction Designer &amp; Creative Developer</title>
+<meta name="description" content="I design and build scroll-driven, real-time 3D websites that stay smooth on the phone in your client's hand. Six complete demo worlds inside — open any of them.">
+<meta name="theme-color" content="#07070B">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Preet Kumar — Interaction Designer &amp; Creative Developer">
+<meta property="og:description" content="Scroll-driven, real-time 3D websites. Six complete demo worlds inside — open any of them.">
+<meta property="og:image" content="/og/portfolio.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<script type="module" src="/src/portfolio/main.js"></script>
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- Fixed WebGL layer: the obsidian form that carries the first three chapters -->
+<canvas id="stage" class="gl-fixed" aria-hidden="true"></canvas>
+<div class="grain" aria-hidden="true"></div>
+<div class="scroll-bar" aria-hidden="true"><i id="scrollbar"></i></div>
+
+<header class="nav" id="nav">
+  <a class="nav__brand" href="#top" aria-label="Preet Kumar — top of page">
+    <span class="nav__mark">PK</span>
+    <span class="nav__name">Preet&nbsp;Kumar</span>
+  </a>
+  <nav class="nav__links" aria-label="Primary">
+    <a href="#work">Work</a>
+    <a href="#studio">Studio</a>
+    <a href="#contact" class="nav__cta">
+      <span class="nav__pulse" aria-hidden="true"></span>
+      Work with me
+    </a>
+  </nav>
+</header>
+
+<main id="main">
+
+<!-- ══════════════════════════════════════ 01 · HERO ══════════════════════ -->
+<section class="hero" id="top">
+  <div class="hero__inner">
+    <p class="eyebrow hero__eyebrow" data-rv="up">
+      <span class="dot" aria-hidden="true"></span>
+      Interaction designer &amp; creative developer
+    </p>
+
+    <h1 class="hero__title" data-split data-rv="lines">
+      I build websites people <em>remember</em>, and clients keep.
+    </h1>
+
+    <p class="hero__lede" data-rv="up" style="--rv-delay:520ms">
+      Scroll-driven stories, real-time 3D, and interfaces engineered to stay
+      silky on a mid-range phone. Six finished worlds live below — open any
+      of them.
+    </p>
+
+    <div class="hero__actions" data-rv="up" style="--rv-delay:660ms">
+      <a class="btn btn--primary" href="#work" data-magnetic>
+        <span>Explore the six worlds</span>
+        <svg viewBox="0 0 16 16" aria-hidden="true" width="14" height="14"><path d="M8 1v14M2.5 9.5 8 15l5.5-5.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="btn btn--ghost" href="#contact" data-magnetic>Work with me</a>
+    </div>
+  </div>
+
+  <div class="hero__foot">
+    <div class="hero__meta" data-rv="up" style="--rv-delay:820ms">
+      <span>Bengaluru <span aria-hidden="true">·</span> working worldwide</span>
+      <span class="hero__sep" aria-hidden="true"></span>
+      <span>Available for new projects</span>
+    </div>
+    <div class="hero__scroll" aria-hidden="true">
+      <span class="hero__scroll-label">Scroll</span>
+      <span class="hero__scroll-rail"><i></i></span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ 02 · MANIFESTO ═════════════════ -->
+<section class="manifesto" id="manifesto">
+  <div class="wrap">
+    <p class="eyebrow" data-rv="up">01 — Why it matters</p>
+    <h2 class="manifesto__line" data-split data-rv="lines">
+      A visitor decides how much to trust you in about two seconds. Everything
+      I do lives inside those two seconds.
+    </h2>
+    <div class="manifesto__cols">
+      <p data-rv="up" style="--rv-delay:120ms">
+        Most websites are brochures with a nicer font. They present information
+        and hope. The ones that convert do something else entirely — they
+        <em>move</em>, they reveal, they reward the scroll, and by the time
+        someone reaches your contact form they already feel like they know how
+        you work.
+      </p>
+      <p data-rv="up" style="--rv-delay:240ms">
+        That feeling is not decoration. It is the product. It is built out of
+        timing, easing curves, restraint, and an obsession with the frame
+        budget — because beauty that stutters reads as broken, and broken reads
+        as amateur.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ 03 · STUDIO / ABOUT ════════════ -->
+<section class="studio" id="studio">
+  <div class="wrap studio__grid">
+    <div class="studio__art" data-rv="scale">
+      <canvas id="ink" aria-hidden="true"></canvas>
+      <div class="studio__art-frame" aria-hidden="true"></div>
+      <figcaption class="studio__cap">
+        <span class="mono">fig. 01</span>
+        Curl-noise flow field, 9,000 strokes, drawn in the browser at load.
+        No image files were used anywhere on this site.
+      </figcaption>
+    </div>
+
+    <div class="studio__text">
+      <p class="eyebrow" data-rv="up">02 — Who you'd be working with</p>
+      <h2 class="h2" data-split data-rv="lines">
+        I'm Preet. I design the thing, then I build the thing.
+      </h2>
+      <p class="lede" data-rv="up" style="--rv-delay:150ms">
+        No handoff, no telephone game between a designer's file and a
+        developer's approximation of it. The motion you approve is the motion
+        that ships, because the person choosing the easing curve is the person
+        writing it.
+      </p>
+      <p data-rv="up" style="--rv-delay:250ms">
+        I work in the narrow band where art direction meets engineering:
+        WebGL and shaders, scroll choreography, type systems, and the deeply
+        unglamorous performance work that makes all of it feel effortless on a
+        four-year-old Android.
+      </p>
+
+      <ul class="chips" data-rv="up" data-rv-stagger style="--rv-delay:340ms">
+        <li>Art direction</li>
+        <li>Scroll choreography</li>
+        <li>WebGL &amp; shaders</li>
+        <li>Design systems</li>
+        <li>Front-end engineering</li>
+        <li>Performance</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <ul class="stats" data-rv="up" data-rv-stagger>
+      <li><b><span data-count="7">7</span></b><span>complete sites in this build</span></li>
+      <li><b><span data-count="7">7</span></b><span>independent design systems</span></li>
+      <li><b><span data-count="0">0</span></b><span>stock photos — every visual authored</span></li>
+      <li><b>60<i>fps</i></b><span>the budget everything is built to</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ 04 · WORK ══════════════════════ -->
+<section class="work" id="work">
+  <div class="wrap work__head">
+    <p class="eyebrow" data-rv="up">03 — Selected work</p>
+    <h2 class="h2 work__title" data-split data-rv="lines">
+      Six worlds, held to one rule: no two may feel like the <em>same studio</em>
+      made them.
+    </h2>
+    <p class="work__note" data-rv="up" style="--rv-delay:180ms">
+      Every one is a complete, explorable site with its own brand, story and
+      signature moment. Open them — then come back with the button that never
+      leaves the corner.
+    </p>
+  </div>
+
+  <ol class="work__list">
+
+    <!-- ─────────── 01 AURELIS ─────────── -->
+    <li class="wslot">
+      <article class="wcard wcard--aurelis">
+        <a class="wcard__link" href="/demos/aurelis/" data-cursor="Open">
+          <div class="wcard__art" aria-hidden="true">
+            <svg class="poster poster--aurelis" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <radialGradient id="au-glow" cx="50%" cy="46%" r="58%">
+                  <stop offset="0%" stop-color="#4b3a1d"/><stop offset="34%" stop-color="#241b0f"/>
+                  <stop offset="70%" stop-color="#100c08"/><stop offset="100%" stop-color="#070604"/>
+                </radialGradient>
+                <linearGradient id="au-gold" x1="0" y1="0" x2=".7" y2="1">
+                  <stop offset="0%" stop-color="#fff0cb"/><stop offset="30%" stop-color="#e6c583"/>
+                  <stop offset="62%" stop-color="#b98f45"/><stop offset="100%" stop-color="#7d5f27"/>
+                </linearGradient>
+                <radialGradient id="au-dial" cx="42%" cy="32%" r="78%">
+                  <stop offset="0%" stop-color="#1c1710"/><stop offset="62%" stop-color="#0d0a07"/><stop offset="100%" stop-color="#060504"/>
+                </radialGradient>
+              </defs>
+              <rect width="800" height="600" fill="url(#au-glow)"/>
+              <g transform="translate(400 300)">
+                <!-- case + bezel -->
+                <circle r="205" fill="none" stroke="url(#au-gold)" stroke-width="1.2" opacity=".28"/>
+                <circle r="188" fill="url(#au-dial)" stroke="url(#au-gold)" stroke-width="7" opacity=".96"/>
+                <circle r="176" fill="none" stroke="#000" stroke-width="2" opacity=".5"/>
+                <circle r="163" fill="none" stroke="url(#au-gold)" stroke-width="1.1" opacity=".5"/>
+                <!-- crown -->
+                <path d="M188-16h20v32h-20z" fill="url(#au-gold)" opacity=".85"/>
+                <!-- indices -->
+                <g class="po-ticks" stroke="url(#au-gold)" fill="none">
+                  <g stroke-width="6" stroke-linecap="round" opacity=".95">
+                    <path d="M0-152V-124"/>
+                    <path d="M0-152V-124" transform="rotate(90)"/>
+                    <path d="M0-152V-124" transform="rotate(180)"/>
+                    <path d="M0-152V-124" transform="rotate(270)"/>
+                  </g>
+                  <g stroke-width="3.4" stroke-linecap="round" opacity=".78">
+                    <path d="M0-152V-131" transform="rotate(30)"/><path d="M0-152V-131" transform="rotate(60)"/>
+                    <path d="M0-152V-131" transform="rotate(120)"/><path d="M0-152V-131" transform="rotate(150)"/>
+                    <path d="M0-152V-131" transform="rotate(210)"/><path d="M0-152V-131" transform="rotate(240)"/>
+                    <path d="M0-152V-131" transform="rotate(300)"/><path d="M0-152V-131" transform="rotate(330)"/>
+                  </g>
+                </g>
+                <!-- small seconds -->
+                <g transform="translate(0 88)">
+                  <circle r="40" fill="none" stroke="url(#au-gold)" stroke-width="1.1" opacity=".45"/>
+                  <circle r="2.6" fill="url(#au-gold)" opacity=".8"/>
+                  <path d="M0 6V-30" stroke="url(#au-gold)" stroke-width="1.4" opacity=".7"/>
+                </g>
+                <!-- hands -->
+                <g class="po-hand po-hand--h" stroke="url(#au-gold)" fill="none">
+                  <path d="M0 18V-96" stroke-width="8" stroke-linecap="round" opacity=".97"/>
+                </g>
+                <g class="po-hand po-hand--m" stroke="url(#au-gold)" fill="none">
+                  <path d="M0 24V-146" stroke-width="5" stroke-linecap="round" opacity=".97"/>
+                </g>
+                <circle r="7" fill="url(#au-gold)"/>
+                <circle r="2.4" fill="#0d0a07"/>
+              </g>
+              <g class="po-sweep"><rect x="-320" y="-60" width="200" height="720" fill="#ffeec2" opacity=".05" transform="skewX(-16)"/></g>
+            </svg>
+          </div>
+          <div class="wcard__body">
+            <p class="wcard__index"><span class="mono">01</span> <span>Luxury horology</span></p>
+            <h3 class="wcard__name">Aurelis</h3>
+            <p class="wcard__brand">Maison Aurelis, Genève — <i>“Le temps, rendu éternel.”</i></p>
+            <p class="wcard__sig">
+              <span class="wcard__sig-tag">Signature moment</span>
+              The Nocturne 01 comes apart into 214 floating components mid-scroll,
+              turns in the dark, and rebuilds itself.
+            </p>
+            <span class="wcard__go">Open the site <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </div>
+        </a>
+      </article>
+    </li>
+
+    <!-- ─────────── 02 AETHERION ─────────── -->
+    <li class="wslot">
+      <article class="wcard wcard--aetherion">
+        <a class="wcard__link" href="/demos/aetherion/" data-cursor="Open">
+          <div class="wcard__art" aria-hidden="true">
+            <svg class="poster poster--aetherion" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <radialGradient id="ae-sky" cx="18%" cy="20%" r="95%">
+                  <stop offset="0%" stop-color="#1b2352"/><stop offset="45%" stop-color="#0a0e26"/><stop offset="100%" stop-color="#03040e"/>
+                </radialGradient>
+                <linearGradient id="ae-planet" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#ffb27a"/><stop offset="40%" stop-color="#c96f4a"/><stop offset="100%" stop-color="#3a1f2c"/>
+                </linearGradient>
+                <linearGradient id="ae-ring" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#f7d9b0" stop-opacity="0"/><stop offset="35%" stop-color="#f7d9b0" stop-opacity=".85"/>
+                  <stop offset="65%" stop-color="#9ad7ff" stop-opacity=".7"/><stop offset="100%" stop-color="#9ad7ff" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <rect width="800" height="600" fill="url(#ae-sky)"/>
+              <g class="po-stars" fill="#dfe9ff">
+                <circle cx="70" cy="90" r="1.5" opacity=".9"/><circle cx="180" cy="52" r="1" opacity=".6"/>
+                <circle cx="290" cy="130" r="1.7" opacity=".8"/><circle cx="120" cy="240" r="1.1" opacity=".5"/>
+                <circle cx="420" cy="70" r="1.3" opacity=".7"/><circle cx="520" cy="160" r="1" opacity=".5"/>
+                <circle cx="640" cy="60" r="1.6" opacity=".85"/><circle cx="740" cy="200" r="1.1" opacity=".6"/>
+                <circle cx="60" cy="420" r="1.2" opacity=".55"/><circle cx="230" cy="470" r="1.5" opacity=".7"/>
+                <circle cx="360" cy="330" r="1" opacity=".45"/><circle cx="700" cy="420" r="1.3" opacity=".6"/>
+              </g>
+              <g transform="translate(500 430)">
+                <circle r="210" fill="url(#ae-planet)"/>
+                <ellipse rx="330" ry="52" fill="none" stroke="url(#ae-ring)" stroke-width="16" transform="rotate(-18)" opacity=".95"/>
+                <ellipse rx="278" ry="40" fill="none" stroke="url(#ae-ring)" stroke-width="5" transform="rotate(-18)" opacity=".6"/>
+                <circle r="210" fill="#03040e" opacity=".55" transform="translate(-84 -52)" style="mix-blend-mode:multiply"/>
+              </g>
+              <g class="po-craft" transform="translate(302 182)">
+                <path d="M0 0 44 -9 34 0 44 9Z" fill="#e8f1ff"/>
+                <path d="M0 0-120 0" stroke="#9ad7ff" stroke-width="1.6" opacity=".5"/>
+              </g>
+            </svg>
+          </div>
+          <div class="wcard__body">
+            <p class="wcard__index"><span class="mono">02</span> <span>Space exploration</span></p>
+            <h3 class="wcard__name">Aetherion</h3>
+            <p class="wcard__brand">Deep-field passenger flight — <i>“The sky was never the limit.”</i></p>
+            <p class="wcard__sig">
+              <span class="wcard__sig-tag">Signature moment</span>
+              You fall through the ring plane of a gas giant — the debris whips
+              past the camera and the whole page turns to daylight.
+            </p>
+            <span class="wcard__go">Open the site <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </div>
+        </a>
+      </article>
+    </li>
+
+    <!-- ─────────── 03 NOISE94 ─────────── -->
+    <li class="wslot">
+      <article class="wcard wcard--noise94">
+        <a class="wcard__link" href="/demos/noise94/" data-cursor="Open">
+          <div class="wcard__art" aria-hidden="true">
+            <svg class="poster poster--noise94" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+              <rect width="800" height="600" fill="#0d0d0d"/>
+              <g class="po-slab">
+                <rect x="-40" y="120" width="900" height="130" fill="#e8ff2f" transform="rotate(-7 400 185)"/>
+                <text x="30" y="215" font-family="Impact, 'Arial Black', system-ui" font-size="118" fill="#0d0d0d" transform="rotate(-7 400 185)" letter-spacing="-4">NOISE94 NOISE94</text>
+              </g>
+              <g class="po-slab po-slab--2">
+                <rect x="-60" y="330" width="900" height="96" fill="#ff3b1f" transform="rotate(5 400 378)"/>
+                <text x="-20" y="402" font-family="Impact, 'Arial Black', system-ui" font-size="84" fill="#0d0d0d" transform="rotate(5 400 378)" letter-spacing="-2">DROP 07 · CONCRETE BLOOM ·</text>
+              </g>
+              <g class="po-stamp" transform="translate(496 470)">
+                <circle r="78" fill="none" stroke="#e8ff2f" stroke-width="3"/>
+                <circle r="66" fill="#e8ff2f"/>
+                <text y="8" text-anchor="middle" font-family="Impact,'Arial Black',system-ui" font-size="34" fill="#0d0d0d">SOLD</text>
+              </g>
+              <g fill="#e8ff2f" opacity=".9">
+                <rect x="262" y="516" width="120" height="10"/><rect x="262" y="538" width="70" height="10"/><rect x="262" y="560" width="150" height="10"/>
+              </g>
+            </svg>
+          </div>
+          <div class="wcard__body">
+            <p class="wcard__index"><span class="mono">03</span> <span>Streetwear</span></p>
+            <h3 class="wcard__name">Noise94</h3>
+            <p class="wcard__brand">Drop 07: Concrete Bloom — <i>“Made for the misfits.”</i></p>
+            <p class="wcard__sig">
+              <span class="wcard__sig-tag">Signature moment</span>
+              Drag the shutter across the drop to tear it open — the type
+              shatters into fragments and slams back together.
+            </p>
+            <span class="wcard__go">Open the site <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </div>
+        </a>
+      </article>
+    </li>
+
+    <!-- ─────────── 04 CENDRE ─────────── -->
+    <li class="wslot">
+      <article class="wcard wcard--cendre">
+        <a class="wcard__link" href="/demos/cendre/" data-cursor="Open">
+          <div class="wcard__art" aria-hidden="true">
+            <svg class="poster poster--cendre" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <radialGradient id="ce-bg" cx="50%" cy="88%" r="78%">
+                  <stop offset="0%" stop-color="#5d2413"/><stop offset="45%" stop-color="#26120c"/><stop offset="100%" stop-color="#140a08"/>
+                </radialGradient>
+                <radialGradient id="ce-plate" cx="42%" cy="34%" r="70%">
+                  <stop offset="0%" stop-color="#efe4d4"/><stop offset="70%" stop-color="#cdbda6"/><stop offset="100%" stop-color="#8c7c68"/>
+                </radialGradient>
+              </defs>
+              <rect width="800" height="600" fill="url(#ce-bg)"/>
+              <g transform="translate(400 330)">
+                <ellipse rx="220" ry="88" fill="#000" opacity=".45" transform="translate(0 34)"/>
+                <ellipse rx="215" ry="82" fill="url(#ce-plate)"/>
+                <ellipse rx="150" ry="56" fill="none" stroke="#7a6a56" stroke-width="1.2" opacity=".5"/>
+                <g transform="translate(0 -12)">
+                  <ellipse rx="66" ry="26" fill="#6f2f1c"/>
+                  <ellipse rx="66" ry="26" fill="#a8482a" transform="translate(-3 -5)"/>
+                  <path d="M-40-14c14-12 34-12 48 0" fill="none" stroke="#f0c48a" stroke-width="3" stroke-linecap="round"/>
+                  <circle cx="-24" cy="4" r="5" fill="#2f4a1e"/><circle cx="16" cy="8" r="4" fill="#2f4a1e"/>
+                  <circle cx="-4" cy="-2" r="3.4" fill="#e8d7a8"/>
+                </g>
+              </g>
+              <g class="po-embers" fill="#ff9a4d">
+                <circle cx="180" cy="470" r="3" opacity=".9"/><circle cx="250" cy="520" r="2" opacity=".7"/>
+                <circle cx="560" cy="490" r="2.6" opacity=".8"/><circle cx="640" cy="540" r="1.8" opacity=".6"/>
+                <circle cx="380" cy="560" r="2.2" opacity=".75"/><circle cx="700" cy="440" r="2" opacity=".55"/>
+              </g>
+              <path class="po-smoke" d="M400 220c-30-50 30-80 0-130s26-70 26-70" fill="none" stroke="#f3e2cf" stroke-width="2" opacity=".18" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="wcard__body">
+            <p class="wcard__index"><span class="mono">04</span> <span>Fine dining</span></p>
+            <h3 class="wcard__name">Cendre</h3>
+            <p class="wcard__brand">Kitchen of fire and ash — <i>“Everything here has met the flame.”</i></p>
+            <p class="wcard__sig">
+              <span class="wcard__sig-tag">Signature moment</span>
+              Each course's ingredients orbit the empty plate, then fall into
+              place as the finished dish while the menu reads itself aloud in type.
+            </p>
+            <span class="wcard__go">Open the site <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </div>
+        </a>
+      </article>
+    </li>
+
+    <!-- ─────────── 05 MOSSFOOT ─────────── -->
+    <li class="wslot">
+      <article class="wcard wcard--mossfoot">
+        <a class="wcard__link" href="/demos/mossfoot/" data-cursor="Open">
+          <div class="wcard__art" aria-hidden="true">
+            <svg class="poster poster--mossfoot" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <linearGradient id="mo-sky" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#8ee3c4"/><stop offset="55%" stop-color="#5fd0b6"/><stop offset="100%" stop-color="#2f9d92"/>
+                </linearGradient>
+              </defs>
+              <rect width="800" height="600" fill="url(#mo-sky)"/>
+              <circle cx="140" cy="110" r="54" fill="#fff3c9" opacity=".85"/>
+              <g class="po-hills" fill="#2f7f74">
+                <path d="M0 470c120-70 200 20 320-30s220 50 340 0 140 10 140 10v150H0z" opacity=".55"/>
+                <path d="M0 520c140-50 240 30 380-10s260 40 420-10v100H0z" opacity=".9"/>
+              </g>
+              <g class="po-pip" transform="translate(400 350)">
+                <ellipse cy="132" rx="82" ry="16" fill="#1d5f57" opacity=".35"/>
+                <path d="M-86 40a86 96 0 1 1 172 0c0 62-38 92-86 92s-86-30-86-92Z" fill="#fff6e2"/>
+                <path d="M-70 8a70 78 0 1 1 140 0Z" fill="#ffd166"/>
+                <g class="po-eyes">
+                  <ellipse cx="-30" cy="34" rx="15" ry="18" fill="#1f2933"/>
+                  <ellipse cx="30" cy="34" rx="15" ry="18" fill="#1f2933"/>
+                  <circle cx="-25" cy="27" r="5" fill="#fff"/><circle cx="35" cy="27" r="5" fill="#fff"/>
+                </g>
+                <path d="M-16 68q16 16 32 0" fill="none" stroke="#1f2933" stroke-width="5" stroke-linecap="round"/>
+                <circle cx="-56" cy="58" r="10" fill="#ff9db0" opacity=".75"/>
+                <circle cx="56" cy="58" r="10" fill="#ff9db0" opacity=".75"/>
+                <path class="po-leaf" d="M0-64c22-26 54-24 54-24s6 34-18 46-36-22-36-22Z" fill="#4caf7d"/>
+              </g>
+              <g class="po-sparks" fill="#fff3c9">
+                <circle cx="620" cy="200" r="6" opacity=".9"/><circle cx="680" cy="260" r="4" opacity=".7"/><circle cx="140" cy="300" r="5" opacity=".8"/>
+              </g>
+            </svg>
+          </div>
+          <div class="wcard__body">
+            <p class="wcard__index"><span class="mono">05</span> <span>Indie game studio</span></p>
+            <h3 class="wcard__name">Mossfoot</h3>
+            <p class="wcard__brand">Makers of <i>Lumen &amp; the Lantern Rot</i> — “Small hands, big woods.”</p>
+            <p class="wcard__sig">
+              <span class="wcard__sig-tag">Signature moment</span>
+              Pip watches your cursor across the whole page, blinks, flinches
+              when you get too close, and cheers when you click.
+            </p>
+            <span class="wcard__go">Open the site <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </div>
+        </a>
+      </article>
+    </li>
+
+    <!-- ─────────── 06 VOLUME ZERO ─────────── -->
+    <li class="wslot wslot--last">
+      <article class="wcard wcard--volumezero">
+        <a class="wcard__link" href="/demos/volume-zero/" data-cursor="Open">
+          <div class="wcard__art" aria-hidden="true">
+            <svg class="poster poster--vz" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+              <rect width="800" height="600" fill="#eceae5"/>
+              <g stroke="#b9b5ad" stroke-width=".6" opacity=".8">
+                <path d="M0 60h800M0 180h800M0 300h800M0 420h800M0 540h800"/>
+                <path d="M100 0v600M260 0v600M420 0v600M580 0v600M740 0v600"/>
+              </g>
+              <g class="po-axo" transform="translate(400 320)" fill="none" stroke="#1b1b1b" stroke-linejoin="round">
+                <g class="po-axo__l3" stroke-width="1.6">
+                  <path d="M-160-96 0-176 160-96 0-16Z" fill="#dedbd4"/>
+                  <path d="M-160-96v52L0 36l160-80v-52" fill="#cbc7bf"/>
+                  <path d="M0-16v52" />
+                </g>
+                <g class="po-axo__l2" stroke-width="1.6">
+                  <path d="M-160 24 0-56 160 24 0 104Z" fill="#f3f1ec"/>
+                  <path d="M-160 24v56L0 160l160-80V24" fill="#e2dfd8"/>
+                  <path d="M0 104v56"/>
+                </g>
+                <g class="po-axo__l1" stroke-width="1.6">
+                  <path d="M-160 148 0 68l160 80L0 228Z" fill="#fbfaf7"/>
+                  <path d="M-160 148v44L0 272l160-80v-44" fill="#e9e6e0"/>
+                  <path d="M0 228v44"/>
+                </g>
+              </g>
+              <g fill="#1b1b1b" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="13" opacity=".55">
+                <text x="40" y="48">VOLUME ZERO / 01</text>
+                <text x="40" y="566">HOUSE FOR A GLASSBLOWER — SEC. A-A</text>
+              </g>
+            </svg>
+          </div>
+          <div class="wcard__body">
+            <p class="wcard__index"><span class="mono">06</span> <span>Architecture</span></p>
+            <h3 class="wcard__name">Volume Zero</h3>
+            <p class="wcard__brand">Architects, Copenhagen — <i>“Build less. Mean more.”</i></p>
+            <p class="wcard__sig">
+              <span class="wcard__sig-tag">Signature moment</span>
+              A house assembles itself slab by slab out of an exploded
+              axonometric — foundation, structure, envelope — as you scroll.
+            </p>
+            <span class="wcard__go">Open the site <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </div>
+        </a>
+      </article>
+    </li>
+  </ol>
+</section>
+
+<!-- ══════════════════════════════════════ 05 · PROCESS ═══════════════════ -->
+<section class="process" id="process">
+  <div class="wrap">
+    <p class="eyebrow" data-rv="up">04 — How it goes</p>
+    <h2 class="h2" data-split data-rv="lines">Four steps. No mystery, no drift.</h2>
+
+    <ol class="steps">
+      <li class="step" data-rv="up">
+        <span class="step__n mono">01</span>
+        <h3>A 30-minute call</h3>
+        <p>You tell me what the site has to <em>do</em> — the client it has to win, the objection it has to answer. I tell you straight whether I'm the right person for it.</p>
+      </li>
+      <li class="step" data-rv="up" style="--rv-delay:110ms">
+        <span class="step__n mono">02</span>
+        <h3>Direction, not mockups</h3>
+        <p>Within a week you get one art direction, one motion study, and the actual hero built in the browser. You approve the feeling before anyone builds a page.</p>
+      </li>
+      <li class="step" data-rv="up" style="--rv-delay:220ms">
+        <span class="step__n mono">03</span>
+        <h3>Build in the open</h3>
+        <p>A live staging link from day one, updated as I go. You watch it come together on your own phone rather than in a slide deck.</p>
+      </li>
+      <li class="step" data-rv="up" style="--rv-delay:330ms">
+        <span class="step__n mono">04</span>
+        <h3>Ship, measure, hand over</h3>
+        <p>Deployed, fast, documented, and yours — with the CMS or the codebase set up so your team can keep moving without me.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ 06 · CONTACT ═══════════════════ -->
+<section class="contact" id="contact">
+  <div class="wrap contact__inner">
+    <p class="eyebrow" data-rv="up">05 — Work with me</p>
+
+    <h2 class="contact__title" data-split data-rv="lines">
+      If you've read this far, we should probably talk.
+    </h2>
+
+    <p class="contact__lede" data-rv="up" style="--rv-delay:160ms">
+      Tell me who you're trying to convince and what's in the way. I reply to
+      every genuine enquiry within one working day — with an honest yes, or an
+      honest referral to someone better suited.
+    </p>
+
+    <div class="contact__actions" data-rv="up" style="--rv-delay:280ms">
+      <a class="btn btn--primary btn--lg" id="mailBtn"
+         href="mailto:preetkr.2002@gmail.com?subject=Project%20enquiry&body=Hi%20Preet%2C%0A%0AWe're%20building%3A%20%0AThe%20site%20has%20to%20convince%3A%20%0ARough%20timing%3A%20%0ARough%20budget%3A%20%0A%0A"
+         data-magnetic data-cursor="Say hi">
+        <span>Start a project</span>
+        <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M2 4h12v8H2zM2 4.6 8 9l6-4.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      </a>
+      <button class="btn btn--ghost btn--lg" id="copyMail" type="button" data-copy="preetkr.2002@gmail.com">
+        <span class="copy__label">preetkr.2002@gmail.com</span>
+        <span class="copy__done" aria-hidden="true">Copied</span>
+      </button>
+    </div>
+
+    <ul class="contact__grid" data-rv="up" data-rv-stagger style="--rv-delay:360ms">
+      <li>
+        <span class="mono">Availability</span>
+        <b><span class="dot dot--live" aria-hidden="true"></span> Taking on new projects</b>
+        <p>Usually booking two to four weeks out.</p>
+      </li>
+      <li>
+        <span class="mono">Good fit for</span>
+        <b>Launches, rebrands, hero pages</b>
+        <p>Brand sites, product launches, and the one page that has to do the convincing.</p>
+      </li>
+      <li>
+        <span class="mono">How I work</span>
+        <b>Fixed scope, fixed price</b>
+        <p>Quoted per project, not per hour, so the estimate can't drift on you.</p>
+      </li>
+      <li>
+        <span class="mono">Timezone</span>
+        <b>IST — overlaps EU &amp; US East</b>
+        <p>Async by default, on a call when it actually helps.</p>
+      </li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__inner">
+    <a class="foot__top" href="#top">
+      <span class="foot__mark">PK</span>
+      <span>Back to the top</span>
+    </a>
+    <p class="foot__note">
+      Designed &amp; built by Preet Kumar. Every graphic on these seven sites —
+      the 3D, the illustration, the textures — was generated in the browser or
+      drawn by hand. No stock photography, no template.
+    </p>
+    <p class="foot__meta mono"><span id="year">2026</span> — Bengaluru</p>
+  </div>
+</footer>
+
+<div class="hint" id="hint" hidden>
+  <span></span>
+</div>
+
+</body>
+</html>
