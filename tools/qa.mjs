@@ -1,7 +1,8 @@
 /*
  * Visual + health QA sweep.
  *
- *   node tools/qa.mjs <path> [--shots] [--only=mobile|desktop]
+ *   node tools/qa.mjs <path…> [--shots] [--only=mobile|desktop]
+ *   node tools/qa.mjs --all
  *
  * Loads a built page in Chromium at phone and desktop sizes, records console
  * errors, checks for horizontal overflow, scripts a scroll through the whole
@@ -17,7 +18,20 @@ import { mkdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 const args = process.argv.slice(2);
-const path = args.find((a) => !a.startsWith('--')) ?? '/';
+
+/** Every page in the project, portfolio first. */
+const ALL = [
+  '/',
+  '/demos/aurelis/',
+  '/demos/aetherion/',
+  '/demos/noise94/',
+  '/demos/cendre/',
+  '/demos/mossfoot/',
+  '/demos/volume-zero/',
+];
+
+const positional = args.filter((a) => !a.startsWith('--'));
+const paths = args.includes('--all') ? ALL : positional.length ? positional : ['/'];
 const wantShots = args.includes('--shots');
 const only = args.find((a) => a.startsWith('--only='))?.split('=')[1];
 const BASE = process.env.QA_BASE ?? 'http://127.0.0.1:4173';
@@ -28,7 +42,6 @@ const VIEWPORTS = [
   { name: 'desktop', width: 1440, height: 900, isMobile: false, deviceScaleFactor: 1, hasTouch: false },
 ].filter((v) => !only || v.name === only);
 
-const slug = path.replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '') || 'root';
 mkdirSync(OUT, { recursive: true });
 
 const browser = await chromium.launch({
@@ -37,7 +50,10 @@ const browser = await chromium.launch({
 });
 
 let failed = false;
+const summary = [];
 
+for (const path of paths) {
+const slug = path.replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '') || 'root';
 for (const vp of VIEWPORTS) {
   const ctx = await browser.newContext({
     viewport: { width: vp.width, height: vp.height },
@@ -163,8 +179,17 @@ for (const vp of VIEWPORTS) {
     }
   }
 
-  const bad = errors.length > 0 || overflow.over > 1;
+  const bad = errors.length > 0 || overflow.over > 1 || !facts.ready;
   if (bad) failed = true;
+  summary.push({
+    path,
+    vp: vp.name,
+    ok: !bad,
+    back: facts.backLink,
+    p50: perf.p50,
+    over: overflow.over,
+    errs: errors.length,
+  });
 
   console.log(`\n── ${path}  ·  ${vp.name} ${vp.width}×${vp.height} ────────────────`);
   console.log(`   title    ${facts.title}`);
@@ -179,7 +204,19 @@ for (const vp of VIEWPORTS) {
 
   await ctx.close();
 }
+}
 
 await browser.close();
+
+if (paths.length > 1) {
+  console.log('\n══ summary ═══════════════════════════════════════════════════');
+  for (const r of summary) {
+    console.log(
+      `   ${r.ok ? '✓' : '✗'} ${r.path.padEnd(22)} ${r.vp.padEnd(8)}` +
+      ` back=${r.back ? 'y' : '—'}  p50 ${String(r.p50).padStart(5)}ms` +
+      `  overflow ${r.over > 1 ? `${r.over}px` : '0'}  errors ${r.errs}`
+    );
+  }
+}
 if (wantShots) console.log(`\n   shots → ${OUT}`);
 process.exit(failed ? 1 : 0);

@@ -194,9 +194,12 @@ export function buildWatch(stage) {
     bake(new THREE.CylinderGeometry(1, 0.955, 0.2, seg(40, 64, 88), 1, true)),
     bake(new THREE.CylinderGeometry(0.058, 0.058, 0.1, seg(10, 14, 18)), [1.045, 0, 0], [0, 0, Math.PI / 2]),
   ];
-  const lugGeo = new THREE.BoxGeometry(0.17, 0.1, 0.44);
+  /* Lugs. Kept short and tucked into the case band: with no strap modelled,
+     a long horn standing out at z ±1.17 caught the top of the light tent and
+     read as two bright flags floating off the top of the watch. */
+  const lugGeo = new THREE.BoxGeometry(0.17, 0.092, 0.32);
   for (const [sx, sz] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) {
-    goldParts.push(bake(lugGeo, [sx * 0.42, -0.015, sz * 0.95], [sz * 0.22, 0, 0]));
+    goldParts.push(bake(lugGeo, [sx * 0.42, -0.045, sz * 0.87], [sz * 0.26, 0, 0]));
   }
   lugGeo.dispose();
 

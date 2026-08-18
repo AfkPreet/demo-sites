@@ -116,7 +116,11 @@ body {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  padding-inline: .04em;
+  /* Instrument Serif's italic carries a wide right sidebearing, which left a
+     visible gap before the comma in "…people remember, and clients keep."
+     The padding stays on the left; the right side is pulled back in. */
+  padding-inline: .04em .01em;
+  margin-right: -.05em;
 }
 
 .lede {
@@ -353,6 +357,9 @@ main, .foot { position: relative; z-index: 2; }
   line-height: .98;
   letter-spacing: -.045em;
   font-weight: 600;
+  /* NB: the short-landscape override for this lives below, *after* this rule —
+     at equal specificity the later declaration wins, and the first attempt at
+     it sat above here and did nothing at all. */
   max-width: 15ch;
   --sp-step: 110ms;
   --sp-dur: 1.25s;
@@ -427,6 +434,14 @@ main, .foot { position: relative; z-index: 2; }
   0%   { transform: translateX(-100%) scaleX(.4); }
   55%  { transform: translateX(0%) scaleX(1); }
   100% { transform: translateX(100%) scaleX(.4); }
+}
+
+/* A 1280×720 laptop has roughly 610px of viewport, and a social card is 630.
+   Four lines of a 6rem headline do not fit in either. */
+@media (min-width: 48rem) and (max-height: 46rem) {
+  .hero { padding-top: 5rem; gap: 1.4rem; }
+  .hero__title { font-size: clamp(2.2rem, 5vw, 3.4rem); }
+  .hero__lede { font-size: 1rem; }
 }
 
 /* ══════════════════════════════════════════════════ MANIFESTO ════════ */
