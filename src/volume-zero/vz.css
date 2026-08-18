@@ -1,0 +1,655 @@
+@import '../lib/base.css';
+
+/* ==========================================================================
+   VOLUME ZERO — arkitekter, København
+   A drawing office, not a website: a visible column grid, hairlines instead of
+   borders, everything measurable set in mono, and exactly one colour — the red
+   an architect reserves for dimension lines. Type is Archivo at 400/500 with
+   the tracking pulled in; nothing is bold, nothing is rounded, nothing bounces.
+   ========================================================================== */
+
+:root {
+  --paper:   #f4f3ef;
+  --paper-2: #eceae4;
+  --card:    #fbfaf7;
+  --ink:     #141414;
+  --ink-2:   #3a3a37;
+  --graph:   #6b6a65;
+  --line:    #dcdad3;
+  --line-2:  #e7e5df;
+  --red:     #c2402b;
+
+  --sans: 'Archivo', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --mono: 'DM Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+
+  --pad: clamp(1.15rem, 4.5vw, 3.5rem);
+  --wrap: 78rem;
+
+  --focus: var(--red);
+  --sel-bg: var(--ink);
+  --sel-fg: var(--paper);
+
+  --pk-back-font: var(--mono);
+  --pk-back-fg: var(--ink);
+  --pk-back-bg: rgba(244, 243, 239, .9);
+  --pk-back-bg-hover: #fff;
+  --pk-back-bd: var(--line);
+  --pk-back-bd-hover: var(--ink);
+  --pk-back-mark-bg: var(--ink);
+  --pk-back-mark-fg: var(--paper);
+
+  --pk-outro-bd: rgba(244, 243, 239, .2);
+  --pk-outro-bg: rgba(244, 243, 239, .04);
+  --pk-outro-cta-bg: var(--paper);
+  --pk-outro-cta-fg: var(--ink);
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: clamp(1rem, .95rem + .22vw, 1.08rem);
+  letter-spacing: -.011em;
+}
+
+.mono {
+  font-family: var(--mono);
+  font-weight: 400;
+  font-size: .74rem;
+  letter-spacing: .02em;
+  font-variant-numeric: tabular-nums;
+}
+.mono i { font-style: normal; color: var(--red); }
+
+.wrap {
+  width: 100%;
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-inline: var(--pad);
+}
+
+/* ── section furniture ─────────────────────────────────────────────────── */
+
+.sec-head {
+  padding-top: clamp(3.5rem, 9vw, 7rem);
+  margin-bottom: clamp(2.2rem, 5vw, 4rem);
+  border-top: 1px solid var(--line);
+}
+.sec-index {
+  color: var(--graph);
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  padding-top: .9rem;
+}
+.sec-title {
+  margin-top: 1.1rem;
+  font-size: clamp(2rem, 5.6vw, 3.9rem);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -.035em;
+  max-width: 20ch;
+}
+.sec-sub {
+  margin-top: 1.4rem;
+  max-width: 44ch;
+  color: var(--ink-2);
+  font-size: 1.02rem;
+  line-height: 1.55;
+}
+p { line-height: 1.62; }
+p + p { margin-top: 1rem; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .7rem;
+  padding: .85rem 1.4rem;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: .8rem;
+  letter-spacing: .04em;
+  text-decoration: none;
+  transition: background .25s ease, color .25s ease;
+}
+.btn:hover { background: var(--paper); color: var(--ink); }
+
+/* ── top bar ───────────────────────────────────────────────────────────── */
+
+.bar {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 70;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .85rem var(--pad);
+  transition: background .3s ease, border-color .3s ease;
+  border-bottom: 1px solid transparent;
+}
+.bar.is-solid {
+  background: rgba(244, 243, 239, .92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom-color: var(--line);
+}
+.bar__logo {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  font-size: .96rem;
+  font-weight: 500;
+  letter-spacing: -.02em;
+  text-decoration: none;
+}
+.bar__mark { width: 1.05rem; height: 1.05rem; }
+.bar__mark svg { width: 100%; height: 100%; }
+.bar__nav { display: flex; align-items: center; gap: .2rem; }
+.bar__nav a {
+  padding: .4rem .7rem;
+  font-family: var(--mono);
+  font-size: .75rem;
+  text-decoration: none;
+  color: var(--ink-2);
+  transition: color .2s ease;
+}
+.bar__nav a:hover { color: var(--red); }
+.bar__cta {
+  border: 1px solid var(--line);
+  color: var(--ink) !important;
+}
+.bar__cta:hover { border-color: var(--ink); }
+@media (max-width: 48rem) {
+  .bar__nav a:not(.bar__cta) { display: none; }
+}
+
+/* ══════════════════════════ HERO ═══════════════════════════════════════ */
+
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: flex-end;
+  padding: clamp(5.5rem, 13svh, 8rem) 0 clamp(3.6rem, 6vh, 4.6rem);
+  overflow: clip;
+}
+/* The column grid, visible the way it is on a drawing sheet. */
+.grid-lines {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--line-2) 0 1px,
+    transparent 1px calc(100% / 6)
+  );
+  background-size: 100% 100%;
+  opacity: .9;
+  mask-image: linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent);
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent);
+}
+@media (max-width: 40rem) {
+  /* Six columns at 390px is not a grid, it is a texture. */
+  .grid-lines {
+    background-image: repeating-linear-gradient(
+      to right, var(--line-2) 0 1px, transparent 1px calc(100% / 3));
+  }
+}
+.hero__wrap { position: relative; z-index: 1; width: 100%; }
+
+.hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem 1.6rem;
+  color: var(--graph);
+  text-transform: uppercase;
+  letter-spacing: .13em;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid var(--line);
+}
+.hero__h1 {
+  margin: clamp(1.2rem, 3vw, 2rem) 0 clamp(1.6rem, 4vw, 2.4rem);
+  font-size: clamp(2.8rem, 9vw, 7.2rem);
+  font-weight: 500;
+  line-height: .96;
+  letter-spacing: -.05em;
+}
+.hero__cols {
+  display: grid;
+  gap: clamp(1.6rem, 4vw, 3rem);
+  align-items: start;
+  padding-bottom: clamp(1.6rem, 4vw, 2.6rem);
+}
+@media (min-width: 52rem) {
+  .hero__cols { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); }
+}
+.hero__lede { max-width: 46ch; color: var(--ink-2); font-size: clamp(1.02rem, 1.6vw, 1.16rem); }
+.hero__facts { display: grid; gap: .55rem; }
+.hero__facts > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: .5rem;
+  border-bottom: 1px solid var(--line);
+}
+.hero__facts dt { color: var(--graph); text-transform: uppercase; letter-spacing: .1em; }
+.hero__facts dd { text-align: right; }
+
+.hero__plan { border-top: 1px solid var(--line); padding-top: 1rem; }
+/* Fixed height, anchored left: the drawing is a strip along the bottom of the
+   sheet rather than a 3:1 block that would push the whole hero past the fold. */
+.plan { width: 100%; height: clamp(8rem, 20svh, 13rem); }
+.hero__plan figcaption {
+  margin-top: .7rem;
+  color: var(--graph);
+  text-transform: uppercase;
+  letter-spacing: .12em;
+}
+/* The plan draws itself once, on arrival. */
+.plan__ink .draw {
+  stroke-dasharray: var(--len, 1200);
+  stroke-dashoffset: var(--len, 1200);
+  animation: draw 1.6s cubic-bezier(.4, 0, .1, 1) forwards;
+  animation-delay: calc(var(--i, 0) * 90ms);
+}
+.plan__dim { opacity: 0; animation: fade-in .8s ease 1.1s forwards; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes fade-in { to { opacity: 1; } }
+.hero__plan:not(.is-live) .plan__ink .draw,
+.hero__plan:not(.is-live) .plan__dim { animation-play-state: paused; }
+
+/* ══════════════════ THE METHOD — the assembly ══════════════════════════ */
+
+.method { padding-bottom: clamp(2rem, 5vw, 4rem); }
+
+.build {
+  position: relative;
+  /* The runway. Seven chapters, roughly one screen of scroll each. */
+  height: 660svh;
+}
+.build__stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: clip;
+  background:
+    linear-gradient(180deg, var(--paper) 0%, var(--paper-2) 100%);
+}
+.build__stage .gl { z-index: 1; }
+
+/* No WebGL: the runway would be six screens of nothing, so it collapses and
+   the seven chapters become what they always were underneath — a written
+   description of how the house goes together. */
+.build__fallback {
+  display: none;
+  padding: 0 var(--pad) 2rem;
+}
+.no-webgl .build__fallback { display: block; }
+.build__fallback p { max-width: 40rem; color: var(--graph); }
+
+.no-webgl .build { height: auto; }
+.no-webgl .build__stage {
+  position: static;
+  height: auto;
+  padding: clamp(1.5rem, 4vw, 2.5rem) 0 clamp(2rem, 6vw, 4rem);
+  background: none;
+}
+.no-webgl .build__caps {
+  position: static;
+  display: grid;
+  gap: clamp(1.8rem, 4vw, 2.6rem);
+  padding: 0 var(--pad);
+  border: 0;
+  background: none;
+}
+.no-webgl .cap {
+  position: static;
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  max-width: 46rem;
+}
+.no-webgl .build__ticks,
+.no-webgl .build__hint { display: none; }
+
+/* the caption stack */
+.build__caps {
+  position: absolute;
+  z-index: 3;
+  left: 0;
+  right: 0;
+  /* Clear of the back-to-portfolio pill, which is pinned to this same
+     bottom-left corner on every site. */
+  bottom: clamp(4.2rem, 8svh, 5.4rem);
+  padding-inline: var(--pad);
+  pointer-events: none;
+}
+.cap {
+  position: absolute;
+  left: var(--pad);
+  right: var(--pad);
+  bottom: 0;
+  max-width: 30rem;
+  opacity: 0;
+  will-change: opacity, transform;
+}
+.cap__no {
+  color: var(--red);
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  padding-bottom: .7rem;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: .9rem;
+}
+.cap__no i { color: var(--graph); margin-inline: .3em; }
+.cap h3 {
+  font-size: clamp(1.35rem, 3.4vw, 2.1rem);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -.03em;
+}
+.cap > p:not(.cap__no):not(.cap__meta) {
+  margin-top: .8rem;
+  color: var(--ink-2);
+  font-size: .98rem;
+  max-width: 40ch;
+}
+.cap__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem 1.4rem;
+  margin-top: 1rem;
+  color: var(--graph);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+}
+
+/* the scale down the right-hand side */
+.build__ticks {
+  position: absolute;
+  z-index: 3;
+  right: var(--pad);
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  gap: .55rem;
+  text-align: right;
+  color: var(--line);
+  pointer-events: none;
+}
+.build__ticks li {
+  position: relative;
+  padding-right: 2.2rem;
+  color: var(--line);
+  transition: color .35s ease;
+}
+.build__ticks li::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 1.6rem;
+  height: 1px;
+  background: currentColor;
+  transform-origin: right;
+  transform: scaleX(.55);
+  transition: transform .35s cubic-bezier(.4,0,.1,1), background .35s ease;
+}
+.build__ticks li.is-on { color: var(--ink); }
+.build__ticks li.is-on::after { transform: scaleX(1); }
+@media (max-width: 44rem) { .build__ticks { display: none; } }
+
+.build__hint {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  bottom: clamp(.8rem, 2svh, 1.4rem);
+  transform: translateX(-50%);
+  color: var(--graph);
+  text-transform: uppercase;
+  letter-spacing: .2em;
+  transition: opacity .5s ease;
+}
+.build.is-started .build__hint { opacity: 0; }
+
+/* On a phone the drawing and the words each get their own band of the screen
+   rather than being stacked on top of one another: a portrait viewport that
+   shows twenty-one metres of site across its width is necessarily very tall,
+   and the empty sheet above the house is the natural place to give back. */
+@media (max-width: 44rem) {
+  .build__stage .gl { inset: 0 0 38% 0; }
+  .build__caps {
+    top: 62%;
+    bottom: 0;
+    padding: 1.4rem var(--pad) 1.2rem;
+    border-top: 1px solid var(--line);
+    background: var(--paper-2);
+  }
+  .cap { top: 1.4rem; bottom: auto; left: var(--pad); right: var(--pad); max-width: none; }
+  .cap h3 { font-size: 1.28rem; }
+  .cap > p:not(.cap__no):not(.cap__meta) { font-size: .92rem; }
+  .cap__meta { margin-top: .7rem; }
+  .build__hint { bottom: auto; top: 54%; }
+}
+
+/* ══════════════════════════ WORK INDEX ═════════════════════════════════ */
+
+.work { padding-bottom: clamp(3rem, 8vw, 6rem); }
+
+.index__list { border-top: 1px solid var(--ink); }
+.row { border-bottom: 1px solid var(--line); }
+
+.row__hit {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .3rem 1rem;
+  width: 100%;
+  padding: 1.05rem 0;
+  text-align: left;
+  color: inherit;
+  transition: color .25s ease;
+}
+.row__hit:hover { color: var(--red); }
+.row__no { flex: none; width: 2.2rem; color: var(--graph); }
+.row__name {
+  /* Below the table breakpoint the name always claims the rest of the first
+     line, so the metadata wraps to its own line on every row — a short title
+     like "Two Walls" would otherwise leave room for half the mono columns and
+     break the alignment down the list. */
+  flex: 1 1 calc(100% - 3.4rem);
+  font-size: clamp(1.05rem, 2.4vw, 1.45rem);
+  font-weight: 500;
+  letter-spacing: -.025em;
+}
+.row__place, .row__year, .row__size, .row__state { color: var(--graph); flex: none; }
+.row__place { margin-left: 2.5rem; }
+@media (min-width: 60rem) {
+  .row__hit { flex-wrap: nowrap; }
+  .row__place { width: 9rem; margin-left: 0; }
+  .row__year { width: 3rem; }
+  .row__size { width: 5rem; text-align: right; }
+  .row__state { width: 5rem; text-align: right; }
+}
+.row.is-active .row__no,
+.row.is-active .row__state { color: var(--red); }
+
+/* The expanding drawer. grid-template-rows animates from nothing to content
+   height without anyone having to measure anything. */
+.row__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .55s cubic-bezier(.4, 0, .1, 1);
+}
+.row.is-active .row__panel { grid-template-rows: 1fr; }
+.row__panel-in { min-height: 0; overflow: hidden; }
+.row__inner {
+  display: grid;
+  gap: 1.4rem;
+  padding: .4rem 0 2rem;
+  opacity: 0;
+  transform: translateY(.5rem);
+  transition: opacity .45s ease .1s, transform .55s cubic-bezier(.4,0,.1,1) .1s;
+}
+.row.is-active .row__inner { opacity: 1; transform: none; }
+@media (min-width: 52rem) {
+  .row__inner { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); align-items: end; }
+}
+.row__art {
+  border: 1px solid var(--line);
+  background: var(--card);
+  padding: .8rem;
+}
+/* Anchored left at a fixed height, like the plan strip in the hero — the
+   drawings all sit on the same imaginary baseline down the page. */
+.row__art svg { width: 100%; height: clamp(10rem, 24vh, 15.5rem); }
+.row__note { color: var(--ink-2); max-width: 38ch; font-size: .98rem; }
+
+/* ══════════════════════════ APPROACH ═══════════════════════════════════ */
+
+.approach { background: var(--paper-2); padding-bottom: clamp(3rem, 8vw, 6rem); }
+.approach .sec-head { border-top-color: var(--line); }
+.rules { display: grid; gap: 0; border-top: 1px solid var(--line); }
+@media (min-width: 60rem) {
+  .rules { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(2rem, 5vw, 4rem); }
+}
+.rules li {
+  display: grid;
+  grid-template-columns: 2.6rem minmax(0, 1fr);
+  gap: .4rem 1rem;
+  padding: 1.6rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.rules li > p.mono { color: var(--red); grid-row: span 2; padding-top: .35rem; }
+.rules h3 {
+  font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+  font-weight: 500;
+  letter-spacing: -.02em;
+  line-height: 1.16;
+}
+.rules li > p:last-child { color: var(--ink-2); font-size: .96rem; }
+
+/* ══════════════════════════ STUDIO ═════════════════════════════════════ */
+
+.studio { padding-bottom: clamp(3rem, 8vw, 6rem); }
+.studio__grid { display: grid; gap: clamp(2rem, 5vw, 4rem); align-items: start; }
+@media (min-width: 60rem) {
+  .studio__grid { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); }
+}
+.studio__copy p { color: var(--ink-2); max-width: 52ch; }
+
+.numbers {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.6rem 1.2rem;
+  margin-top: 2.4rem;
+  border-top: 1px solid var(--line);
+  padding-top: 1.6rem;
+}
+@media (min-width: 40rem) { .numbers { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.numbers li { display: flex; flex-direction: column; gap: .3rem; }
+.numbers b {
+  font-family: var(--sans);
+  font-size: clamp(1.7rem, 4vw, 2.3rem);
+  font-weight: 500;
+  letter-spacing: -.04em;
+  line-height: 1;
+}
+.numbers li > span { color: var(--graph); text-transform: uppercase; letter-spacing: .1em; }
+
+.people { border-top: 1px solid var(--line); }
+.people li {
+  display: grid;
+  gap: .18rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.people b { font-weight: 500; letter-spacing: -.02em; }
+.people .mono { color: var(--graph); text-transform: uppercase; letter-spacing: .1em; }
+.people li > span:last-child { color: var(--ink-2); font-size: .94rem; }
+
+.studio__addr {
+  margin-top: 1.6rem;
+  font-style: normal;
+  line-height: 1.75;
+  color: var(--graph);
+}
+.studio__addr span { color: var(--ink); }
+
+/* ══════════════════════════ CONTACT ════════════════════════════════════ */
+
+.contact { padding-bottom: clamp(4rem, 10vw, 7rem); }
+.form {
+  display: grid;
+  gap: 1.4rem;
+  max-width: 46rem;
+}
+@media (min-width: 46rem) {
+  .form { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .field--wide { grid-column: 1 / -1; }
+  .form .btn { justify-self: start; }
+}
+.field { display: grid; gap: .45rem; }
+.field label { color: var(--graph); text-transform: uppercase; letter-spacing: .12em; }
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  padding: .6rem 0;
+  border: 0;
+  border-bottom: 1px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  font-size: 1rem;
+  border-radius: 0;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.field textarea { resize: vertical; border: 1px solid var(--line); padding: .7rem .8rem; }
+.field select {
+  background-image: linear-gradient(45deg, transparent 50%, var(--ink) 50%),
+                    linear-gradient(135deg, var(--ink) 50%, transparent 50%);
+  background-position: right .35rem center, right .1rem center;
+  background-size: .3rem .3rem, .3rem .3rem;
+  background-repeat: no-repeat;
+}
+.field input::placeholder,
+.field textarea::placeholder { color: #a9a7a0; }
+
+.form__err, .form__ok {
+  grid-column: 1 / -1;
+  padding: .8rem 1rem;
+  border: 1px solid var(--line);
+  line-height: 1.6;
+}
+.form__err { border-color: var(--red); color: var(--red); }
+.form__ok { background: var(--card); color: var(--ink-2); }
+
+/* ══════════════════════════ FOOTER ═════════════════════════════════════ */
+
+.foot {
+  background: var(--ink);
+  color: var(--paper);
+  padding: clamp(3rem, 7vw, 5rem) 0 clamp(4.5rem, 8vw, 6rem);
+}
+.foot .pk-outro__title { font-weight: 400; letter-spacing: -.02em; }
+.foot__row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: .6rem 2rem;
+  margin-top: 2rem;
+  color: #8e8c86;
+}
+.foot__row i { color: var(--red); margin-inline: .3em; }
+
+/* ══════════════════════════ REDUCED MOTION ═════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  .plan__ink .draw { stroke-dashoffset: 0; animation: none; }
+  .plan__dim { opacity: 1; animation: none; }
+  .row__panel { transition: none; }
+  .row__inner { transition: none; }
+}
