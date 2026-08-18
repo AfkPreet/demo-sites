@@ -77,7 +77,7 @@ node tools/qa.mjs --all      # every page, phone + desktop: overflow, console,
 node tools/links.mjs         # every link, every #anchor, accessible names
 node tools/shots.mjs /demos/cendre/ ".hero,.pass"    # section screenshots
 node tools/interact.mjs /demos/noise94/ tear         # rehearse an interaction
-node tools/og.mjs            # regenerate public/og/*.png social cards
+node tools/og.mjs            # regenerate public/og/*.jpg social cards
 ```
 
 Headless Chromium renders WebGL through SwiftShader, so the frame numbers are a
@@ -103,7 +103,7 @@ these and nothing else needs to move.
   availability, good-fit-for, how I work, timezone.
 - Footer credit line and the `Bengaluru` in `.foot__meta`.
 
-**`public/og/portfolio.png`** is a screenshot of the hero, so it regenerates
+**`public/og/portfolio.jpg`** is a screenshot of the hero, so it regenerates
 itself: change the hero copy, run `node tools/og.mjs`, done.
 
 The six demo sites need no personalising. They are portfolio pieces, and each

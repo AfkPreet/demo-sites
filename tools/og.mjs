@@ -1,7 +1,7 @@
 /*
  * Social cards, generated from the sites themselves.
  *
- *   node tools/og.mjs            (writes public/og/*.png)
+ *   node tools/og.mjs            (writes public/og/*.jpg)
  *
  * Every card is a real screenshot of the page it links to, taken at the OG
  * aspect with the harness furniture (the back-to-portfolio pill) hidden. No
@@ -46,9 +46,9 @@ for (const card of CARDS) {
     }, card.at);
   }
   await page.waitForTimeout(3200);
-  const file = resolve(OUT, `${card.name}.png`);
-  await page.screenshot({ path: file });
-  console.log(`   ${card.name.padEnd(12)} → public/og/${card.name}.png`);
+  const file = resolve(OUT, `${card.name}.jpg`);
+  await page.screenshot({ path: file, type: 'jpeg', quality: 82 });
+  console.log(`   ${card.name.padEnd(12)} → public/og/${card.name}.jpg`);
   await page.close();
 }
 
