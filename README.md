@@ -58,6 +58,19 @@ once a frame and exponentially damped, which gives the scrub feel without
 costing momentum, battery or accessibility. Rendering stops the moment a canvas
 leaves the viewport. Where a nicer effect cost frames, the effect lost.
 
+## Where it lives
+
+- **Repository** — `AfkPreet/demo-sites`, branch `claude/preet-kumar-portfolio-ytu9f0`.
+- **Vercel project** — `preet-kumar-portfolio` (team *PREET'S Team*), already
+  linked to this repository.
+- **URL** — <https://preet-kumar-portfolio-preet-s-team.vercel.app>
+
+A production deployment was created from a snapshot of this branch. Vercel's
+git integration is what should own it from here: merge this branch into `main`
+(the project's production branch) and every push rebuilds and redeploys on its
+own. Alternatively, point the project's Production Branch at this branch in
+Vercel → Settings → Git.
+
 ## Running it
 
 ```bash
