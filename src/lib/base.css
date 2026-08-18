@@ -49,6 +49,10 @@ h1, h2, h3, h4 { text-wrap: balance; }
 
 ul, ol { list-style: none; padding: 0; }
 
+/* The UA rule for [hidden] is `display: none`, which any author `display`
+   declaration silently outranks. Make the attribute mean what it says. */
+[hidden] { display: none !important; }
+
 :focus-visible {
   outline: 2px solid var(--focus, currentColor);
   outline-offset: 3px;
@@ -204,10 +208,10 @@ canvas.gl-lost { opacity: 0 !important; }
   display: inline-flex;
   align-items: center;
   gap: .5rem;
-  padding: .45rem 1rem .45rem .7rem;
+  padding: .4rem .9rem .4rem .62rem;
   border-radius: 999px;
   text-decoration: none;
-  font: 600 0.78rem/1 var(--pk-back-font, system-ui, -apple-system, "Segoe UI", sans-serif);
+  font: 600 0.74rem/1 var(--pk-back-font, system-ui, -apple-system, "Segoe UI", sans-serif);
   letter-spacing: .01em;
   color: var(--pk-back-fg, #fff);
   background: var(--pk-back-bg, rgba(16, 16, 18, .72));
@@ -227,8 +231,8 @@ canvas.gl-lost { opacity: 0 !important; }
 .pk-back:active { transform: translateY(0) scale(.98); }
 
 .pk-back__mark {
-  width: 1.6rem;
-  height: 1.6rem;
+  width: 1.45rem;
+  height: 1.45rem;
   flex: none;
   border-radius: 999px;
   display: grid;

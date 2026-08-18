@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AURELIS — Maison Aurelis, Genève · Nocturne 01</title>
+<meta name="description" content="Nocturne 01 by Maison Aurelis, Genève. Calibre AU-1908: 214 components, forty-one of them smaller than a grain of rice. Le temps, rendu éternel.">
+<meta name="theme-color" content="#0b0a08">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AURELIS — Nocturne 01">
+<meta property="og:description" content="A Genevan maison in one page. Watch the calibre come apart into 214 components as you scroll.">
+<meta property="og:image" content="/og/aurelis.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+
+<script type="module" src="/src/aurelis/main.js"></script>
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- Back to the portfolio — static markup so it can never depend on JS -->
+<a class="pk-back" href="/" aria-label="Back to Preet Kumar's portfolio">
+  <svg class="pk-back__arrow" viewBox="0 0 12 12" aria-hidden="true">
+    <path d="M11 6H1.6m0 0 4-4m-4 4 4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <span class="pk-back__mark" aria-hidden="true">PK</span>
+  <span class="pk-back__short">Portfolio</span>
+  <span class="pk-back__long">Back to Preet's portfolio</span>
+</a>
+
+<header class="hdr" id="hdr">
+  <a class="hdr__brand" href="#top">
+    <span class="hdr__mark" aria-hidden="true">
+      <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14.2" fill="none" stroke="currentColor" stroke-width="1"/><path d="M16 5v11l7.4 4.3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+    </span>
+    <span class="hdr__word">Aurelis</span>
+  </a>
+  <nav class="hdr__nav" aria-label="Primary">
+    <a href="#collection">Collection</a>
+    <a href="#atelier">Atelier</a>
+    <a href="#enquire" class="hdr__cta">Private viewing</a>
+  </nav>
+</header>
+
+<main id="main">
+
+<!-- ═══════════════════════════════ THE JOURNEY ═══════════════════════════ -->
+<div class="journey" id="journey">
+
+  <div class="journey__stage" aria-hidden="true">
+    <canvas id="watch"></canvas>
+    <div class="stage__fallback">
+      <svg viewBox="0 0 300 300">
+        <defs>
+          <radialGradient id="fb-face" cx="40%" cy="32%" r="72%">
+            <stop offset="0%" stop-color="#1e3f66"/><stop offset="55%" stop-color="#0e2038"/><stop offset="100%" stop-color="#050b16"/>
+          </radialGradient>
+          <linearGradient id="fb-case" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#f0d7a9"/><stop offset="45%" stop-color="#c9a06a"/><stop offset="100%" stop-color="#8a6a3c"/>
+          </linearGradient>
+        </defs>
+        <circle cx="150" cy="150" r="132" fill="none" stroke="url(#fb-case)" stroke-width="13"/>
+        <circle cx="150" cy="150" r="120" fill="url(#fb-face)"/>
+        <g stroke="#e2c88a" stroke-width="1" opacity=".22" fill="none">
+          <circle cx="150" cy="150" r="34"/><circle cx="150" cy="150" r="56"/>
+          <circle cx="150" cy="150" r="78"/><circle cx="150" cy="150" r="100"/>
+        </g>
+        <g stroke="#e6cd93" stroke-width="5" stroke-linecap="round">
+          <path d="M150 42v18"/><path d="M258 150h-18"/><path d="M150 258v-18"/><path d="M42 150h18"/>
+        </g>
+        <circle cx="150" cy="212" r="26" fill="#08111f" stroke="#c9a06a" stroke-width="2"/>
+        <circle cx="142" cy="208" r="12" fill="#e9dcb4"/>
+        <g stroke="#e6cd93" stroke-linecap="round" fill="none">
+          <path d="M150 150 118 96" stroke-width="6"/><path d="M150 150 205 121" stroke-width="4"/>
+        </g>
+        <circle cx="150" cy="150" r="5" fill="#e6cd93"/>
+      </svg>
+    </div>
+    <div class="stage__vignette"></div>
+    <div class="stage__scrim"></div>
+  </div>
+
+  <!-- ─────────── Hero ─────────── -->
+  <section class="scene hero" id="top" data-scene="hero">
+    <div class="hero__inner">
+      <p class="label" data-rv="up">Maison Aurelis <i>·</i> Genève <i>·</i> depuis 1908</p>
+      <h1 class="hero__title" data-rv="up" style="--rv-delay:150ms">Nocturne&nbsp;01</h1>
+      <p class="hero__fr" data-rv="up" style="--rv-delay:300ms">Le temps, rendu éternel.</p>
+      <p class="hero__spec" data-rv="up" style="--rv-delay:430ms">
+        Calibre AU-1908 <i>·</i> 39 mm <i>·</i> Or rose 18 ct <i>·</i> 96 h
+      </p>
+    </div>
+    <p class="hero__cue" data-rv="fade" style="--rv-delay:900ms">
+      <span>Scroll to open the case</span>
+      <span class="hero__cue-rail" aria-hidden="true"><i></i></span>
+    </p>
+  </section>
+
+  <!-- ─────────── I · The dial ─────────── -->
+  <section class="scene chapter chapter--dial" id="dial" data-scene="dial">
+    <div class="beat" data-rv="up">
+      <p class="label label--num">I <i>—</i> Le Cadran</p>
+      <h2 class="beat__h">Forty-two hours on the rose engine.</h2>
+      <p>
+        Every wave on this dial was cut by hand on a machine built in 1911. The
+        tool does not pause for a mistake. One slip and the plate goes back to
+        the furnace, and the forty-two hours start again.
+      </p>
+    </div>
+    <div class="beat beat--right" data-rv="up">
+      <h2 class="beat__h">Eleven coats of midnight.</h2>
+      <p>
+        The blue is laid down in eleven lacquer coats, each polished back before
+        the next is poured. The depth you are looking at is four tenths of a
+        millimetre.
+      </p>
+    </div>
+  </section>
+
+  <!-- ─────────── II · The calibre (signature moment) ─────────── -->
+  <section class="scene chapter chapter--calibre" id="calibre" data-scene="calibre">
+    <div class="beat" data-rv="up">
+      <p class="label label--num">II <i>—</i> Le Calibre</p>
+      <h2 class="beat__h">Two hundred and fourteen components.</h2>
+      <p>
+        Forty-one of them are smaller than a grain of rice. Keep scrolling and
+        the case will let go of every one.
+      </p>
+    </div>
+
+    <div class="counter" id="counter" aria-hidden="true">
+      <span class="counter__n" id="counterN">0</span>
+      <span class="counter__l">components<br>in flight</span>
+    </div>
+
+    <div class="beat beat--right" data-rv="up">
+      <h2 class="beat__h">Assembled twice.</h2>
+      <p>
+        Once to prove that it runs. Then taken apart again, finished by hand on
+        the surfaces no owner will ever see, and assembled a second time — the
+        only one that counts.
+      </p>
+    </div>
+
+    <div class="beat" data-rv="up">
+      <h2 class="beat__h">Ninety-six hours of reserve.</h2>
+      <p>
+        Two barrels in series. Set it down on a Friday evening and it is still
+        keeping time when you pick it up on Tuesday.
+      </p>
+    </div>
+  </section>
+
+  <!-- ─────────── III · The complication ─────────── -->
+  <section class="scene chapter chapter--comp" id="complication" data-scene="complication">
+    <div class="beat beat--right" data-rv="up">
+      <p class="label label--num">III <i>—</i> La Complication</p>
+      <h2 class="beat__h">The moon, wrong by one day in 122 years.</h2>
+      <p>
+        A 135-tooth wheel turns the disc once every fifty-nine days. Set it
+        tonight and your grandchildren will still find it true.
+      </p>
+    </div>
+    <div class="beat beat--right" data-rv="up">
+      <p class="beat__quiet">
+        Aperture at six o'clock. Two moons, hand-painted, in a sky of pierced
+        stars.
+      </p>
+    </div>
+  </section>
+</div>
+
+<!-- ═══════════════════════════════ COLLECTION ═══════════════════════════ -->
+<section class="collection" id="collection">
+  <div class="wrap">
+    <p class="label" data-rv="up">The collection</p>
+    <h2 class="h2" data-rv="up" style="--rv-delay:100ms">Three references. Two hundred and forty pieces a year.</h2>
+  </div>
+
+  <ul class="refs">
+    <li class="ref" data-rv="rise">
+      <div class="ref__art" aria-hidden="true">
+        <svg viewBox="0 0 300 300" class="dialart dialart--nocturne">
+          <defs>
+            <radialGradient id="d1-face" cx="40%" cy="32%" r="72%">
+              <stop offset="0%" stop-color="#1e3f66"/><stop offset="55%" stop-color="#0e2038"/><stop offset="100%" stop-color="#050b16"/>
+            </radialGradient>
+            <linearGradient id="d1-case" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#f0d7a9"/><stop offset="45%" stop-color="#c9a06a"/><stop offset="100%" stop-color="#8a6a3c"/>
+            </linearGradient>
+          </defs>
+          <circle cx="150" cy="150" r="132" fill="none" stroke="url(#d1-case)" stroke-width="13"/>
+          <circle cx="150" cy="150" r="120" fill="url(#d1-face)"/>
+          <g stroke="#e2c88a" stroke-width="1" opacity=".24">
+            <circle cx="150" cy="150" r="34" fill="none"/><circle cx="150" cy="150" r="56" fill="none"/>
+            <circle cx="150" cy="150" r="78" fill="none"/><circle cx="150" cy="150" r="100" fill="none"/>
+          </g>
+          <g stroke="#e6cd93" stroke-width="5" stroke-linecap="round">
+            <path d="M150 42v18"/><path d="M258 150h-18"/><path d="M150 258v-18"/><path d="M42 150h18"/>
+          </g>
+          <g stroke="#e6cd93" stroke-width="2.4" stroke-linecap="round" opacity=".7">
+            <path d="M150 44v14" transform="rotate(30 150 150)"/><path d="M150 44v14" transform="rotate(60 150 150)"/>
+            <path d="M150 44v14" transform="rotate(120 150 150)"/><path d="M150 44v14" transform="rotate(150 150 150)"/>
+            <path d="M150 44v14" transform="rotate(210 150 150)"/><path d="M150 44v14" transform="rotate(240 150 150)"/>
+            <path d="M150 44v14" transform="rotate(300 150 150)"/><path d="M150 44v14" transform="rotate(330 150 150)"/>
+          </g>
+          <circle cx="150" cy="212" r="26" fill="#08111f" stroke="#c9a06a" stroke-width="2"/>
+          <circle cx="142" cy="208" r="12" fill="#e9dcb4"/>
+          <g stroke="#e6cd93" stroke-linecap="round" fill="none">
+            <path d="M150 150 118 96" stroke-width="6"/><path d="M150 150 205 121" stroke-width="4"/>
+          </g>
+          <circle cx="150" cy="150" r="5" fill="#e6cd93"/>
+        </svg>
+      </div>
+      <div class="ref__body">
+        <p class="ref__n">01</p>
+        <h3>Nocturne</h3>
+        <p class="ref__spec">Midnight guilloché <i>·</i> 39 mm <i>·</i> 18 ct rose gold</p>
+        <p class="ref__copy">The reference the maison is judged on. Two barrels, moon phase, and a dial that changes colour with the room.</p>
+        <p class="ref__price">CHF 48,500</p>
+      </div>
+    </li>
+
+    <li class="ref" data-rv="rise">
+      <div class="ref__art" aria-hidden="true">
+        <svg viewBox="0 0 300 300" class="dialart dialart--aurore">
+          <defs>
+            <radialGradient id="d2-face" cx="46%" cy="30%" r="75%">
+              <stop offset="0%" stop-color="#f7ecd2"/><stop offset="52%" stop-color="#e2cda2"/><stop offset="100%" stop-color="#a68a58"/>
+            </radialGradient>
+            <linearGradient id="d2-case" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#f4f5f7"/><stop offset="48%" stop-color="#c3c8ce"/><stop offset="100%" stop-color="#7d8288"/>
+            </linearGradient>
+          </defs>
+          <circle cx="150" cy="150" r="130" fill="none" stroke="url(#d2-case)" stroke-width="12"/>
+          <circle cx="150" cy="150" r="119" fill="url(#d2-face)"/>
+          <g stroke="#b6975f" stroke-width=".7" opacity=".5">
+            <path d="M150 31v238"/><path d="M31 150h238"/>
+            <path d="M150 31v238" transform="rotate(22.5 150 150)"/><path d="M150 31v238" transform="rotate(45 150 150)"/>
+            <path d="M150 31v238" transform="rotate(67.5 150 150)"/><path d="M150 31v238" transform="rotate(112.5 150 150)"/>
+            <path d="M150 31v238" transform="rotate(135 150 150)"/><path d="M150 31v238" transform="rotate(157.5 150 150)"/>
+          </g>
+          <g fill="#3a3020">
+            <text x="150" y="62" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="26">XII</text>
+            <text x="246" y="160" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="22">III</text>
+            <text x="150" y="255" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="22">VI</text>
+            <text x="56" y="160" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="22">IX</text>
+          </g>
+          <g stroke="#2b2418" stroke-linecap="round" fill="none">
+            <path d="M150 150 122 100" stroke-width="5"/><path d="M150 150 202 128" stroke-width="3.4"/>
+          </g>
+          <circle cx="150" cy="150" r="4.5" fill="#2b2418"/>
+        </svg>
+      </div>
+      <div class="ref__body">
+        <p class="ref__n">02</p>
+        <h3>Aurore</h3>
+        <p class="ref__spec">Champagne sunburst <i>·</i> 37 mm <i>·</i> White gold</p>
+        <p class="ref__copy">The quiet one. No complication, no date window, nothing between you and the time. Roman numerals struck by hand.</p>
+        <p class="ref__price">CHF 42,000</p>
+      </div>
+    </li>
+
+    <li class="ref" data-rv="rise">
+      <div class="ref__art" aria-hidden="true">
+        <svg viewBox="0 0 300 300" class="dialart dialart--eclipse">
+          <defs>
+            <radialGradient id="d3-face" cx="38%" cy="28%" r="78%">
+              <stop offset="0%" stop-color="#2b2b30"/><stop offset="48%" stop-color="#141418"/><stop offset="100%" stop-color="#050506"/>
+            </radialGradient>
+            <linearGradient id="d3-case" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#e9edf1"/><stop offset="50%" stop-color="#aab2ba"/><stop offset="100%" stop-color="#6a7178"/>
+            </linearGradient>
+          </defs>
+          <circle cx="150" cy="150" r="134" fill="none" stroke="url(#d3-case)" stroke-width="14"/>
+          <circle cx="150" cy="150" r="121" fill="url(#d3-face)"/>
+          <circle cx="150" cy="150" r="98" fill="none" stroke="#5b5f66" stroke-width=".8" opacity=".8"/>
+          <g stroke="#dfe4ea" stroke-width="3.6" stroke-linecap="round" opacity=".92">
+            <path d="M150 40v22"/><path d="M260 150h-22"/><path d="M150 260v-22"/><path d="M40 150h22"/>
+          </g>
+          <g stroke="#8f959c" stroke-width="1.6" stroke-linecap="round">
+            <path d="M150 42v14" transform="rotate(30 150 150)"/><path d="M150 42v14" transform="rotate(60 150 150)"/>
+            <path d="M150 42v14" transform="rotate(120 150 150)"/><path d="M150 42v14" transform="rotate(150 150 150)"/>
+            <path d="M150 42v14" transform="rotate(210 150 150)"/><path d="M150 42v14" transform="rotate(240 150 150)"/>
+            <path d="M150 42v14" transform="rotate(300 150 150)"/><path d="M150 42v14" transform="rotate(330 150 150)"/>
+          </g>
+          <circle cx="204" cy="150" r="24" fill="#0a0a0c" stroke="#5b5f66" stroke-width="1.4"/>
+          <path d="M204 130a20 20 0 0 0 0 40z" fill="#dfe4ea" opacity=".85"/>
+          <g stroke="#e6eaee" stroke-linecap="round" fill="none">
+            <path d="M150 150 130 92" stroke-width="5.4"/><path d="M150 150 96 172" stroke-width="3.4"/>
+          </g>
+          <circle cx="150" cy="150" r="4.6" fill="#e6eaee"/>
+        </svg>
+      </div>
+      <div class="ref__body">
+        <p class="ref__n">03</p>
+        <h3>Éclipse</h3>
+        <p class="ref__spec">Obsidian dial <i>·</i> 41 mm <i>·</i> Platinum</p>
+        <p class="ref__copy">Twelve a year, no more. The dial is a single slice of Armenian obsidian, so no two are the same and none can be replaced.</p>
+        <p class="ref__price">CHF 96,000</p>
+      </div>
+    </li>
+  </ul>
+</section>
+
+<!-- ═══════════════════════════════ ATELIER ══════════════════════════════ -->
+<section class="atelier" id="atelier">
+  <div class="wrap atelier__grid">
+    <div>
+      <p class="label" data-rv="up">The atelier</p>
+      <h2 class="h2" data-rv="up" style="--rv-delay:100ms">Five watchmakers. One bench each. No production line.</h2>
+    </div>
+    <div class="atelier__text">
+      <p data-rv="up">
+        Maison Aurelis has occupied the same three rooms above Rue du Rhône
+        since 1908. Everything except the sapphire is made within four hundred
+        metres of that door.
+      </p>
+      <p data-rv="up" style="--rv-delay:120ms">
+        A watchmaker takes a calibre from bare plate to running movement alone.
+        Their initials are struck on the underside of the barrel bridge, where
+        only the next watchmaker to open it will ever read them.
+      </p>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <ul class="figures" data-rv="up" data-rv-stagger>
+      <li><b>1908</b><span>The year the first bench was set</span></li>
+      <li><b><span data-count="214">214</span></b><span>Components in calibre AU-1908</span></li>
+      <li><b>96<i>h</i></b><span>Power reserve, two barrels in series</span></li>
+      <li><b><span data-count="240">240</span></b><span>Watches leave the atelier each year</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ ENQUIRE ══════════════════════════════ -->
+<section class="enquire" id="enquire">
+  <div class="wrap enquire__inner">
+    <p class="label" data-rv="up">Private viewing</p>
+    <h2 class="enquire__h" data-rv="up" style="--rv-delay:100ms">
+      A Nocturne is not sold across a counter.
+    </h2>
+    <p class="enquire__p" data-rv="up" style="--rv-delay:200ms">
+      Viewings are by appointment, one at a time, in the room where the watch
+      was made. Allow two hours. There is coffee, and there is no obligation.
+    </p>
+
+    <div class="enquire__form" data-rv="up" style="--rv-delay:300ms">
+      <button class="btn btn--gold" id="viewingBtn" type="button">
+        <span>Request a viewing</span>
+        <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M2 8h12m-5-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <p class="enquire__addr">
+        Rue du Rhône 14 <i>·</i> 1204 Genève<br>
+        Tuesday to Friday, 10h–18h
+      </p>
+    </div>
+
+    <div class="enquire__ok" id="viewingOk" hidden>
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 12.5 9.5 18 20 6.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <p>Noted. The atelier writes back within one working day — and this is a demonstration, so nothing was actually sent.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <a class="pk-outro" href="/">
+      <span>
+        <span class="pk-outro__eyebrow">Demo site 01 of 06</span>
+        <span class="pk-outro__title">Aurelis is a fiction — the brand, the copy, the dial, the calibre and the code were made by Preet&nbsp;Kumar.</span>
+      </span>
+      <span class="pk-outro__cta">
+        See the portfolio
+        <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M2 8h12m-5-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+    </a>
+    <div class="foot__row">
+      <p class="foot__word">Aurelis <i>·</i> Genève</p>
+      <p class="foot__note">Every graphic on this page — the guilloché, the calibre, the dials — is generated in your browser. There are no images.</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -49,6 +49,14 @@ class Track {
    * @param {string} [opts.start='top bottom'] "<elementEdge> <viewportEdge>" — progress hits 0 here
    * @param {string} [opts.end='bottom top']   progress hits 1 here
    * @param {number} [opts.scrub=0]            >0 enables `.eased`, higher = snappier
+   *
+   * IMPORTANT — `.eased` is exponentially damped, so once it has moved it
+   * approaches 0 and 1 asymptotically and never lands on them. Never write
+   * `if (t.eased > 0) …` to mean "this scene has started": the guard latches
+   * on permanently and the last scene's state sticks when the visitor scrolls
+   * back up. Blend scenes with chained lerps instead —
+   *   `v = lerp(v, next, eased)` — which is branch-free and reduces to `v`
+   * when the progress is (near) zero.
    */
   constructor(el, opts = {}) {
     this.el = el;
