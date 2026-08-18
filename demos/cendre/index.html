@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CENDRE — Kitchen of fire and ash</title>
+<meta name="description" content="Twelve courses, one fire, eighteen seats. Cendre is a wood-fired kitchen in a converted forge in the Ardèche. One sitting a night.">
+<meta name="theme-color" content="#14100d">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CENDRE — Kitchen of fire and ash">
+<meta property="og:description" content="Watch each course assemble itself on the plate as you read the menu.">
+<meta property="og:image" content="/og/cendre.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300;1,9..144,400&family=Karla:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<script type="module" src="/src/cendre/main.js"></script>
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<a class="pk-back" href="/" aria-label="Back to Preet Kumar's portfolio">
+  <svg class="pk-back__arrow" viewBox="0 0 12 12" aria-hidden="true">
+    <path d="M11 6H1.6m0 0 4-4m-4 4 4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <span class="pk-back__mark" aria-hidden="true">PK</span>
+  <span class="pk-back__short">Portfolio</span>
+  <span class="pk-back__long">Back to Preet's portfolio</span>
+</a>
+
+<header class="top" id="top">
+  <a class="top__brand" href="#start">
+    <svg class="top__mark" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 2c2.4 4.2.6 6.2-.6 8.2-1 1.7-.6 3.6.9 4.6 1.4-2 2.2-4 4.2-4.6-.5 3 1.5 4.2 1.5 6.4A6 6 0 0 1 12 22a6 6 0 0 1-6-5.4c0-4.6 6-6.6 6-14.6z"
+            fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+    </svg>
+    <span>Cendre</span>
+  </a>
+  <nav class="top__nav" aria-label="Primary">
+    <a href="#menu">The menu</a>
+    <a href="#room">The room</a>
+    <a href="#book" class="top__cta">Reserve</a>
+  </nav>
+</header>
+
+<main id="main">
+
+<!-- ══════════════════════════ HERO ══════════════════════════════════════ -->
+<section class="hero" id="start">
+  <canvas class="hero__embers" id="heroEmbers" aria-hidden="true"></canvas>
+  <div class="hero__inner">
+    <p class="eyebrow" data-rv="up">Ardèche <i>·</i> a converted forge <i>·</i> eighteen seats</p>
+    <h1 class="hero__title" data-rv="up" style="--rv-delay:140ms">Cendre</h1>
+    <p class="hero__line" data-rv="up" style="--rv-delay:300ms">Everything here has met the flame.</p>
+    <p class="hero__meta" data-rv="up" style="--rv-delay:440ms">
+      Douze services <i>·</i> un feu <i>·</i> one sitting a night
+    </p>
+  </div>
+  <p class="hero__cue" data-rv="fade" style="--rv-delay:900ms">
+    <span>Scroll into the kitchen</span>
+    <span class="hero__cue-rail" aria-hidden="true"><i></i></span>
+  </p>
+</section>
+
+<!-- ══════════════════════════ THE FIRE ══════════════════════════════════ -->
+<section class="fire">
+  <div class="wrap fire__grid">
+    <div>
+      <p class="eyebrow" data-rv="up">I <i>—</i> Le feu</p>
+      <h2 class="h2" data-rv="up" style="--rv-delay:80ms">
+        There is no gas in this building.
+      </h2>
+    </div>
+    <div class="fire__text">
+      <p data-rv="up">
+        The hearth is lit at five in the morning and it is not allowed to go
+        out. By service it has become a bank of embers three feet deep, and
+        everything that reaches your table has passed through some part of it —
+        the flame, the coals, the ash underneath, or the smoke above.
+      </p>
+      <p data-rv="up" style="--rv-delay:120ms">
+        Vine cuttings for the birds. Old oak for the roots. Fig wood, once a
+        year, for one week, when there is fig wood.
+      </p>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <ul class="figs" data-rv="up" data-rv-stagger>
+      <li><b><span data-count="12">12</span></b><span>Courses, always</span></li>
+      <li><b><span data-count="18">18</span></b><span>Seats, one sitting</span></li>
+      <li><b><span data-count="5">5</span><i>am</i></b><span>The fire is lit</span></li>
+      <li><b><span data-count="0">0</span></b><span>Gas lines in the building</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ══════════════ SIGNATURE MOMENT — THE PASS ═══════════════════════════ -->
+<section class="pass" id="menu">
+  <div class="pass__stage" aria-hidden="true">
+    <canvas id="plate"></canvas>
+    <div class="pass__vig"></div>
+    <div class="pass__scrim"></div>
+  </div>
+
+  <div class="pass__intro wrap">
+    <p class="eyebrow">II <i>—</i> Les services</p>
+    <h2 class="h2">Four of the twelve, plated in front of you.</h2>
+  </div>
+
+  <div class="pass__courses" id="courses">
+    <article class="course" data-course="0">
+      <p class="course__n">II</p>
+      <h3 class="course__name">Céleri</h3>
+      <p class="course__sub">Ash-baked celeriac, hazelnut, four-year vinegar</p>
+      <p class="course__note">
+        Buried in the embers at four in the afternoon and dug out at seven.
+        The skin is charcoal. The inside is custard.
+      </p>
+    </article>
+
+    <article class="course" data-course="1">
+      <p class="course__n">III</p>
+      <h3 class="course__name">Langoustine</h3>
+      <p class="course__sub">Over embers, fennel, burnt lemon</p>
+      <p class="course__note">
+        Ninety seconds on the bars, split, and back on for eleven more.
+        Anything longer and you are eating a memory of it.
+      </p>
+    </article>
+
+    <article class="course" data-course="2">
+      <p class="course__n">VII</p>
+      <h3 class="course__name">Pigeon</h3>
+      <p class="course__sub">Cherry, smoked marrow, elderberry</p>
+      <p class="course__note">
+        Hung eight days. Cooked on the bone over vine cuttings, rested longer
+        than it cooked, and carved at the pass while you watch.
+      </p>
+    </article>
+
+    <article class="course" data-course="3">
+      <p class="course__n">XI</p>
+      <h3 class="course__name">Miel brûlé</h3>
+      <p class="course__sub">Burnt honey, sheep’s milk, pine</p>
+      <p class="course__note">
+        The honey is taken to the exact second before it turns bitter, which
+        is a decision, not a temperature.
+      </p>
+    </article>
+  </div>
+</section>
+
+<!-- ══════════════════════════ FULL MENU ═════════════════════════════════ -->
+<section class="menu">
+  <div class="wrap">
+    <p class="eyebrow" data-rv="up">The whole thing</p>
+    <h2 class="h2" data-rv="up" style="--rv-delay:80ms">Douze services</h2>
+    <p class="menu__note" data-rv="up" style="--rv-delay:160ms">
+      €165 per person. Wine, cider and ferments alongside, €95, poured by the
+      person who chose them. It changes when the fire and the valley say so.
+    </p>
+    <ol class="menu__list" id="menuList"></ol>
+  </div>
+</section>
+
+<!-- ══════════════════════════ THE ROOM ══════════════════════════════════ -->
+<section class="room" id="room">
+  <div class="wrap room__grid">
+    <div class="room__art" data-rv="scale">
+      <svg viewBox="0 0 460 340" role="img" aria-label="Plan of the dining room: eighteen seats around an open hearth.">
+        <rect width="460" height="340" fill="none"/>
+        <path d="M28 28h404v284H28z" fill="none" stroke="currentColor" stroke-width="1.4" opacity=".5"/>
+        <path d="M28 236h404" stroke="currentColor" stroke-width="1" opacity=".3" stroke-dasharray="5 6"/>
+        <!-- hearth -->
+        <g class="room__hearth">
+          <rect x="176" y="112" width="108" height="70" rx="6" fill="none" stroke="#e2703a" stroke-width="2"/>
+          <path d="M230 122c8 14 2 21-2 27-3 6-2 12 3 15 5-7 7-13 14-15-2 10 5 14 5 21a20 20 0 0 1-40 0c0-15 20-22 20-48z" fill="#e2703a" opacity=".85"/>
+        </g>
+        <!-- counter -->
+        <path d="M120 96h220v8H120zM120 190h220v8H120z" fill="currentColor" opacity=".28"/>
+        <!-- seats -->
+        <g fill="currentColor" opacity=".55">
+          <circle cx="140" cy="74" r="9"/><circle cx="172" cy="74" r="9"/><circle cx="204" cy="74" r="9"/>
+          <circle cx="256" cy="74" r="9"/><circle cx="288" cy="74" r="9"/><circle cx="320" cy="74" r="9"/>
+          <circle cx="140" cy="220" r="9"/><circle cx="172" cy="220" r="9"/><circle cx="204" cy="220" r="9"/>
+          <circle cx="256" cy="220" r="9"/><circle cx="288" cy="220" r="9"/><circle cx="320" cy="220" r="9"/>
+          <circle cx="86" cy="118" r="9"/><circle cx="86" cy="150" r="9"/><circle cx="86" cy="182" r="9"/>
+          <circle cx="374" cy="118" r="9"/><circle cx="374" cy="150" r="9"/><circle cx="374" cy="182" r="9"/>
+        </g>
+        <g font-family="Karla, system-ui, sans-serif" font-size="11" fill="currentColor" opacity=".55" letter-spacing="1.4">
+          <text x="28" y="20">THE ROOM — 18 COUVERTS</text>
+          <text x="28" y="332">ONE SITTING · 19H30</text>
+          <text x="432" y="332" text-anchor="end">ARDÈCHE</text>
+        </g>
+      </svg>
+    </div>
+    <div class="room__text">
+      <p class="eyebrow" data-rv="up">III <i>—</i> La salle</p>
+      <h2 class="h2" data-rv="up" style="--rv-delay:80ms">Eighteen people, once a night.</h2>
+      <p data-rv="up" style="--rv-delay:160ms">
+        Everyone sits at seven thirty. Everyone eats the same twelve things in
+        the same order. There is no à la carte, there are no substitutions, and
+        there is exactly one table that can see all the way into the fire —
+        which we give to whoever books last, because that seems fairer.
+      </p>
+      <p data-rv="up" style="--rv-delay:240ms">
+        The forge was working until 1974. The anvil is still bolted to the floor
+        by the pass and we have never once thought about moving it.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════ RESERVE ═══════════════════════════════════ -->
+<section class="book" id="book">
+  <div class="wrap book__inner">
+    <p class="eyebrow" data-rv="up">Réserver</p>
+    <h2 class="book__h" data-rv="up" style="--rv-delay:80ms">
+      Bookings open on the first of the month, for the month after.
+    </h2>
+    <p class="book__p" data-rv="up" style="--rv-delay:160ms">
+      Eighteen seats go in about four minutes. If you miss them, leave your
+      name — someone always cancels, and we work down the list in order.
+    </p>
+
+    <form class="book__form" id="bookForm" data-rv="up" style="--rv-delay:240ms" novalidate>
+      <div class="field">
+        <label for="bookDate">Evening</label>
+        <select id="bookDate" name="date">
+          <option>Thu 4 September</option>
+          <option>Fri 5 September</option>
+          <option>Sat 6 September</option>
+          <option>Thu 11 September</option>
+          <option>Fri 12 September</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="bookSeats">Couverts</label>
+        <select id="bookSeats" name="seats">
+          <option>2</option><option>3</option><option>4</option><option>6</option>
+        </select>
+      </div>
+      <div class="field field--wide">
+        <label for="bookName">Name</label>
+        <input id="bookName" name="name" type="text" autocomplete="name" placeholder="Who shall we hold it for?" required>
+      </div>
+      <button class="btn btn--ember" type="submit">Request the table</button>
+    </form>
+
+    <p class="book__ok" id="bookOk" hidden></p>
+    <p class="book__err" id="bookErr" hidden>We'll need a name to hold it under.</p>
+
+    <p class="book__addr">
+      Le Vieux Martinet <i>·</i> 07110 Ardèche <i>·</i> Thursday to Sunday
+    </p>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <a class="pk-outro" href="/">
+      <span>
+        <span class="pk-outro__eyebrow">Demo site 04 of 06</span>
+        <span class="pk-outro__title">Cendre is a fiction — the kitchen, the menu, the room and every dish on that plate were made by Preet&nbsp;Kumar.</span>
+      </span>
+      <span class="pk-outro__cta">See the portfolio <span aria-hidden="true">→</span></span>
+    </a>
+    <div class="foot__row">
+      <p>Cendre <i>·</i> Ardèche</p>
+      <p>Every dish on this page is built from primitives in your browser. There are no photographs.</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
