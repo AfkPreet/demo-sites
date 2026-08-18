@@ -112,7 +112,7 @@ export function buildWatch(stage) {
   const M = {
     gold: new THREE.MeshStandardMaterial({ color: 0xc9a06a, metalness: 1, roughness: 0.23, envMapIntensity: 1.15 }),
     goldSoft: new THREE.MeshStandardMaterial({ color: 0xb98f52, metalness: 1, roughness: 0.34, envMapIntensity: 1.1 }),
-    steel: new THREE.MeshStandardMaterial({ color: 0xa9aeb7, metalness: 1, roughness: 0.33, envMapIntensity: 0.95 }),
+    steel: new THREE.MeshStandardMaterial({ color: 0x8f96a1, metalness: 1, roughness: 0.4, envMapIntensity: 0.72 }),
     brass: new THREE.MeshStandardMaterial({ color: 0xc0a052, metalness: 1, roughness: 0.36, envMapIntensity: 0.95 }),
     blued: new THREE.MeshStandardMaterial({ color: 0x2f4f96, metalness: 1, roughness: 0.22, envMapIntensity: 1.3 }),
     ruby: new THREE.MeshStandardMaterial({

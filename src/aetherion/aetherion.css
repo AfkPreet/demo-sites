@@ -1,0 +1,659 @@
+@import '../lib/base.css';
+
+/* ==========================================================================
+   AETHERION — deep-field passenger flight
+   A mission dossier, not a brochure: monospace data, thin rules, coordinates,
+   and headlines in tight geometric sans. The page begins at night and, when
+   the ship clears the ring plane, crosses into daylight and stays there.
+   ========================================================================== */
+
+:root {
+  --day: 0;                      /* 0 = night, 1 = daylight (scroll-driven) */
+
+  --n-bg:   #04060f;
+  --n-bg-2: #080d1c;
+  --n-fg:   #dfe6f5;
+  --n-dim:  #94a1bd;
+  --n-mut:  #6d7a97;
+  --n-line: rgba(180, 205, 255, .14);
+
+  --d-bg:   #ece7dc;
+  --d-bg-2: #e2dccf;
+  --d-fg:   #12151d;
+  --d-dim:  #4a505e;
+  --d-mut:  #6f7686;
+  --d-line: rgba(18, 21, 29, .16);
+
+  --cyan:  #7fd4ff;
+  --amber: #ffab5e;
+  --rust:  #b4552a;
+
+  --sans: 'Space Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --pad: clamp(1.15rem, 4.5vw, 4rem);
+  --wrap: 80rem;
+
+  --focus: var(--cyan);
+  --sel-bg: var(--cyan);
+  --sel-fg: #04060f;
+
+  /* A dark pill reads on both halves of this site, so it never needs to swap */
+  --pk-back-font: var(--sans);
+  --pk-back-fg: #e6edfb;
+  --pk-back-bg: rgba(6, 10, 22, .84);
+  --pk-back-bg-hover: rgba(12, 20, 40, .95);
+  --pk-back-bd: rgba(127, 212, 255, .3);
+  --pk-back-bd-hover: rgba(127, 212, 255, .68);
+  --pk-back-mark-bg: linear-gradient(140deg, #bfe9ff, #7fd4ff);
+  --pk-back-mark-fg: #05101c;
+  --pk-outro-bd: rgba(18, 21, 29, .18);
+  --pk-outro-bg: rgba(18, 21, 29, .04);
+  --pk-outro-cta-bg: #12151d;
+  --pk-outro-cta-fg: #ece7dc;
+
+  --ch-leave: 190svh;
+  --ch-dark: 210svh;
+  --ch-rings: 320svh;
+  --ch-daylight: 170svh;
+}
+@media (max-width: 48rem) {
+  :root { --ch-leave: 160svh; --ch-dark: 175svh; --ch-rings: 280svh; --ch-daylight: 145svh; }
+}
+
+html { background: var(--n-bg); }
+
+body {
+  background: var(--n-bg);
+  color: var(--n-fg);
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: clamp(.97rem, .93rem + .24vw, 1.06rem);
+  line-height: 1.62;
+  letter-spacing: -.005em;
+}
+
+/* The night→day crossing. One fixed layer whose opacity is scroll-driven —
+   cheaper and far more reliable than recolouring every element. */
+.daylight {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: var(--day);
+  background:
+    radial-gradient(120% 90% at 50% 8%, #fdfbf4 0%, #f0ebdf 38%, #ded7c8 100%);
+}
+
+.wrap {
+  width: 100%;
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-inline: var(--pad);
+}
+
+.mono { font-family: var(--mono); }
+
+/* ── labels ──────────────────────────────────────────────────────────── */
+
+.tag {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  font-family: var(--mono);
+  font-size: .68rem;
+  font-weight: 400;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+.tag span { opacity: .45; }
+.tag i {
+  width: .42rem; height: .42rem;
+  border-radius: 999px;
+  background: var(--cyan);
+  box-shadow: 0 0 0 0 rgba(127, 212, 255, .6);
+  animation: ping 2.8s ease-out infinite;
+}
+@keyframes ping {
+  0% { box-shadow: 0 0 0 0 rgba(127,212,255,.55); }
+  70% { box-shadow: 0 0 0 .6rem rgba(127,212,255,0); }
+  100% { box-shadow: 0 0 0 0 rgba(127,212,255,0); }
+}
+.tag--num { color: var(--amber); }
+
+.h2 {
+  font-size: clamp(1.9rem, 5.2vw, 3.5rem);
+  line-height: 1.04;
+  letter-spacing: -.035em;
+  font-weight: 500;
+  margin-top: 1rem;
+  max-width: 20ch;
+}
+.h2 em { font-style: italic; font-weight: 300; }
+
+/* ── HUD header ──────────────────────────────────────────────────────── */
+
+.hud {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 70;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .85rem var(--pad);
+  padding-top: max(.85rem, env(safe-area-inset-top));
+  border-bottom: 1px solid transparent;
+  transition: background .5s ease, border-color .5s ease;
+}
+.hud.is-solid {
+  background: color-mix(in srgb, var(--n-bg) 82%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom-color: var(--n-line);
+}
+.is-day .hud.is-solid {
+  background: color-mix(in srgb, var(--d-bg) 84%, transparent);
+  border-bottom-color: var(--d-line);
+}
+
+.hud__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: .95rem;
+  letter-spacing: -.02em;
+}
+.hud__mark { width: 1.35rem; height: 1.35rem; color: var(--cyan); }
+
+.hud__mid {
+  display: none;
+  align-items: center;
+  gap: .7rem;
+  font-size: .64rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--n-mut);
+}
+@media (min-width: 62rem) { .hud__mid { display: flex; } }
+.hud__bar {
+  display: block;
+  width: 8rem; height: 2px;
+  background: var(--n-line);
+  overflow: hidden;
+}
+.hud__bar i {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, var(--cyan), var(--amber));
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+}
+
+.hud__nav { display: flex; align-items: center; gap: .2rem; }
+.hud__nav a {
+  padding: .5rem .75rem;
+  font-size: .78rem;
+  text-decoration: none;
+  color: var(--n-dim);
+  transition: color .3s ease;
+}
+.hud__nav a:hover { color: var(--n-fg); }
+.hud__nav a:not(.hud__cta) { display: none; }
+@media (min-width: 46rem) { .hud__nav a:not(.hud__cta) { display: inline-block; } }
+.hud__cta {
+  border: 1px solid var(--n-line);
+  border-radius: .2rem;
+  color: var(--cyan) !important;
+  font-family: var(--mono);
+  font-size: .68rem !important;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: .55rem .9rem !important;
+}
+.hud__cta:hover { border-color: var(--cyan); background: rgba(127,212,255,.1); }
+
+/* daylight variants */
+.is-day { --n-fg: var(--d-fg); --n-dim: var(--d-dim); --n-mut: var(--d-mut); --n-line: var(--d-line); }
+.is-day .hud__mark { color: var(--rust); }
+.is-day .hud__cta { color: var(--rust) !important; }
+.is-day .hud__cta:hover { border-color: var(--rust); background: rgba(180,85,42,.08); }
+
+/* ── journey stage ───────────────────────────────────────────────────── */
+
+.journey { position: relative; }
+.journey__stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  margin-bottom: -100svh;
+  z-index: 0;
+  pointer-events: none;
+}
+#space { width: 100%; height: 100svh; display: block; }
+
+.stage__grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: calc(.5 - var(--day) * .35);
+  background-image:
+    linear-gradient(to right, rgba(127,212,255,.055) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(127,212,255,.055) 1px, transparent 1px);
+  background-size: clamp(4rem, 9vw, 7rem) clamp(4rem, 9vw, 7rem);
+  mask-image: radial-gradient(78% 70% at 50% 50%, #000 20%, transparent 92%);
+  -webkit-mask-image: radial-gradient(78% 70% at 50% 50%, #000 20%, transparent 92%);
+}
+.stage__scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(4,6,15,.9) 0%, rgba(4,6,15,.5) 26%, rgba(4,6,15,0) 56%);
+  opacity: calc(1 - var(--day));
+}
+
+/* Sunlight off the ice, laid over the render rather than under it, so the
+   planet and rings stay visible while the frame blows out. */
+.stage__day {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: calc(var(--day) * .68);
+  background:
+    radial-gradient(70% 60% at 30% 34%, rgba(255, 252, 240, .95) 0%, rgba(255, 246, 226, .5) 46%, rgba(240, 232, 214, 0) 78%),
+    linear-gradient(180deg, rgba(253, 248, 236, .92) 0%, rgba(236, 231, 220, .8) 100%);
+}
+
+.scene { position: relative; z-index: 1; }
+
+/* ── hero ────────────────────────────────────────────────────────────── */
+
+.hero {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  /* extra floor so the spec line and cue clear the fixed portfolio pill */
+  padding: 5.5rem var(--pad) clamp(4.4rem, 9vh, 6rem);
+  max-width: calc(var(--wrap) + var(--pad) * 2);
+  margin-inline: auto;
+}
+.hero__mid { margin-top: auto; padding-block: clamp(1rem, 4vh, 2.4rem); }
+
+.hero__title {
+  font-size: clamp(2.9rem, 11.5vw, 8.6rem);
+  line-height: .88;
+  letter-spacing: -.055em;
+  font-weight: 700;
+  background: linear-gradient(178deg, #ffffff 0%, #cfe2ff 42%, #6b8ec6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.hero__sub {
+  margin-top: .9rem;
+  font-size: clamp(1.05rem, 2.6vw, 1.6rem);
+  font-weight: 300;
+  color: var(--n-dim);
+  letter-spacing: -.015em;
+}
+
+.specline {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: .9rem 1.4rem;
+  padding-block: 1.2rem;
+  border-top: 1px solid var(--n-line);
+}
+@media (min-width: 42rem) { .specline { grid-template-columns: repeat(4, 1fr); } }
+.specline dt {
+  font-family: var(--mono);
+  font-size: .6rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--n-mut);
+  margin-bottom: .25rem;
+}
+.specline dd { font-size: .92rem; font-weight: 400; }
+.specline em { font-style: italic; font-weight: 300; }
+
+.hero__cue {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  font-size: .62rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--n-mut);
+}
+.hero__cue-rail {
+  position: relative;
+  display: block;
+  width: 3.4rem; height: 1px;
+  background: var(--n-line);
+  overflow: hidden;
+}
+.hero__cue-rail i {
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, var(--cyan));
+  animation: cueRun 2.4s cubic-bezier(.7,0,.3,1) infinite;
+}
+@keyframes cueRun {
+  0% { transform: translateX(-100%); }
+  60%, 100% { transform: translateX(100%); }
+}
+
+/* ── chapters ────────────────────────────────────────────────────────── */
+
+.chapter {
+  display: grid;
+  align-content: space-between;
+  gap: 14svh;
+  padding: 24svh var(--pad);
+  max-width: calc(var(--wrap) + var(--pad) * 2);
+  margin-inline: auto;
+}
+.chapter--leave { min-height: var(--ch-leave); }
+.chapter--dark { min-height: var(--ch-dark); }
+.chapter--rings { min-height: var(--ch-rings); }
+.chapter--day { min-height: var(--ch-daylight); }
+
+.beat {
+  position: relative;
+  /* Copy passes straight across a lit 3D object. A layered ink shadow keeps it
+     readable from any background without putting a panel — or, as a gradient
+     pool turned out to, a visible rectangle — between the reader and the view. */
+  text-shadow:
+    0 1px 2px rgba(4,6,15,.95),
+    0 0 14px rgba(4,6,15,.9),
+    0 0 34px rgba(4,6,15,.75);
+  max-width: 36ch;
+}
+/* Dark copy on a blown-out sky needs the opposite halo. */
+.is-day .beat { text-shadow: 0 1px 2px rgba(236,231,220,.9), 0 0 16px rgba(236,231,220,.85); }
+.beat--right { margin-left: auto; }
+.beat--wide { max-width: 100%; }
+.beat--hero { justify-self: center; text-align: center; max-width: 100%; }
+/* Constrain the display line itself — a ch limit on the wrapper resolves
+   against the wrapper's font size, which is nowhere near the headline's. */
+.beat--hero .beat__big { max-width: 13ch; margin-inline: auto; }
+
+.beat h2 {
+  font-size: clamp(1.5rem, 3.6vw, 2.3rem);
+  line-height: 1.1;
+  letter-spacing: -.035em;
+  font-weight: 500;
+  margin-bottom: .8rem;
+}
+.beat__big {
+  font-size: clamp(2rem, 7vw, 4.6rem) !important;
+  line-height: .98;
+  letter-spacing: -.05em;
+  font-weight: 700;
+}
+.beat p { color: var(--n-dim); font-size: .95rem; }
+.beat .tag { margin-bottom: 1rem; }
+
+.datalist { display: grid; gap: 0; border-top: 1px solid var(--n-line); }
+.datalist li {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding: .62rem 0;
+  border-bottom: 1px solid var(--n-line);
+  font-size: .86rem;
+}
+.datalist span {
+  font-family: var(--mono);
+  font-size: .68rem;
+  letter-spacing: .08em;
+  color: var(--amber);
+  flex: none;
+  min-width: 5.2rem;
+}
+.datalist b { font-weight: 400; color: var(--n-fg); }
+
+/* altitude readout during the crossing */
+.crossing {
+  position: fixed;
+  z-index: 4;
+  left: 50%;
+  top: max(4.4rem, calc(env(safe-area-inset-top) + 3.6rem));
+  transform: translateX(-50%);
+  display: grid;
+  justify-items: center;
+  gap: .1rem;
+  opacity: 0;
+  transition: opacity .4s ease;
+  pointer-events: none;
+  text-align: center;
+}
+@media (min-width: 62rem) {
+  .crossing { left: auto; right: var(--pad); top: auto; bottom: 12svh; transform: none; justify-items: end; text-align: right; }
+}
+.crossing__l, .crossing__u {
+  font-size: .58rem;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--n-mut);
+}
+.crossing__n {
+  font-size: clamp(2.4rem, 6.5vw, 4rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -.04em;
+  font-variant-numeric: tabular-nums;
+  color: var(--cyan);
+}
+
+/* ── daylight half of the page ───────────────────────────────────────── */
+
+.voyages, .ship, .manifest, .foot {
+  position: relative;
+  z-index: 1;
+  background: var(--d-bg);
+  color: var(--d-fg);
+  --n-fg: var(--d-fg);
+  --n-dim: var(--d-dim);
+  --n-mut: var(--d-mut);
+  --n-line: var(--d-line);
+}
+.voyages .tag, .ship .tag, .manifest .tag { color: var(--rust); }
+.voyages .tag i, .ship .tag i, .manifest .tag i { background: var(--rust); animation: none; }
+
+.voyages { padding: clamp(4rem, 12vh, 8rem) 0 clamp(2rem, 6vh, 4rem); }
+
+.vlist {
+  max-width: calc(var(--wrap) + var(--pad) * 2);
+  margin: clamp(2.5rem, 7vh, 4.5rem) auto 0;
+  padding-inline: var(--pad);
+  border-top: 1px solid var(--d-line);
+}
+.voyage {
+  display: grid;
+  gap: .8rem 2rem;
+  padding: clamp(1.6rem, 4vw, 2.6rem) 0;
+  border-bottom: 1px solid var(--d-line);
+  transition: background .4s ease;
+}
+@media (min-width: 60rem) {
+  .voyage {
+    grid-template-columns: 5rem minmax(0, 1.5fr) minmax(0, 1fr) auto;
+    align-items: start;
+  }
+}
+.voyage:hover { background: rgba(180, 85, 42, .045); }
+.voyage__n { font-size: .72rem; letter-spacing: .14em; color: var(--rust); padding-top: .35rem; }
+.voyage__main h3 {
+  font-size: clamp(1.5rem, 3.4vw, 2.1rem);
+  font-weight: 500;
+  letter-spacing: -.035em;
+  line-height: 1.05;
+  margin-bottom: .5rem;
+}
+.voyage__main p { font-size: .92rem; color: var(--d-dim); max-width: 42ch; }
+
+.voyage__spec { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; }
+.voyage__spec dt {
+  font-family: var(--mono);
+  font-size: .58rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--d-mut);
+}
+.voyage__spec dd { font-size: .88rem; }
+
+.voyage__price {
+  font-size: .74rem;
+  color: var(--d-mut);
+  display: flex;
+  flex-direction: column;
+  gap: .1rem;
+  white-space: nowrap;
+}
+.voyage__price b {
+  font-size: clamp(1.35rem, 3vw, 1.7rem);
+  font-weight: 600;
+  letter-spacing: -.03em;
+  color: var(--d-fg);
+}
+@media (min-width: 60rem) { .voyage__price { text-align: right; align-items: flex-end; } }
+
+/* ── the ship ────────────────────────────────────────────────────────── */
+
+.ship { padding: clamp(3rem, 9vh, 6rem) 0 clamp(4rem, 11vh, 7rem); }
+.ship__art {
+  margin: clamp(2rem, 6vh, 3.5rem) 0 clamp(1.5rem, 4vh, 2.5rem);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+.cutaway {
+  width: 100%;
+  min-width: 44rem;
+  height: auto;
+  color: var(--d-fg);
+}
+.cut-ring { transform-box: fill-box; transform-origin: 50% 50%; animation: ringSpin 26s linear infinite; }
+@keyframes ringSpin { to { transform: rotateY(360deg); } }
+html[data-reduced="true"] .cut-ring { animation: none; }
+
+.shipspec {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--d-line);
+  border: 1px solid var(--d-line);
+}
+@media (min-width: 52rem) { .shipspec { grid-template-columns: repeat(4, 1fr); } }
+.shipspec li {
+  background: var(--d-bg);
+  padding: clamp(1.1rem, 3vw, 1.7rem);
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+}
+.shipspec b {
+  font-size: clamp(1.9rem, 5vw, 2.8rem);
+  font-weight: 600;
+  letter-spacing: -.045em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.shipspec b i { font-style: normal; font-size: .42em; font-weight: 400; color: var(--d-mut); margin-left: .12em; }
+.shipspec li > span {
+  font-size: .74rem;
+  color: var(--d-mut);
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
+/* ── manifest ────────────────────────────────────────────────────────── */
+
+.manifest {
+  padding: clamp(4rem, 12vh, 8rem) 0;
+  border-top: 1px solid var(--d-line);
+  background: linear-gradient(180deg, var(--d-bg) 0%, var(--d-bg-2) 100%);
+}
+.manifest__inner { max-width: 46rem; }
+.manifest__h {
+  font-size: clamp(1.9rem, 5.4vw, 3.4rem);
+  line-height: 1.04;
+  letter-spacing: -.04em;
+  font-weight: 500;
+  margin: 1rem 0 1.1rem;
+}
+.manifest__p { color: var(--d-dim); max-width: 44ch; }
+.manifest__act {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.2rem 1.6rem;
+  margin-top: 2.2rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+  min-height: 3rem;
+  padding: .95rem 1.6rem;
+  border-radius: .25rem;
+  font-family: var(--mono);
+  font-size: .72rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background .3s ease, transform .35s cubic-bezier(.16,1,.3,1), color .3s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn--go { background: var(--d-fg); color: var(--d-bg); }
+.btn--go:hover { transform: translateY(-2px); background: var(--rust); }
+.btn[disabled] { opacity: .5; cursor: default; transform: none; }
+
+.manifest__meta { font-size: .66rem; letter-spacing: .12em; color: var(--d-mut); text-transform: uppercase; }
+.manifest__meta span { opacity: .45; }
+
+.manifest__ok {
+  display: grid;
+  gap: .45rem;
+  max-width: 44ch;
+  margin-top: 2rem;
+  padding: 1.1rem 1.3rem;
+  border-left: 2px solid var(--rust);
+  background: rgba(180, 85, 42, .07);
+  animation: okIn .55s cubic-bezier(.16,1,.3,1) both;
+}
+.manifest__ok .mono {
+  font-size: .64rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--rust);
+}
+.manifest__ok p { font-size: .9rem; color: var(--d-dim); }
+@keyframes okIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+/* ── footer ──────────────────────────────────────────────────────────── */
+
+.foot {
+  padding: clamp(2.5rem, 6vh, 4rem) 0 calc(clamp(4.5rem, 8vh, 6rem) + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--d-line);
+}
+.pk-outro__title { font-weight: 400; letter-spacing: -.02em; line-height: 1.3; }
+.pk-outro__cta { font-family: var(--mono); font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; }
+.foot__row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: .6rem 2rem;
+  margin-top: 2.2rem;
+  font-size: .68rem;
+  letter-spacing: .06em;
+  color: var(--d-mut);
+}
+.foot__row span { opacity: .45; }

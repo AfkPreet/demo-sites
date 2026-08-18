@@ -294,27 +294,18 @@ p { color: var(--bone-2); }
 
 .beat {
   position: relative;
-  isolation: isolate;
+  /* Copy passes straight across a lit 3D object. A layered ink shadow keeps it
+     readable from any background without putting a panel — or, as a gradient
+     pool turned out to, a visible rectangle — between the reader and the view. */
+  text-shadow:
+    0 1px 2px rgba(11,10,8,.95),
+    0 0 14px rgba(11,10,8,.9),
+    0 0 34px rgba(11,10,8,.75);
   max-width: 34ch;
-}
-/* On a phone the copy passes straight across the object, which can be bright
-   metal. A soft radial pool of ink behind the text keeps it readable without
-   putting a hard panel between the reader and the watch — and costs nothing,
-   unlike a backdrop-filter on a scrolling element. */
-.beat::before {
-  content: '';
-  position: absolute;
-  inset: -2rem -3rem -1.8rem -3.2rem;
-  z-index: -1;
-  pointer-events: none;
-  background: radial-gradient(78% 72% at 44% 50%, rgba(11, 10, 8, .97) 0%, rgba(11, 10, 8, .9) 42%, rgba(11, 10, 8, .55) 68%, rgba(11, 10, 8, 0) 90%);
 }
 @media (min-width: 56rem) {
   /* Wide screens: one consistent column on the right, object to the left. */
   .beat { max-width: 32ch; margin-left: auto; }
-  .beat::before {
-    background: radial-gradient(74% 70% at 58% 50%, rgba(11, 10, 8, .82) 0%, rgba(11, 10, 8, .55) 48%, rgba(11, 10, 8, 0) 84%);
-  }
 }
 .beat .label { margin-bottom: 1.1rem; }
 .beat__h {
@@ -325,7 +316,7 @@ p { color: var(--bone-2); }
   margin-bottom: .85rem;
   color: var(--bone);
 }
-.beat p { font-size: .96rem; line-height: 1.75; }
+.beat p { font-size: .96rem; line-height: 1.75; color: #e4dccd; }
 .beat__quiet {
   font-family: var(--serif);
   font-style: italic;
