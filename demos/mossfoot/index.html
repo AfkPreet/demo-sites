@@ -1,0 +1,825 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mossfoot Games — Lumen &amp; the Lantern Rot</title>
+<meta name="description" content="Mossfoot Games: three people above a bike shop in Bristol, making Lumen &amp; the Lantern Rot — a hand-painted adventure about the smallest light in the biggest woods.">
+<meta name="theme-color" content="#8ee3c4">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Mossfoot Games — Small hands, big woods.">
+<meta property="og:description" content="Makers of Lumen &amp; the Lantern Rot. Say hello to Pip.">
+<meta property="og:image" content="/og/mossfoot.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+<script type="module" src="/src/mossfoot/main.js"></script>
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<a class="pk-back" href="/" aria-label="Back to Preet Kumar's portfolio">
+  <svg class="pk-back__arrow" viewBox="0 0 12 12" aria-hidden="true">
+    <path d="M11 6H1.6m0 0 4-4m-4 4 4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <span class="pk-back__mark" aria-hidden="true">PK</span>
+  <span class="pk-back__short">Portfolio</span>
+  <span class="pk-back__long">Back to Preet's portfolio</span>
+</a>
+
+<header class="bar" id="bar">
+  <a class="bar__logo" href="#top">
+    <span class="bar__sprout" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M12 22V11" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M12 12c-1-6-8-6-8-6s-1 8 8 6Z" fill="currentColor"/><path d="M12 14c1-5 7-5 7-5s1 7-7 5Z" fill="currentColor" opacity=".65"/></svg>
+    </span>
+    Mossfoot
+  </a>
+  <nav class="bar__nav" aria-label="Primary">
+    <a href="#game">The game</a>
+    <a href="#cast">The cast</a>
+    <a href="#studio">The studio</a>
+    <a class="bar__cta" href="#wishlist">Get the demo</a>
+  </nav>
+</header>
+
+<main id="main">
+
+<!-- ═══════════════════════════ HERO ═══════════════════════════════════ -->
+<section class="hero" id="top">
+  <div class="sky" aria-hidden="true">
+    <div class="sky__sun"></div>
+
+    <svg class="layer layer--clouds" viewBox="0 0 1440 620" preserveAspectRatio="xMidYMin slice">
+      <g fill="#ffffff" opacity=".72">
+        <path d="M120 150c0-26 22-46 48-46 8-20 28-34 51-34 27 0 50 19 55 45 24 3 42 23 42 47 0 26-21 47-47 47H167c-26 0-47-21-47-47Z"/>
+        <path d="M980 96c0-22 18-40 41-40 7-17 24-29 44-29 23 0 42 16 47 38 20 3 36 20 36 41 0 22-18 40-40 40h-88c-22 0-40-18-40-40Z"/>
+        <path d="M600 60c0-15 12-27 27-27 5-12 16-20 30-20 15 0 28 11 31 26 14 2 24 14 24 28 0 15-12 27-27 27h-59c-15 0-26-12-26-34Z" opacity=".55"/>
+      </g>
+    </svg>
+
+    <svg class="layer layer--far" viewBox="0 0 1440 620" preserveAspectRatio="xMidYMax slice">
+      <path d="M-40 470c150-96 250-6 380-58s230 70 350 24 240-92 380-40 400 84 400 84v160H-40Z" fill="#57c3ac"/>
+      <g fill="#3fae9c">
+        <path d="M180 452c14-46 34-70 34-70s22 26 36 72c-24 8-46 8-70-2Z"/>
+        <path d="M1180 470c12-42 30-64 30-64s20 24 32 66c-22 8-42 8-62-2Z"/>
+      </g>
+    </svg>
+
+    <svg class="layer layer--mid" viewBox="0 0 1440 620" preserveAspectRatio="xMidYMax slice">
+      <path d="M-40 520c170-70 270 24 430-22s250 56 380 12 260-74 400-24 270 60 270 60v174H-40Z" fill="#33a08d"/>
+      <g class="trees" fill="#1f8271">
+        <path d="M96 520c0-58 40-118 40-118s40 60 40 118Z"/>
+        <path d="M300 536c0-46 32-96 32-96s32 50 32 96Z" opacity=".9"/>
+        <path d="M1024 524c0-54 38-112 38-112s38 58 38 112Z"/>
+        <path d="M1298 540c0-42 30-90 30-90s30 48 30 90Z" opacity=".9"/>
+      </g>
+    </svg>
+
+    <svg class="layer layer--near" viewBox="0 0 1440 620" preserveAspectRatio="xMidYMax slice">
+      <path d="M-40 566c180-44 300 30 470-6s280 40 430 6 300-46 420-6 200 40 200 40v92H-40Z" fill="#1c7a68"/>
+      <g fill="#15665a">
+        <ellipse cx="210" cy="588" rx="86" ry="30"/>
+        <ellipse cx="1160" cy="596" rx="104" ry="34"/>
+        <path d="M470 604c0-30 20-54 20-54s20 24 20 54Z"/>
+        <path d="M940 610c0-26 18-48 18-48s18 22 18 48Z"/>
+      </g>
+      <g fill="#ff7a5c">
+        <circle cx="336" cy="592" r="9"/><circle cx="360" cy="602" r="6"/>
+        <circle cx="1042" cy="600" r="8"/>
+      </g>
+      <g fill="#ffd166">
+        <circle cx="700" cy="600" r="7"/><circle cx="726" cy="608" r="5"/>
+      </g>
+    </svg>
+
+    <div class="sky__ground"></div>
+  </div>
+
+  <div class="hero__inner">
+    <p class="eyebrow eyebrow--light" data-rv="fade">Mossfoot Games <i>·</i> Bristol <i>·</i> est. 2019</p>
+    <h1 class="hero__h1" data-split data-rv="lines">Small hands,<br>big&nbsp;woods.</h1>
+    <p class="hero__sub" data-rv="up">
+      Three people above a bike shop, making <i>Lumen &amp; the Lantern&nbsp;Rot</i> —
+      a hand-painted adventure about the smallest light in the biggest dark.
+    </p>
+    <div class="hero__acts" data-rv="up">
+      <a class="btn btn--sun" href="#game">See the game <span aria-hidden="true">↓</span></a>
+      <a class="btn btn--ghost" href="#wishlist">Play the demo</a>
+    </div>
+    <p class="hero__pip-hint" data-rv="fade">
+      <span aria-hidden="true">👀</span> That's Pip. They're watching your cursor.
+    </p>
+
+    <ul class="laurels" aria-label="Selections and awards" data-rv="up" data-rv-stagger>
+      <li><b>Verdant Festival</b><span>Official Selection 2026</span></li>
+      <li><b>Tiny Giants Award</b><span>Nominee, Best Companion</span></li>
+      <li><b>Bristol Pixel Jam</b><span>Best Handmade 2025</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ THE GAME ═══════════════════════════════ -->
+<section class="game" id="game">
+  <div class="wrap">
+    <header class="sec-head">
+      <p class="eyebrow" data-rv="fade">The game <i>·</i> Spring 2027</p>
+      <h2 class="sec-title" data-split data-rv="lines">Lumen &amp; the Lantern&nbsp;Rot</h2>
+    </header>
+
+    <div class="game__grid">
+      <div class="game__story">
+        <p class="lede" data-rv="up">
+          Every hundred years the woods forget how to hold light.
+        </p>
+        <p data-rv="up">
+          Lumen is nine, four foot one, and the only lamplighter left who still fits
+          through the small doors. She has one autumn to relight the ninety-nine lamps
+          of Bramblehollow before the Rot finishes eating them — and a lantern that
+          runs on courage, and, when the courage runs out, on moss.
+        </p>
+        <p data-rv="up">
+          Nothing in these woods wants to hurt her. That's rather the trouble. The
+          badger wants to talk. The toad wants paying. The dark just wants to be
+          somewhere else, and keeps choosing here.
+        </p>
+
+        <ul class="feats" data-rv="up" data-rv-stagger>
+          <li><b>One lantern, four jobs.</b> A light, a key, a lever and a friend — never a weapon.</li>
+          <li><b>Ninety-nine lamps.</b> No two are lit the same way, and eleven of them argue.</li>
+          <li><b>Nothing to fight.</b> Everything in the woods can be talked to, fed, or out-waited.</li>
+          <li><b>Drawn on paper.</b> Twelve frames a second, painted in gouache, scanned, shaken slightly.</li>
+        </ul>
+      </div>
+
+      <aside class="game__facts" data-rv="up">
+        <h3>The dry bits</h3>
+        <dl>
+          <div><dt>Release</dt><dd>Spring 2027</dd></div>
+          <div><dt>Platforms</dt><dd>Steam <span class="sep">·</span> Switch <span class="sep">·</span> PS5</dd></div>
+          <div><dt>Length</dt><dd>About 9 hours. Longer if you talk to the toad.</dd></div>
+          <div><dt>Players</dt><dd>One, plus whoever is watching</dd></div>
+          <div><dt>Languages</dt><dd>EN <span class="sep">·</span> FR <span class="sep">·</span> DE <span class="sep">·</span> PT-BR <span class="sep">·</span> 日本語</dd></div>
+          <div><dt>Demo</dt><dd><i>The First Lamp</i> — 20 minutes, out now</dd></div>
+        </dl>
+        <a class="btn btn--sun btn--block" href="#wishlist">Send me the demo</a>
+      </aside>
+    </div>
+  </div>
+
+  <!-- key art: the lantern glade -->
+  <figure class="keyart" id="keyart" aria-label="Key art: Lumen lighting the first lamp in Bramblehollow">
+    <svg class="keyart__svg" viewBox="0 0 1200 620" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>
+        <radialGradient id="mo-lampglow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#ffd98a" stop-opacity=".95"/>
+          <stop offset="45%" stop-color="#ffb347" stop-opacity=".35"/>
+          <stop offset="100%" stop-color="#ffb347" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="mo-dusk" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#1b3d54"/>
+          <stop offset="52%" stop-color="#2c6a6a"/>
+          <stop offset="100%" stop-color="#17493f"/>
+        </linearGradient>
+      </defs>
+
+      <rect width="1200" height="620" fill="url(#mo-dusk)"/>
+      <g class="ka-stars" fill="#e8fbff">
+        <circle cx="140" cy="80" r="2.4"/><circle cx="320" cy="46" r="1.8"/><circle cx="560" cy="96" r="2"/>
+        <circle cx="880" cy="58" r="2.6"/><circle cx="1060" cy="120" r="1.9"/><circle cx="700" cy="34" r="1.6"/>
+      </g>
+      <circle cx="1010" cy="118" r="46" fill="#f6f2df" opacity=".9"/>
+      <circle cx="994" cy="106" r="40" fill="#2c6a6a" opacity=".55"/>
+
+      <!-- far canopy -->
+      <g fill="#12414a" opacity=".85">
+        <path d="M-20 400c90-60 150 10 240-40s180 40 260 0 180-60 260-10 240 30 240 30v240H-20Z"/>
+      </g>
+      <!-- trunks -->
+      <g fill="#0e3038">
+        <path d="M120 620V300c0-16 30-16 30 0v320Z"/>
+        <path d="M1040 620V260c0-18 34-18 34 0v360Z"/>
+        <path d="M300 620V360c0-12 22-12 22 0v260Z" opacity=".7"/>
+      </g>
+      <!-- canopy blobs -->
+      <g fill="#1c7a68">
+        <ellipse cx="136" cy="292" rx="132" ry="80"/>
+        <ellipse cx="1056" cy="248" rx="150" ry="92"/>
+        <ellipse cx="310" cy="352" rx="96" ry="58" opacity=".8"/>
+      </g>
+      <g fill="#25947c" opacity=".7">
+        <ellipse cx="168" cy="262" rx="86" ry="52"/>
+        <ellipse cx="1020" cy="222" rx="98" ry="58"/>
+      </g>
+
+      <!-- the lamp and its glow -->
+      <circle class="ka-glow" cx="620" cy="352" r="260" fill="url(#mo-lampglow)"/>
+      <g class="ka-lamp">
+        <path d="M614 470v-92h12v92Z" fill="#123"/>
+        <path d="M600 380h52l-10-16h-32Z" fill="#e8c37a"/>
+        <rect x="602" y="316" width="48" height="52" rx="10" fill="#ffe6a8"/>
+        <rect x="602" y="316" width="48" height="52" rx="10" fill="none" stroke="#123" stroke-width="5"/>
+        <path d="M598 314h56l-8-14h-40Z" fill="#123"/>
+        <path d="M626 306a10 10 0 0 1-14 0" fill="none" stroke="#123" stroke-width="4"/>
+        <circle class="ka-flame" cx="626" cy="344" r="11" fill="#fff3c9"/>
+      </g>
+
+      <!-- ground -->
+      <path d="M-20 470c160-40 300 26 460-4s280 30 420 2 360-30 360-30v182H-20Z" fill="#14584c"/>
+      <path d="M-20 520c180-30 320 26 480 2s300 22 440 0 300-16 300-16v114H-20Z" fill="#0f463d"/>
+      <g fill="#1c7a68">
+        <ellipse cx="250" cy="540" rx="70" ry="20"/>
+        <ellipse cx="900" cy="556" rx="90" ry="24"/>
+      </g>
+
+      <!-- Lumen, small, reaching up.
+           The positioning transform lives on the outer group and the animated
+           one on the inner: a CSS transform overrides the SVG transform
+           attribute outright, so an animated element must never carry its own
+           placement. -->
+      <g transform="translate(690 470)"><g class="ka-lumen">
+        <ellipse cy="52" rx="34" ry="9" fill="#0b3a33" opacity=".5"/>
+        <path d="M-16 48V16h32v32Z" fill="#3d5a80"/>
+        <path d="M-20 18c0-18 8-32 20-32s20 14 20 32Z" fill="#ff7a5c"/>
+        <circle cx="0" cy="-30" r="20" fill="#ffdcc0"/>
+        <path d="M-22-34c2-16 10-24 22-24s20 8 22 24c-12-8-32-8-44 0Z" fill="#4b3a2f"/>
+        <circle cx="-7" cy="-30" r="2.6" fill="#2a2118"/><circle cx="7" cy="-30" r="2.6" fill="#2a2118"/>
+        <path d="M-6-21q6 5 12 0" fill="none" stroke="#2a2118" stroke-width="2.4" stroke-linecap="round"/>
+        <path class="ka-arm" d="M-14 6C-30-4-44-22-46-40" fill="none" stroke="#ffdcc0" stroke-width="9" stroke-linecap="round"/>
+      </g></g>
+
+      <!-- fireflies -->
+      <g class="ka-flies" fill="#ffe9a8">
+        <circle cx="420" cy="330" r="4"/><circle cx="470" cy="392" r="3"/><circle cx="800" cy="300" r="3.6"/>
+        <circle cx="860" cy="380" r="3"/><circle cx="360" cy="430" r="2.6"/><circle cx="920" cy="440" r="3.2"/>
+      </g>
+    </svg>
+    <figcaption class="keyart__cap">
+      <b>The first lamp, Bramblehollow.</b>
+      Painted in-browser — every shape on this page was drawn by hand in code.
+    </figcaption>
+  </figure>
+</section>
+
+<!-- ═══════════════════════ THE ROT (lantern reveal) ═══════════════════ -->
+<section class="rot" id="rot">
+  <div class="wrap">
+    <header class="sec-head sec-head--dark">
+      <p class="eyebrow eyebrow--light" data-rv="fade">The mechanic</p>
+      <h2 class="sec-title sec-title--light" data-split data-rv="lines">Bring your own light</h2>
+      <p class="sec-sub" data-rv="up">
+        The Rot eats colour first, then shape, then sound. Take the lantern across the
+        glade and see what has been standing there the whole time.
+      </p>
+    </header>
+
+    <div class="rot__panel" id="rotPanel">
+      <!-- lit scene: always drawn, mostly hidden under the veil -->
+      <svg class="rot__scene" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <defs>
+          <linearGradient id="mo-glade" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#3fa596"/><stop offset="100%" stop-color="#1d7a68"/>
+          </linearGradient>
+        </defs>
+        <!-- Painted at full daylight brightness on purpose: the dark layer on
+             top hides all of it, so the only place these colours are ever seen
+             is inside the lantern — and there they should look properly alive,
+             not like a dimmed version of themselves. -->
+        <rect width="1200" height="700" fill="url(#mo-glade)"/>
+        <g fill="#2f9c86">
+          <path d="M-20 420c120-60 220 20 340-24s220 46 340 6 260-52 380-8 200 26 200 26v300H-20Z"/>
+        </g>
+        <g fill="#43c1a2">
+          <ellipse cx="180" cy="300" rx="130" ry="86"/><path d="M164 620V330h32v290Z" fill="#1d6b5e"/>
+          <ellipse cx="1020" cy="270" rx="150" ry="96"/><path d="M1002 620V300h36v320Z" fill="#1d6b5e"/>
+          <ellipse cx="600" cy="230" rx="118" ry="70"/><path d="M588 560V260h24v300Z" fill="#1d6b5e"/>
+        </g>
+        <g fill="#5cd6b4" opacity=".55">
+          <ellipse cx="212" cy="268" rx="88" ry="52"/><ellipse cx="1056" cy="238" rx="98" ry="58"/>
+          <ellipse cx="628" cy="204" rx="76" ry="42"/>
+        </g>
+        <!-- Canopy and air. The lantern spends as much time in the top half of
+             the glade as the bottom, so the top half is planted too. -->
+        <path d="M-20-10h1240v76c-120 44-220-26-340 14s-220-36-340 4-260 46-380 6-180-16-180-16Z" fill="#2f9c86"/>
+        <g fill="#43c1a2" opacity=".85">
+          <ellipse cx="90" cy="86" rx="96" ry="52"/><ellipse cx="392" cy="60" rx="110" ry="46"/>
+          <ellipse cx="742" cy="82" rx="98" ry="44"/><ellipse cx="1110" cy="64" rx="120" ry="52"/>
+        </g>
+        <g class="rot-vines" fill="none" stroke="#2f9c86" stroke-width="6" stroke-linecap="round">
+          <path d="M250 40c14 60-10 100 4 156"/>
+          <path d="M560 30c-16 56 8 92-6 142"/>
+          <path d="M880 44c14 52-8 88 6 134"/>
+        </g>
+        <g fill="#5cd6b4">
+          <path d="M254 120c18-14 40-8 40-8s-6 24-24 26-16-18-16-18Z"/>
+          <path d="M250 172c-18-14-40-8-40-8s6 24 24 26 16-18 16-18Z"/>
+          <path d="M552 110c-18-14-40-8-40-8s6 24 24 26 16-18 16-18Z"/>
+          <path d="M556 158c18-14 40-8 40-8s-6 24-24 26-16-18-16-18Z"/>
+          <path d="M884 126c18-14 40-8 40-8s-6 24-24 26-16-18-16-18Z"/>
+          <path d="M880 172c-18-14-40-8-40-8s6 24 24 26 16-18 16-18Z"/>
+        </g>
+        <!-- spores drifting in the beam -->
+        <g fill="#d9f7ec" opacity=".55">
+          <circle cx="180" cy="240" r="4"/><circle cx="262" cy="352" r="3"/><circle cx="336" cy="212" r="3.5"/>
+          <circle cx="418" cy="404" r="3"/><circle cx="474" cy="268" r="4"/><circle cx="566" cy="340" r="3"/>
+          <circle cx="640" cy="266" r="3.5"/><circle cx="712" cy="392" r="3"/><circle cx="790" cy="284" r="4"/>
+          <circle cx="852" cy="440" r="3"/><circle cx="936" cy="316" r="3.5"/><circle cx="1024" cy="392" r="3"/>
+          <circle cx="1108" cy="262" r="4"/><circle cx="228" cy="452" r="3"/><circle cx="612" cy="452" r="3.5"/>
+        </g>
+        <!-- a moth, going nowhere in particular -->
+        <g transform="translate(880 300)">
+          <path d="M0 0c-26-22-46-16-46-16s2 30 24 34 22-18 22-18Z" fill="#f0e6c8"/>
+          <path d="M0 0c26-22 46-16 46-16s-2 30-24 34-22-18-22-18Z" fill="#f0e6c8"/>
+          <ellipse rx="6" ry="14" fill="#3d3a2e"/>
+        </g>
+        <!-- a plank sign, hung by somebody long gone -->
+        <g transform="translate(238 236)">
+          <path d="M-56-40h112" stroke="#2f9c86" stroke-width="5"/>
+          <path d="M-40-40v12M40-40v12" stroke="#8a6a4a" stroke-width="4"/>
+          <rect x="-58" y="-28" width="116" height="46" rx="7" fill="#c9a97e"/>
+          <text x="0" y="4" text-anchor="middle" font-family="Fredoka, system-ui, sans-serif" font-size="21" font-weight="600" fill="#4a3a28">99 LAMPS</text>
+        </g>
+        <path d="M-20 520c160-36 300 24 460-4s280 26 420 0 360-26 360-26v230H-20Z" fill="#19675a"/>
+        <g fill="#3fae9c">
+          <ellipse cx="300" cy="596" rx="86" ry="26"/><ellipse cx="880" cy="616" rx="110" ry="30"/>
+        </g>
+        <g fill="#ff7a5c"><circle cx="420" cy="592" r="10"/><circle cx="446" cy="604" r="7"/><circle cx="812" cy="618" r="9"/></g>
+        <g fill="#ffd166"><circle cx="660" cy="612" r="8"/><circle cx="690" cy="622" r="6"/><circle cx="250" cy="560" r="7"/></g>
+        <g fill="#ffb3c7"><circle cx="520" cy="612" r="8"/><circle cx="960" cy="576" r="7"/></g>
+        <!-- Undergrowth. The lantern only ever shows a circle at a time, so the
+             floor of the glade is seeded with small things everywhere: every
+             sweep has to turn up something. -->
+        <g class="rot-grass" fill="none" stroke="#5cd6b4" stroke-width="5" stroke-linecap="round" opacity=".8">
+          <path d="M120 640c0-22 6-38 6-38M132 640c4-20 16-32 16-32M108 640c-4-18-14-28-14-28"/>
+          <path d="M330 664c0-22 6-38 6-38M342 664c4-20 16-32 16-32M318 664c-4-18-14-28-14-28"/>
+          <path d="M470 546c0-20 6-34 6-34M482 546c4-18 15-29 15-29M458 546c-4-16-13-25-13-25"/>
+          <path d="M640 676c0-22 6-38 6-38M652 676c4-20 16-32 16-32M628 676c-4-18-14-28-14-28"/>
+          <path d="M786 556c0-20 6-34 6-34M798 556c4-18 15-29 15-29M774 556c-4-16-13-25-13-25"/>
+          <path d="M900 668c0-22 6-38 6-38M912 668c4-20 16-32 16-32M888 668c-4-18-14-28-14-28"/>
+          <path d="M1094 640c0-22 6-38 6-38M1106 640c4-20 16-32 16-32M1082 640c-4-18-14-28-14-28"/>
+          <path d="M212 500c0-18 5-30 5-30M222 500c3-16 13-26 13-26"/>
+          <path d="M556 640c0-18 5-30 5-30M566 640c3-16 13-26 13-26"/>
+          <path d="M1010 596c0-18 5-30 5-30M1020 596c3-16 13-26 13-26"/>
+        </g>
+        <g class="rot-flowers">
+          <g transform="translate(268 620)"><path d="M0 0v-26" stroke="#3fae9c" stroke-width="4"/><circle cy="-30" r="7" fill="#ffb3c7"/><circle cy="-30" r="3" fill="#fff3c9"/></g>
+          <g transform="translate(508 528)"><path d="M0 0v-24" stroke="#3fae9c" stroke-width="4"/><circle cy="-28" r="7" fill="#ffd166"/><circle cy="-28" r="3" fill="#fff3c9"/></g>
+          <g transform="translate(760 648)"><path d="M0 0v-26" stroke="#3fae9c" stroke-width="4"/><circle cy="-30" r="8" fill="#ff9db0"/><circle cy="-30" r="3" fill="#fff3c9"/></g>
+          <g transform="translate(940 540)"><path d="M0 0v-22" stroke="#3fae9c" stroke-width="4"/><circle cy="-26" r="7" fill="#c9a9ff"/><circle cy="-26" r="3" fill="#fff3c9"/></g>
+          <g transform="translate(430 664)"><path d="M0 0v-22" stroke="#3fae9c" stroke-width="4"/><circle cy="-26" r="6" fill="#ffd166"/></g>
+          <g transform="translate(660 520)"><path d="M0 0v-20" stroke="#3fae9c" stroke-width="4"/><circle cy="-24" r="6" fill="#ffb3c7"/></g>
+        </g>
+        <g class="rot-stones" fill="#5f8a7e" opacity=".8">
+          <ellipse cx="352" cy="556" rx="20" ry="11"/><ellipse cx="616" cy="668" rx="26" ry="13"/>
+          <ellipse cx="864" cy="520" rx="18" ry="10"/><ellipse cx="1042" cy="656" rx="24" ry="12"/>
+          <ellipse cx="182" cy="614" rx="22" ry="11"/>
+        </g>
+        <g class="rot-ferns" fill="#2f9c86">
+          <path d="M470 700c-6-56 10-96 10-96s26 40 20 96Z"/>
+          <path d="M690 700c-6-48 8-84 8-84s24 36 18 84Z" opacity=".85"/>
+          <path d="M1140 700c-6-52 9-90 9-90s25 38 19 90Z" opacity=".7"/>
+        </g>
+        <g class="rot-flies" fill="#ffe9a8">
+          <circle cx="330" cy="430" r="5"/><circle cx="520" cy="360" r="4"/><circle cx="700" cy="440" r="5"/>
+          <circle cx="860" cy="380" r="4"/><circle cx="1080" cy="450" r="5"/><circle cx="196" cy="380" r="4"/>
+        </g>
+      </svg>
+
+      <!-- What the dark is hiding: only visible inside the lantern circle.
+           The six [data-find] groups are the ones the counter tracks, and all
+           six sit inside the middle band of the viewBox so that a portrait
+           phone — which crops this scene to its centre — can still reach every
+           one of them. Everything else is scenery for wider screens. -->
+      <svg class="rot__glim" id="rotGlim" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <!-- scenery, edges: only on wide screens -->
+        <g fill="#ffe9a8">
+          <ellipse cx="196" cy="470" rx="9" ry="11"/><ellipse cx="226" cy="470" rx="9" ry="11"/>
+          <ellipse cx="1006" cy="512" rx="8" ry="10"/><ellipse cx="1032" cy="512" rx="8" ry="10"/>
+        </g>
+        <g transform="translate(120 552) scale(.6)">
+          <path d="M-60 30a60 66 0 1 1 120 0c0 44-27 64-60 64s-60-20-60-64Z" fill="#fff6e2"/>
+          <path d="M-50 4a50 54 0 1 1 100 0Z" fill="#8ee3c4"/>
+          <ellipse cx="-20" cy="30" rx="10" ry="13" fill="#1f2933"/><ellipse cx="20" cy="30" rx="10" ry="13" fill="#1f2933"/>
+          <path d="M-10 58q10 10 20 0" fill="none" stroke="#1f2933" stroke-width="4" stroke-linecap="round"/>
+        </g>
+        <g fill="#ffd166" opacity=".8">
+          <circle cx="1080" cy="330" r="5"/><circle cx="1122" cy="386" r="4"/><circle cx="96" cy="330" r="4"/>
+        </g>
+
+        <!-- 1 · eyes in the undergrowth -->
+        <g class="find" data-find="370 320">
+          <path d="M-96 46c0-40 42-64 96-64s96 24 96 64Z" transform="translate(370 320)" fill="#123c3a"/>
+          <g fill="#ffe9a8"><ellipse cx="352" cy="316" rx="10" ry="12"/><ellipse cx="388" cy="316" rx="10" ry="12"/></g>
+          <g fill="#1f2933"><ellipse cx="352" cy="317" rx="4" ry="9"/><ellipse cx="388" cy="317" rx="4" ry="9"/></g>
+        </g>
+
+        <!-- 2 · a lamp that went out a long time ago -->
+        <g class="find" data-find="500 165" transform="translate(500 165)">
+          <path d="M-90-70c40 20 70 44 88 66" fill="none" stroke="#14574f" stroke-width="9" stroke-linecap="round"/>
+          <path d="M-2-4V-46h4V-4Z" fill="#0d2b2a"/>
+          <rect x="-24" y="-4" width="48" height="56" rx="11" fill="#e9dcb4"/>
+          <rect x="-24" y="-4" width="48" height="56" rx="11" fill="none" stroke="#0d2b2a" stroke-width="5"/>
+          <path d="M-26-6h52l-9-15h-34Z" fill="#0d2b2a"/>
+          <circle cy="26" r="9" fill="#b9ae8c"/>
+        </g>
+
+        <!-- 3 · mushrooms -->
+        <g class="find" data-find="380 610" transform="translate(380 610)">
+          <path d="M-6 0v-34h12V0Z" fill="#f3e4c8"/>
+          <path d="M-30-32a30 26 0 0 1 60 0Z" fill="#ff7a5c"/>
+          <circle cx="-12" cy="-40" r="4" fill="#fff3e0"/><circle cx="8" cy="-46" r="5" fill="#fff3e0"/>
+          <g transform="translate(42 12) scale(.7)">
+            <path d="M-6 0v-34h12V0Z" fill="#f3e4c8"/>
+            <path d="M-30-32a30 26 0 0 1 60 0Z" fill="#ffd166"/>
+            <circle cx="-10" cy="-42" r="4" fill="#fff3e0"/>
+          </g>
+        </g>
+
+        <!-- 4 · a moss sprite, hiding badly -->
+        <g class="find" data-find="600 480" transform="translate(600 480) scale(.5)">
+          <path d="M-60 30a60 66 0 1 1 120 0c0 44-27 64-60 64s-60-20-60-64Z" fill="#fff6e2"/>
+          <path d="M-50 4a50 54 0 1 1 100 0Z" fill="#ffb3c7"/>
+          <ellipse cx="-20" cy="30" rx="10" ry="13" fill="#1f2933"/><ellipse cx="20" cy="30" rx="10" ry="13" fill="#1f2933"/>
+          <path d="M-10 58q10 10 20 0" fill="none" stroke="#1f2933" stroke-width="4" stroke-linecap="round"/>
+          <path d="M0-40c14-18 36-16 36-16s4 24-13 31-23-15-23-15Z" fill="#4caf7d"/>
+        </g>
+
+        <!-- 5 · Gob, asleep -->
+        <g class="find" data-find="720 600" transform="translate(720 600)">
+          <ellipse rx="78" ry="50" fill="#8fa38a"/>
+          <ellipse cx="-30" cy="-30" rx="20" ry="18" fill="#a8bda2"/><ellipse cx="30" cy="-30" rx="20" ry="18" fill="#a8bda2"/>
+          <path d="M-38-32q8 9 16 0M22-32q8 9 16 0" fill="none" stroke="#3d4a3c" stroke-width="4" stroke-linecap="round"/>
+          <path d="M-26 10q26 18 52 0" fill="none" stroke="#3d4a3c" stroke-width="5" stroke-linecap="round"/>
+          <ellipse cx="-56" cy="38" rx="22" ry="10" fill="#7d9179"/><ellipse cx="56" cy="38" rx="22" ry="10" fill="#7d9179"/>
+          <text x="56" y="-56" font-family="Fredoka, system-ui, sans-serif" font-size="30" fill="#cfe0cb">z</text>
+        </g>
+
+        <!-- 6 · someone carved the rule into a stone -->
+        <g class="find" data-find="830 330" transform="translate(830 330)">
+          <ellipse rx="84" ry="46" fill="#7f8f86"/>
+          <ellipse cy="-6" rx="84" ry="42" fill="#96a79c"/>
+          <text x="0" y="2" text-anchor="middle" font-family="Fredoka, system-ui, sans-serif" font-size="23" font-weight="600" fill="#26332e">KEEP IT LIT</text>
+        </g>
+      </svg>
+
+      <!-- the dark, with a hole punched in it by the lantern -->
+      <div class="rot__veil" aria-hidden="true"></div>
+
+      <p class="rot__hint" id="rotHint"><span class="rot__hint-d">Move your cursor</span><span class="rot__hint-t">Drag your finger</span> across the glade</p>
+      <p class="rot__found" id="rotFound" aria-live="polite"><b id="rotCount">0</b> of <span id="rotTotal">6</span> found</p>
+    </div>
+
+    <p class="rot__note" data-rv="fade">
+      In the game the lantern behaves exactly like this — a soft circle of truth you
+      carry around, and everything outside it is a rumour.
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ CAST ═══════════════════════════════════ -->
+<section class="cast" id="cast">
+  <div class="wrap">
+    <header class="sec-head">
+      <p class="eyebrow" data-rv="fade">The cast</p>
+      <h2 class="sec-title" data-split data-rv="lines">Poke them. They notice.</h2>
+    </header>
+
+    <ul class="cast__grid">
+      <li>
+        <button class="cast__card cast__card--lumen" type="button" data-say="Ninety-eight to go.">
+          <span class="cast__art" aria-hidden="true">
+            <svg viewBox="-100 -120 200 220">
+              <ellipse cy="86" rx="56" ry="14" fill="#00000022"/>
+              <path d="M-26 84V22h52v62Z" fill="#3d5a80"/>
+              <path d="M-34 26c0-30 14-52 34-52s34 22 34 52Z" fill="#ff7a5c"/>
+              <circle cy="-42" r="34" fill="#ffdcc0"/>
+              <path d="M-38-48c4-28 17-42 38-42s34 14 38 42c-20-14-56-14-76 0Z" fill="#4b3a2f"/>
+              <g class="cast__eyes"><circle cx="-12" cy="-42" r="4.4" fill="#2a2118"/><circle cx="12" cy="-42" r="4.4" fill="#2a2118"/></g>
+              <path class="cast__mouth" d="M-10-28q10 9 20 0" fill="none" stroke="#2a2118" stroke-width="4" stroke-linecap="round"/>
+              <g class="cast__prop"><path d="M34 40 62 8" stroke="#ffdcc0" stroke-width="11" stroke-linecap="round" fill="none"/>
+                <rect x="48" y="-30" width="34" height="40" rx="8" fill="#ffe6a8" stroke="#22302c" stroke-width="4"/>
+                <circle cx="65" cy="-10" r="8" fill="#fff3c9"/></g>
+            </svg>
+          </span>
+          <span class="cast__meta">
+            <b>Lumen</b>
+            <i>Lamplighter, age nine</i>
+          </span>
+          <span class="cast__bubble" aria-hidden="true">Ninety-eight to go.</span>
+        </button>
+      </li>
+
+      <li>
+        <button class="cast__card cast__card--pip" type="button" data-say="(happy leaf noise)">
+          <span class="cast__art" aria-hidden="true">
+            <svg viewBox="-100 -120 200 220">
+              <ellipse cy="88" rx="60" ry="15" fill="#00000022"/>
+              <path d="M-62 24a62 70 0 1 1 124 0c0 46-28 68-62 68s-62-22-62-68Z" fill="#fff6e2"/>
+              <path d="M-52-2a52 58 0 1 1 104 0Z" fill="#ffd166"/>
+              <circle cx="-22" cy="-24" r="7" fill="#fff6e2"/><circle cx="16" cy="-34" r="9" fill="#fff6e2"/>
+              <g class="cast__eyes"><ellipse cx="-22" cy="26" rx="11" ry="14" fill="#1f2933"/><ellipse cx="22" cy="26" rx="11" ry="14" fill="#1f2933"/>
+                <circle cx="-18" cy="20" r="3.6" fill="#fff"/><circle cx="26" cy="20" r="3.6" fill="#fff"/></g>
+              <path class="cast__mouth" d="M-12 52q12 12 24 0" fill="none" stroke="#1f2933" stroke-width="4.4" stroke-linecap="round"/>
+              <circle cx="-42" cy="44" r="8" fill="#ff9db0" opacity=".8"/><circle cx="42" cy="44" r="8" fill="#ff9db0" opacity=".8"/>
+              <path class="cast__prop" d="M0-48c16-20 40-18 40-18s4 26-14 34-26-16-26-16Z" fill="#4caf7d"/>
+            </svg>
+          </span>
+          <span class="cast__meta">
+            <b>Pip</b>
+            <i>Moss sprite, age unclear</i>
+          </span>
+          <span class="cast__bubble" aria-hidden="true">(happy leaf noise)</span>
+        </button>
+      </li>
+
+      <li>
+        <button class="cast__card cast__card--gob" type="button" data-say="You touched me.">
+          <span class="cast__art" aria-hidden="true">
+            <svg viewBox="-100 -120 200 220">
+              <ellipse cy="88" rx="70" ry="16" fill="#00000022"/>
+              <ellipse cy="40" rx="76" ry="50" fill="#8fa38a"/>
+              <ellipse cx="-64" cy="70" rx="22" ry="10" fill="#7d9179"/><ellipse cx="64" cy="70" rx="22" ry="10" fill="#7d9179"/>
+              <ellipse cx="-30" cy="-4" rx="24" ry="22" fill="#a8bda2"/><ellipse cx="30" cy="-4" rx="24" ry="22" fill="#a8bda2"/>
+              <g class="cast__eyes"><circle cx="-30" cy="-2" r="8" fill="#2f3a2e"/><circle cx="30" cy="-2" r="8" fill="#2f3a2e"/></g>
+              <path class="cast__mouth" d="M-34 44q34 14 68-4" fill="none" stroke="#3d4a3c" stroke-width="5.5" stroke-linecap="round"/>
+              <path class="cast__prop" d="M-70 6c-14-6-20-18-20-18s14-4 26 6" fill="none" stroke="#7d9179" stroke-width="7" stroke-linecap="round"/>
+              <circle cx="-8" cy="26" r="4" fill="#7d9179"/><circle cx="14" cy="34" r="5" fill="#7d9179"/>
+            </svg>
+          </span>
+          <span class="cast__meta">
+            <b>Gob</b>
+            <i>Stone toad. Trader. Grump.</i>
+          </span>
+          <span class="cast__bubble" aria-hidden="true">You touched me.</span>
+        </button>
+      </li>
+
+      <li>
+        <button class="cast__card cast__card--fern" type="button" data-say="Mind the step, small one.">
+          <span class="cast__art" aria-hidden="true">
+            <svg viewBox="-100 -120 200 220">
+              <ellipse cy="88" rx="58" ry="14" fill="#00000022"/>
+              <path d="M-46 86c0-58 20-96 46-96s46 38 46 96Z" fill="#6c5ce7"/>
+              <path d="M-30 6c0-34 14-56 30-56s30 22 30 56Z" fill="#8f83f0"/>
+              <circle cy="-44" r="32" fill="#f3d9c6"/>
+              <path d="M-36-52c0-30 16-46 36-46s36 16 36 46c-22-16-50-16-72 0Z" fill="#e8e6ef"/>
+              <g class="cast__eyes"><path d="M-18-44q7 7 14 0" fill="none" stroke="#4a3f52" stroke-width="4" stroke-linecap="round"/>
+                <path d="M4-44q7 7 14 0" fill="none" stroke="#4a3f52" stroke-width="4" stroke-linecap="round"/></g>
+              <path class="cast__mouth" d="M-8-24q8 8 16 0" fill="none" stroke="#4a3f52" stroke-width="4" stroke-linecap="round"/>
+              <g class="cast__prop"><path d="M44 86V-12" stroke="#8a6a4a" stroke-width="8" stroke-linecap="round" fill="none"/>
+                <circle cx="44" cy="-20" r="14" fill="#ffe6a8"/><circle cx="44" cy="-20" r="6" fill="#fff3c9"/></g>
+            </svg>
+          </span>
+          <span class="cast__meta">
+            <b>Old Mother Fern</b>
+            <i>The last lamp still lit</i>
+          </span>
+          <span class="cast__bubble" aria-hidden="true">Mind the step, small one.</span>
+        </button>
+      </li>
+
+      <li>
+        <button class="cast__card cast__card--rot" type="button" data-say="…">
+          <span class="cast__art" aria-hidden="true">
+            <svg viewBox="-100 -120 200 220">
+              <ellipse cy="88" rx="66" ry="16" fill="#00000022"/>
+              <path class="cast__blob" d="M-72 30c0-52 30-84 72-84s72 32 72 84c0 40-32 58-72 58s-72-18-72-58Z" fill="#22303c"/>
+              <path d="M-58 26c0-42 24-68 58-68s58 26 58 68" fill="#2c3d4c" opacity=".8"/>
+              <g class="cast__eyes"><ellipse cx="-24" cy="10" rx="10" ry="12" fill="#ffe9a8"/><ellipse cx="24" cy="10" rx="10" ry="12" fill="#ffe9a8"/></g>
+              <path class="cast__mouth" d="M-20 48q20 -10 40 0" fill="none" stroke="#ffe9a8" stroke-width="4" stroke-linecap="round" opacity=".7"/>
+              <g class="cast__prop" fill="#22303c">
+                <path d="M-86 62c-10 10-14 24-14 24s16-2 26-12Z"/><path d="M86 62c10 10 14 24 14 24s-16-2-26-12Z"/>
+              </g>
+            </svg>
+          </span>
+          <span class="cast__meta">
+            <b>The Rot</b>
+            <i>Not a villain. A weather.</i>
+          </span>
+          <span class="cast__bubble" aria-hidden="true">…</span>
+        </button>
+      </li>
+    </ul>
+    <p class="cast__note" data-rv="fade">Every character in the game reacts to being looked at. It took an embarrassing amount of the budget.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ STUDIO ═════════════════════════════════ -->
+<section class="studio" id="studio">
+  <div class="wrap">
+    <header class="sec-head">
+      <p class="eyebrow" data-rv="fade">The studio</p>
+      <h2 class="sec-title" data-split data-rv="lines">Three people and a kettle</h2>
+    </header>
+
+    <div class="studio__grid">
+      <div class="studio__copy">
+        <p class="lede" data-rv="up">
+          Mossfoot started in 2019 as a game jam entry that nobody finished on time.
+        </p>
+        <p data-rv="up">
+          We rent the room above Halfpenny Cycles on Gloucester Road. It smells
+          faintly of inner tubes. There are three desks, one very loud kettle, and a
+          rule that anything we can draw by hand, we draw by hand — because the
+          wobble in a scanned line is the whole reason the woods feel alive.
+        </p>
+        <p data-rv="up">
+          We ship slowly and we answer every email. If you are a publisher, a player,
+          or someone who once made a game and stopped, we would genuinely like to hear
+          from you.
+        </p>
+
+        <ul class="stats" data-rv="up" data-rv-stagger>
+          <li><b><span data-count="7">0</span></b><span>years in the woods</span></li>
+          <li><b><span data-count="1204">0</span></b><span>frames drawn by hand</span></li>
+          <li><b><span data-count="99">0</span></b><span>lamps to light</span></li>
+          <li><b><span data-count="3">0</span></b><span>people, one kettle</span></li>
+        </ul>
+      </div>
+
+      <ul class="team" data-rv="up" data-rv-stagger>
+        <li>
+          <span class="team__face team__face--a" aria-hidden="true">
+            <svg viewBox="-50 -50 100 100"><circle r="46" fill="#ffd166"/><circle cy="-6" r="20" fill="#f3d9c6"/><path d="M-22-10c0-18 10-28 22-28s22 10 22 28c-14-10-30-10-44 0Z" fill="#2f2a26"/><circle cx="-7" cy="-6" r="3" fill="#2a2118"/><circle cx="7" cy="-6" r="3" fill="#2a2118"/><path d="M-6 2q6 6 12 0" fill="none" stroke="#2a2118" stroke-width="2.6" stroke-linecap="round"/><path d="M-30 46c0-18 13-28 30-28s30 10 30 28Z" fill="#ff7a5c"/></svg>
+          </span>
+          <b>Nima Roy</b>
+          <i>Director &amp; writer</i>
+          <span>Draws the woods, then argues with them.</span>
+        </li>
+        <li>
+          <span class="team__face team__face--b" aria-hidden="true">
+            <svg viewBox="-50 -50 100 100"><circle r="46" fill="#8ee3c4"/><circle cy="-6" r="20" fill="#e8c6a8"/><path d="M-21-14c2-14 10-22 21-22s19 8 21 22c-14-8-28-8-42 0Z" fill="#4a3b2c"/><circle cx="-7" cy="-6" r="3" fill="#2a2118"/><circle cx="7" cy="-6" r="3" fill="#2a2118"/><path d="M-7 3q7 5 14 0" fill="none" stroke="#2a2118" stroke-width="2.6" stroke-linecap="round"/><path d="M-30 46c0-18 13-28 30-28s30 10 30 28Z" fill="#3f8f6f"/></svg>
+          </span>
+          <b>Teddy Ó Broin</b>
+          <i>Code &amp; systems</i>
+          <span>Made the lantern actually light things.</span>
+        </li>
+        <li>
+          <span class="team__face team__face--c" aria-hidden="true">
+            <svg viewBox="-50 -50 100 100"><circle r="46" fill="#ff9db0"/><circle cy="-6" r="20" fill="#f6dfc9"/><path d="M-24-8c0-20 11-30 24-30s24 10 24 30c-4-14-44-14-48 0Z" fill="#7a4a3a"/><circle cx="-7" cy="-6" r="3" fill="#2a2118"/><circle cx="7" cy="-6" r="3" fill="#2a2118"/><path d="M-6 2q6 7 12 0" fill="none" stroke="#2a2118" stroke-width="2.6" stroke-linecap="round"/><path d="M-30 46c0-18 13-28 30-28s30 10 30 28Z" fill="#6c5ce7"/></svg>
+          </span>
+          <b>Saoirse Lund</b>
+          <i>Art &amp; animation</i>
+          <span>Paints every leaf twice. Once for luck.</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ DEVLOG ═════════════════════════════════ -->
+<section class="devlog" id="devlog">
+  <div class="wrap">
+    <header class="sec-head">
+      <p class="eyebrow" data-rv="fade">Devlog <i>·</i> every other Friday</p>
+      <h2 class="sec-title" data-split data-rv="lines">What we broke recently</h2>
+    </header>
+
+    <ol class="log">
+      <li data-rv="up">
+        <p class="log__no">No. 41</p>
+        <h3>The toad problem</h3>
+        <p class="log__date">12 August 2026</p>
+        <p>Gob was too helpful. Playtesters treated the toad as a hint button and
+          stopped looking at the woods entirely, so now Gob charges for advice — in
+          acorns, which are useless, which is the joke.</p>
+      </li>
+      <li data-rv="up">
+        <p class="log__no">No. 40</p>
+        <h3>Rain that lands on things</h3>
+        <p class="log__date">28 July 2026</p>
+        <p>Six weeks on a rain shader nobody asked for. It puddles in the cart ruts
+          and it dims the lantern by exactly eleven percent. Worth it.</p>
+      </li>
+      <li data-rv="up">
+        <p class="log__no">No. 39</p>
+        <h3>We deleted the map</h3>
+        <p class="log__date">9 July 2026</p>
+        <p>Bramblehollow now remembers where you have been by lighting it. The map
+          <em>is</em> the lamps. Everyone got lost for a week and then nobody did.</p>
+      </li>
+      <li data-rv="up">
+        <p class="log__no">No. 38</p>
+        <h3>Pip learned to be bored</h3>
+        <p class="log__date">21 June 2026</p>
+        <p>If you stand still for thirty seconds they sit down. At sixty they fall
+          asleep. Half the studio's productivity went into watching them do it.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ WISHLIST ═══════════════════════════════ -->
+<section class="join" id="wishlist">
+  <div class="wrap wrap--narrow">
+    <h2 class="join__title" data-split data-rv="lines">Come into the woods with us</h2>
+    <p class="join__sub" data-rv="up">
+      <i>The First Lamp</i> is twenty minutes long and ends on a cliff, deliberately.
+      Leave an address and we'll send it, then write again when the next lamp is
+      ready — a few times a year, never more.
+    </p>
+
+    <form class="join__form" id="joinForm" novalidate data-rv="up">
+      <div class="field">
+        <label for="joinEmail">Your email</label>
+        <input id="joinEmail" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@somewhere.net" required>
+      </div>
+      <div class="field">
+        <label for="joinWhy">You're here to…</label>
+        <select id="joinWhy" name="why">
+          <option>play it</option>
+          <option>publish it</option>
+          <option>write about it</option>
+          <option>work with us</option>
+        </select>
+      </div>
+      <button class="btn btn--sun btn--tall" type="submit">Light the lamp</button>
+      <p class="join__err" id="joinErr" hidden>That address looks a bit unlit — check it?</p>
+      <p class="join__ok" id="joinOk" hidden></p>
+    </form>
+
+    <ul class="join__links" data-rv="fade">
+      <li><span>Email</span><b>hello@mossfoot.games</b></li>
+      <li><span>Press</span><b>The press kit, 34 MB</b></li>
+      <li><span>Elsewhere</span><b>@mossfootgames</b></li>
+    </ul>
+
+    <p class="join__cheer" data-rv="fade">
+      Pip has been cheered <b id="cheerCount">0</b> times since you arrived.
+    </p>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap wrap--narrow">
+    <a class="pk-outro" href="/">
+      <span>
+        <span class="pk-outro__eyebrow">Demo site 05 of 06</span>
+        <span class="pk-outro__title">Mossfoot is a fiction — the studio, the game, the woods and every character in them were made by Preet&nbsp;Kumar.</span>
+      </span>
+      <span class="pk-outro__cta">See the portfolio <span aria-hidden="true">→</span></span>
+    </a>
+    <div class="foot__row">
+      <p>Mossfoot Games <i>·</i> Bristol</p>
+      <p>Drawn in code. No photographs, no stock art, no engine — just paths and a ticker.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- Pip lives outside every section: they follow you the whole way down. -->
+<div class="pip" id="pipDock" aria-hidden="true">
+  <svg class="pip__svg" viewBox="-130 -160 260 300">
+    <ellipse class="pip__shadow" cy="126" rx="80" ry="15" fill="#0d3f36" opacity=".22"/>
+    <g class="pip__hop">
+      <g class="pip__body">
+        <path class="pip__leaf" d="M0-74c18-24 48-22 48-22s4 30-16 40-32-18-32-18Z" fill="#4caf7d"/>
+        <path class="pip__sprout" d="M0-70v-20" fill="none" stroke="#4caf7d" stroke-width="7" stroke-linecap="round"/>
+        <path d="M-84 30a84 92 0 1 1 168 0c0 60-38 88-84 88s-84-28-84-88Z" fill="#fff6e2"/>
+        <path d="M-70 0a70 76 0 1 1 140 0Z" fill="#ffd166"/>
+        <circle cx="-30" cy="-30" r="10" fill="#fff6e2" opacity=".9"/>
+        <circle cx="22" cy="-44" r="13" fill="#fff6e2" opacity=".9"/>
+        <circle cx="48" cy="-16" r="8" fill="#fff6e2" opacity=".9"/>
+        <g class="pip__face">
+          <g class="pip__eyes">
+            <ellipse class="pip__eye" cx="-32" cy="34" rx="15" ry="18" fill="#1f2933"/>
+            <ellipse class="pip__eye" cx="32" cy="34" rx="15" ry="18" fill="#1f2933"/>
+            <circle class="pip__spark" cx="-27" cy="27" r="5" fill="#fff"/>
+            <circle class="pip__spark" cx="37" cy="27" r="5" fill="#fff"/>
+          </g>
+          <path class="pip__lids" d="M-47 34h30M17 34h30" fill="none" stroke="#1f2933" stroke-width="6" stroke-linecap="round" opacity="0"/>
+          <circle cx="-58" cy="58" r="11" fill="#ff9db0" opacity=".75"/>
+          <circle cx="58" cy="58" r="11" fill="#ff9db0" opacity=".75"/>
+          <path class="pip__mouth" d="M-17 66q17 17 34 0" fill="none" stroke="#1f2933" stroke-width="5.5" stroke-linecap="round"/>
+        </g>
+        <path class="pip__arm pip__arm--l" d="M-84 62q-18 6-24 22" fill="none" stroke="#fff6e2" stroke-width="15" stroke-linecap="round"/>
+        <path class="pip__arm pip__arm--r" d="M84 62q18 6 24 22" fill="none" stroke="#fff6e2" stroke-width="15" stroke-linecap="round"/>
+      </g>
+      <g class="pip__sparkles" fill="#ffd166" opacity="0">
+        <circle class="pip__sp" cx="-70" cy="-40" r="7"/>
+        <circle class="pip__sp" cx="0" cy="-96" r="6"/>
+        <circle class="pip__sp" cx="72" cy="-42" r="7"/>
+        <circle class="pip__sp" cx="-40" cy="-84" r="5"/>
+        <circle class="pip__sp" cx="46" cy="-86" r="5"/>
+      </g>
+      <g class="pip__zzz" opacity="0" fill="#1f2933">
+        <text x="60" y="-70" font-family="Fredoka, system-ui, sans-serif" font-size="34" font-weight="600">z</text>
+        <text x="86" y="-100" font-family="Fredoka, system-ui, sans-serif" font-size="24" font-weight="600" opacity=".7">z</text>
+      </g>
+      <g class="pip__alarm" opacity="0">
+        <circle cx="76" cy="-84" r="24" fill="#ff7a5c"/>
+        <path d="M76-96v14" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+        <circle cx="76" cy="-73" r="3.4" fill="#fff"/>
+      </g>
+    </g>
+  </svg>
+</div>
+
+</body>
+</html>
