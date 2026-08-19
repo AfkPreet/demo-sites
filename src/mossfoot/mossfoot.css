@@ -88,6 +88,9 @@ body {
   color: var(--moss);
 }
 .eyebrow i { font-style: normal; opacity: .5; margin-inline: .35em; }
+/* A phone cannot hold this line at .16em, and the break landed between EST.
+   and 2019. Tighter tracking, and the year is bound to its label. */
+@media (max-width: 30rem) { .eyebrow { letter-spacing: .1em; font-size: .72rem; } }
 .eyebrow--light { color: #0d3f36; }
 .rot .eyebrow--light { color: var(--mint); }
 
@@ -496,8 +499,13 @@ p + p { margin-top: 1rem; }
     radial-gradient(circle calc(var(--r) * 1.05) at var(--mx) var(--my),
       rgba(255, 202, 120, .26) 0%, rgba(255, 170, 70, .15) 44%, rgba(255, 160, 60, 0) 100%),
     radial-gradient(circle var(--r) at var(--mx) var(--my),
-      rgba(6, 23, 26, 0) 0%, rgba(6, 23, 26, 0) 46%, rgba(6, 23, 26, .96) 92%, rgba(6, 23, 26, 1) 100%);
+      rgba(6, 23, 26, 0) 0%, rgba(6, 23, 26, 0) 46%, rgba(6, 23, 26, .935) 92%, rgba(6, 23, 26, .95) 100%);
 }
+/* Not quite opaque. At full black the unlit glade was an empty box and there
+   was nothing to go looking for; six per cent of the scene bleeding through
+   leaves shapes without colour, which is precisely what the Rot is said to
+   do to a place — and it turns the panel from a void into somewhere you
+   cannot quite see. */
 
 /* Found things keep a faint warm halo so you can see what you've swept.
    Note: no CSS *transform* on these — a CSS transform would override the SVG
@@ -558,6 +566,9 @@ p + p { margin-top: 1rem; }
 .cast__card {
   position: relative;
   width: 100%;
+  /* A <button> does not take the grid's stretch, so the one character with a
+     two-line description made its own card taller and left the row ragged. */
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
