@@ -42,6 +42,26 @@ document.querySelectorAll('[data-count]').forEach((el) =>
     path.style.animationDuration = `${clamp(len / 900, 0.5, 2.1)}s`;
   });
   watch(fig, () => fig.classList.add('is-live'), null, { rootMargin: '0px 0px -10% 0px' });
+
+  /* The sheet carries a plan, a key, a section and a title block. On a wide
+     screen all four fit across the strip; on a phone the same viewBox renders
+     eleven-point annotation at three pixels, which is not a drawing but a
+     texture. Narrow screens get the viewBox cropped to the plan and its
+     dimensions — the same drawing, at a size you can actually read. */
+  const svg = fig.querySelector('.plan');
+  if (svg) {
+    const FULL = '0 0 1700 372';
+    const PLAN = '66 0 520 372';
+    let narrow = null;
+    const fit = () => {
+      const want = innerWidth < 1024;
+      if (want === narrow) return;
+      narrow = want;
+      svg.setAttribute('viewBox', want ? PLAN : FULL);
+    };
+    fit();
+    addEventListener('resize', fit, { passive: true });
+  }
 })();
 
 /* ══════════════════════════════════════════════════════════════════════

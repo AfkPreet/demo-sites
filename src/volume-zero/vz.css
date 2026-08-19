@@ -240,7 +240,12 @@ p + p { margin-top: 1rem; }
 .hero__plan { border-top: 1px solid var(--line); padding-top: 1rem; }
 /* Fixed height, anchored left: the drawing is a strip along the bottom of the
    sheet rather than a 3:1 block that would push the whole hero past the fold. */
-.plan { width: 100%; height: clamp(8rem, 20svh, 13rem); }
+.plan { width: 100%; height: clamp(10rem, 25svh, 16rem); }
+/* A phone gets a taller box and, from main.js, a viewBox cropped to the plan
+   alone. The full sheet — plan, key, section, title block — squeezed into a
+   350 pixel strip renders its annotation at three pixels, which is not a
+   drawing, it is a texture. */
+@media (max-width: 63.99rem) { .plan { height: clamp(13rem, 30svh, 19rem); } }
 .hero__plan figcaption {
   margin-top: .7rem;
   color: var(--graph);

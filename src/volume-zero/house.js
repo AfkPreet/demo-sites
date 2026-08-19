@@ -61,20 +61,26 @@ function materials() {
   const make = (color, opts = {}) =>
     new THREE.MeshLambertMaterial({ color, ...opts });
   return {
-    ground: make(0xf5f3ed),
-    concrete: make(0xdedbd4),
-    steel: make(0xc6c4bd),
-    timber: make(0xe8e1d2),
-    deck: make(0xf3efe4),
-    brick: make(0xc99a86),
-    roof: make(0xdedbd3),
+    /* Every one of these used to sit inside a few percent of every other —
+       concrete 0xdedbd4 against roof 0xdedbd3 — so a building made of steel,
+       timber, concrete, zinc and brick arrived on screen as one beige object
+       and the assembly sequence had nothing to explain. The palette is still
+       pale paper, but the values now separate and the timber is genuinely
+       warm against a cool roof, which is what an axonometric is for. */
+    ground: make(0xedeae2),
+    concrete: make(0xcdc9c0),
+    steel: make(0x8f8d86),
+    timber: make(0xd9bf95),
+    deck: make(0xe6d9bc),
+    brick: make(0xb5806a),
+    roof: make(0xb3b7b4),
     glass: new THREE.MeshLambertMaterial({
-      color: 0xd2e2e6,
+      color: 0xaecad4,
       transparent: true,
-      opacity: 0.3,
+      opacity: 0.34,
       depthWrite: false,
     }),
-    plant: make(0xa8b49a),
+    plant: make(0x8fa384),
     person: make(0xc2402b),
   };
 }
