@@ -34,7 +34,11 @@ const browser = await chromium.launch({
 });
 
 for (const card of CARDS) {
-  const page = await browser.newPage({ viewport: { width: 1200, height: 630 }, deviceScaleFactor: 1 });
+  /* 1600x840 rather than 1200x630 — the same 1.905 aspect the cards need, but
+     a viewport tall enough that a hero composed for a laptop still fits inside
+     it. At 630 the portfolio's headline had its first line cut off at the top
+     of the card. Twitter and Facebook downscale to their own sizes anyway. */
+  const page = await browser.newPage({ viewport: { width: 1600, height: 840 }, deviceScaleFactor: 1 });
   await page.goto(BASE + card.path, { waitUntil: 'load' });
   await page.addStyleTag({
     content: '.pk-back, .skip { display: none !important; }',

@@ -97,6 +97,31 @@ Headless Chromium renders WebGL through SwiftShader, so the frame numbers are a
 software-rasteriser floor, not a prediction for real hardware. They are for
 catching regressions, not for bragging.
 
+## The portfolio's art direction
+
+The portfolio is called **CAST**. It is a studio photograph rather than a web
+page: mid-value limestone ground — deliberately neither black nor white, which
+is the one value that cannot collide with any of the six demos it has to
+introduce, since they all sit at one end of the scale or the other — and a
+single fixed key light, upper-right and well to the side, that governs
+everything on the page. The hero object, every chamfer, every cast shadow in
+CSS falls the same way, from `--shadow-x` / `--shadow-y`. Ultramarine appears
+exactly once, on the contact field, and nowhere else. Nothing has a corner
+radius.
+
+The hero is two draw calls and no downloaded assets: a studio sweep, and an
+extruded plaster slab with the name debossed into it. The relief is
+reconstructed from a height field by screen-space derivatives, so there is no
+normal map to bake. The slab's four corners are cast along the key onto the
+sweep and projected to the screen, and the headline carries
+`mix-blend-mode: multiply` — so the shadow travels *through* the letterforms
+rather than behind them. That is the whole argument of the page: the type and
+the object are provably in one lighting environment.
+
+If you move the light, move it in `src/portfolio/hero.js` (`LIGHT`) **and** in
+the `--shadow-x` / `--shadow-y` tokens and the chamfer borders in
+`src/portfolio/portfolio.css`. They are one decision expressed in two places.
+
 ## The lines that are yours to change
 
 Everything below is Preet's own copy rather than invented brand fiction. Change
@@ -105,46 +130,23 @@ these and nothing else needs to move.
 **`index.html`**
 
 - `<title>` and the `og:`/`twitter:` meta block — name and role.
-- The nav brand and the `PK` monogram (also in `src/lib/back-link.html`, which
-  is pasted verbatim into all six demos).
-- Hero: the eyebrow (`Interaction designer & creative developer`), the headline,
-  the lede, and the footer strip — `Bengaluru · working worldwide`,
-  `Available for new projects`.
-- `03 · About` and `04 · Process`: the story, the numbers, the four steps.
-- `05 · Contact`: the `mailto:` on `#mailBtn`, the `data-copy` and label on
-  `#copyMail` (both currently `preetkr.2002@gmail.com`), and the four cards —
-  availability, good-fit-for, how I work, timezone.
-- Footer credit line and the `Bengaluru` in `.foot__meta`.
+- The nav brand, and the `PK` monogram in `src/lib/back-link.html` (pasted
+  verbatim into all six demos).
+- Hero: the headline, the lede, and the baseline strip
+  (`Available now` / `Six demonstrations below`).
+- `02 · Work`: the six plates — each one's index, name, description and tags.
+- `03 · Studio`: the three paragraphs, and **The kit** — the six-row colophon of
+  what actually gets used.
+- `04 · Process`: the five steps, and the deliverable each one names at the
+  right of its rule.
+- `05 · Contact`: the `mailto:` on `.mail` (currently `preetkr.2002@gmail.com`,
+  with a pre-filled subject and body), the four `.facts` rows — reply time,
+  base, availability, rate — and the colophon line.
 
-**`public/og/portfolio.jpg`** is a screenshot of the hero, so it regenerates
-itself: change the hero copy, run `node tools/og.mjs`, done.
+**The deboss** — the name cut into the slab is drawn in `debossCanvas()` in
+`src/portfolio/hero.js`, not in the HTML. It has two cuts: the full one, and a
+`tight` one for phones that drops a line and sets the rest larger, because a
+card 280 css pixels wide cannot hold two lines of 8px letterpress.
 
-The six demo sites need no personalising. They are portfolio pieces, and each
-already discloses in its footer that the brand is a fiction made by Preet Kumar.
-
-## How it is put together
-
-Vite in MPA mode: seven HTML entries, one shared module graph, `three` split
-into its own chunk so the two non-WebGL sites never download it.
-
-```
-src/lib/         the shared runtime, used by all seven pages
-  ticker.js      one rAF loop, priority-ordered, stops on tab blur
-  scroll.js      damped scroll signal + GSAP-style scroll tracks
-  gl.js          Three.js stage: DPR caps, visibility pausing, context loss
-  env.js         device tier (low/mid/high) → quality knobs
-  reveal.js      IntersectionObserver entrance reveals
-  split.js       masked-line typography
-  math.js        clamp, lerp, damp, easings, seeded rng
-  glsl.js        simplex noise, fbm, dither, hash
-  ui.js          magnetic buttons, marquees, count-ups, cursor, tilt
-  base.css       reset, reveal system, the back-to-portfolio pill
-src/<site>/      one folder per site: its CSS, its main.js, its scene
-demos/<site>/    one index.html per site
-tools/           QA, screenshots, interaction rehearsals, social cards
-```
-
-Two things learned the hard way are documented in the code where they bite:
-`scroll.js` explains why you must never write `if (progress > 0)` against a
-damped value, and `src/portfolio/main.js` explains why `offsetTop` lies about
-sticky elements.
+**`public/og/*.jpg`** are screenshots of the pages themselves, so they
+regenerate: change anything, run `node tools/og.mjs`, done.
