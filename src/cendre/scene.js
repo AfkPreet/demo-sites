@@ -66,14 +66,18 @@ export const COURSES = [
     note: 'Buried in the embers at four in the afternoon and dug out at seven. The skin is charcoal. The inside is custard.',
     parts: [
       { g: 'ovoid', c: 0xd9c9a8, r: 0.5, s: [1.15, 0.72, 1.05], p: [0, 0.14, 0], rot: [0.1, 0.4, 0.06] },
-      { g: 'ovoid', c: CHAR, r: 0.35, s: [0.62, 0.2, 0.58], p: [-0.36, 0.1, 0.3], rot: [0, 1.1, 0] },
+      { g: 'sauce', c: 0x6b4416, r: 0.66, s: [1, 0.05, 0.84], p: [0.04, 0.076, 0.08], rot: [0, 0.5, 0], rough: 0.09 },
+      { g: 'drop', c: 0x2a1a08, r: 0.05, s: [1, 0.55, 1], p: [-0.62, 0.084, 0.14], rough: 0.05 },
+      { g: 'drop', c: 0x2a1a08, r: 0.04, s: [1, 0.55, 1], p: [-0.44, 0.084, 0.52], rough: 0.05 },
+      { g: 'drop', c: 0x33200a, r: 0.055, s: [1, 0.55, 1], p: [0.7, 0.084, -0.2], rough: 0.05 },
+      { g: 'ovoid', c: 0x120f0d, r: 0.35, s: [0.62, 0.2, 0.58], p: [-0.36, 0.1, 0.3], rot: [0, 1.1, 0], rough: 0.94 },
       { g: 'sphere', c: 0x8a6134, r: 0.3, s: [1, 0.9, 1], p: [0.5, 0.11, 0.28] },
       { g: 'sphere', c: 0x8a6134, r: 0.3, s: [0.9, 0.85, 0.95], p: [0.66, 0.1, 0.06] },
       { g: 'sphere', c: 0x9c6f3e, r: 0.3, s: [0.8, 0.75, 0.85], p: [0.42, 0.1, -0.24] },
       { g: 'torus', c: 0xe8dcc0, r: 0.5, s: [1.5, 0.5, 1.5], p: [0, 0.075, 0], rot: [0, 0.4, 0] },
       { g: 'leaf', c: 0x5f6f45, r: 0.34, s: [1, 1, 1], p: [-0.5, 0.14, -0.34], rot: [0.2, 0.9, 0.3] },
       { g: 'leaf', c: 0x6d7c50, r: 0.28, s: [1, 1, 1], p: [0.14, 0.2, -0.5], rot: [-0.2, 2.1, -0.2] },
-      { g: 'shard', c: 0x2b2522, r: 0.4, s: [1, 1, 1], p: [-0.2, 0.28, 0.44], rot: [0.4, 0.6, 0.2] },
+      { g: 'shard', c: 0x16120f, r: 0.4, s: [1, 1, 1], p: [-0.2, 0.28, 0.44], rot: [0.4, 0.6, 0.2], rough: 0.95 },
     ],
   },
   {
@@ -83,11 +87,14 @@ export const COURSES = [
     note: 'Ninety seconds on the bars, split, and back on for eleven more. Anything longer and you are eating a memory of it.',
     parts: [
       { g: 'curl', c: 0xe08a72, r: 0.62, s: [1, 1, 1], p: [-0.1, 0.16, 0.04], rot: [0, 0.5, 0.2] },
+      { g: 'sauce', c: 0x6d4408, r: 0.62, s: [1, 0.05, 0.9], p: [0, 0.076, 0.02], rot: [0, 1.1, 0], rough: 0.08 },
+      { g: 'drop', c: 0x8a5a06, r: 0.05, s: [1, 0.5, 1], p: [0.66, 0.084, 0.3], rough: 0.05 },
+      { g: 'drop', c: 0x8a5a06, r: 0.042, s: [1, 0.5, 1], p: [-0.66, 0.084, -0.16], rough: 0.05 },
       { g: 'curl', c: 0xd97c62, r: 0.5, s: [0.9, 0.9, 0.9], p: [0.38, 0.15, -0.3], rot: [0.1, 2.2, -0.15] },
       { g: 'cone', c: 0x7f8f5c, r: 0.3, s: [1, 1.6, 1], p: [-0.46, 0.2, -0.3], rot: [0.3, 0, 0.5] },
       { g: 'cone', c: 0x8fa066, r: 0.26, s: [1, 1.5, 1], p: [-0.6, 0.18, 0.06], rot: [-0.2, 0.8, -0.4] },
       { g: 'cyl', c: 0xe8c14e, r: 0.34, s: [1, 0.28, 1], p: [0.56, 0.11, 0.34], rot: [0, 0.3, 0.1] },
-      { g: 'cyl', c: 0x2d2621, r: 0.3, s: [1, 0.1, 1], p: [0.56, 0.16, 0.34], rot: [0, 0.3, 0.1] },
+      { g: 'cyl', c: 0x171310, r: 0.3, s: [1, 0.1, 1], p: [0.56, 0.16, 0.34], rot: [0, 0.3, 0.1], rough: 0.95 },
       { g: 'torus', c: 0xd8a34a, r: 0.46, s: [1.4, 0.42, 1.4], p: [0, 0.075, 0], rot: [0, 1.2, 0] },
       { g: 'leaf', c: 0x6d7c50, r: 0.24, s: [1, 1, 1], p: [0.1, 0.24, 0.5], rot: [0.1, 1.4, 0.2] },
     ],
@@ -99,6 +106,9 @@ export const COURSES = [
     note: 'Hung eight days. Cooked on the bone over vine cuttings, rested longer than it cooked, carved at the pass.',
     parts: [
       { g: 'ovoid', c: 0x6e2b2a, r: 0.46, s: [1.25, 0.62, 0.85], p: [-0.1, 0.15, 0.02], rot: [0, 0.35, 0.05] },
+      { g: 'sauce', c: 0x38101f, r: 0.7, s: [1, 0.05, 0.82], p: [0.02, 0.076, 0.06], rot: [0, 0.3, 0], rough: 0.06 },
+      { g: 'drop', c: 0x1c040c, r: 0.055, s: [1, 0.5, 1], p: [-0.68, 0.084, 0.2], rough: 0.04 },
+      { g: 'drop', c: 0x1c040c, r: 0.045, s: [1, 0.5, 1], p: [0.72, 0.084, -0.32], rough: 0.04 },
       { g: 'ovoid', c: 0x7d3330, r: 0.4, s: [1.1, 0.5, 0.8], p: [0.34, 0.13, -0.32], rot: [0, 1.4, -0.08] },
       { g: 'sphere', c: 0x8c1533, r: 0.22, s: [1, 0.95, 1], p: [0.52, 0.1, 0.3] },
       { g: 'sphere', c: 0x7a1230, r: 0.2, s: [1, 0.95, 1], p: [0.66, 0.09, 0.08] },
@@ -106,7 +116,7 @@ export const COURSES = [
       { g: 'torus', c: 0x3a1712, r: 0.5, s: [1.45, 0.4, 1.45], p: [0, 0.075, 0], rot: [0, 0.7, 0] },
       { g: 'cyl', c: 0xe4d8bd, r: 0.2, s: [1, 0.55, 1], p: [-0.54, 0.14, -0.24], rot: [0, 0, 0.12] },
       { g: 'leaf', c: 0x4d5c3a, r: 0.26, s: [1, 1, 1], p: [-0.16, 0.24, -0.5], rot: [0.2, 1.9, 0.25] },
-      { g: 'shard', c: 0x2b2522, r: 0.34, s: [1, 1, 1], p: [0.2, 0.3, 0.48], rot: [0.5, 1.2, 0.15] },
+      { g: 'shard', c: 0x16120f, r: 0.34, s: [1, 1, 1], p: [0.2, 0.3, 0.48], rot: [0.5, 1.2, 0.15], rough: 0.95 },
     ],
   },
   {
@@ -116,6 +126,9 @@ export const COURSES = [
     note: 'The honey is taken to the exact second before it turns bitter, which is a decision, not a temperature.',
     parts: [
       { g: 'quenelle', c: CREAM, r: 0.46, s: [1, 1, 1], p: [-0.06, 0.19, 0.02], rot: [0, 0.5, 0.05] },
+      { g: 'sauce', c: 0x5c3406, r: 0.64, s: [1, 0.05, 0.88], p: [0, 0.076, 0.04], rot: [0, 0.8, 0], rough: 0.05 },
+      { g: 'drop', c: 0x3d2104, r: 0.05, s: [1, 0.5, 1], p: [0.66, 0.084, 0.26], rough: 0.04 },
+      { g: 'drop', c: 0x3d2104, r: 0.04, s: [1, 0.5, 1], p: [-0.6, 0.084, -0.3], rough: 0.04 },
       { g: 'quenelle', c: 0xf3e9d6, r: 0.34, s: [0.9, 0.9, 0.9], p: [0.42, 0.16, -0.3], rot: [0, 2.1, -0.1] },
       { g: 'torus', c: 0xb87a1f, r: 0.52, s: [1.4, 0.36, 1.4], p: [0, 0.075, 0], rot: [0, 0.2, 0] },
       { g: 'torus', c: 0xd39a35, r: 0.34, s: [1.3, 0.34, 1.3], p: [0.1, 0.085, 0.2], rot: [0, 1.1, 0] },
@@ -180,6 +193,13 @@ export function buildPass(stage) {
     leaf: new THREE.SphereGeometry(1, S(7, 10, 14), S(5, 7, 9)),
     shard: new THREE.TetrahedronGeometry(1, 0),
     curl: new THREE.TorusGeometry(1, 0.34, S(6, 9, 12), S(12, 18, 24), Math.PI * 1.25),
+    /* A pool of sauce and the dots of oil dressed over it. These are the two
+       things that were missing: every part on the plate was matte at the same
+       roughness, and a plate on which nothing is wet reads as ceramic, not as
+       dinner. One glossy element per course is enough to make the rest of it
+       food by contrast. */
+    sauce: new THREE.CylinderGeometry(1, 0.9, 1, S(18, 28, 40)),
+    drop: new THREE.SphereGeometry(1, S(7, 9, 12), S(5, 7, 9)),
   };
   // shape adjustments baked into the geometry
   GEO.quenelle.scale(0.62, 0.5, 1);
@@ -254,7 +274,8 @@ export function buildPass(stage) {
     rootGrp.add(grp);
 
     const parts = course.parts.map((p, i) => {
-      const m = new THREE.Mesh(GEO[p.g] ?? GEO.sphere, mat(p.c, p.g === 'torus' ? 0.35 : 0.62));
+      const rough = p.rough ?? (p.g === 'torus' ? 0.35 : 0.62);
+      const m = new THREE.Mesh(GEO[p.g] ?? GEO.sphere, mat(p.c, rough));
       const rest = new THREE.Vector3(p.p[0], p.p[1], p.p[2]);
       const restRot = new THREE.Euler(p.rot?.[0] ?? 0, p.rot?.[1] ?? 0, p.rot?.[2] ?? 0);
       const sc = new THREE.Vector3(

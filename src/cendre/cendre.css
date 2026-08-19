@@ -68,17 +68,26 @@ body {
 
 /* ── type ────────────────────────────────────────────────────────────── */
 
+/* Block flow, not flex. As a flex row each phrase became its own item that
+   shrank and then broke inside itself, so a narrow screen got "ARDÈCHE ·  A
+   CONVERTED / FORGE ·  EIGHTEEN / SEATS". In normal inline flow, with the
+   separators bound to the word before them, it breaks between phrases. */
 .eyebrow {
-  display: flex;
-  align-items: center;
-  gap: .5rem;
   font-size: .72rem;
   font-weight: 500;
   letter-spacing: .24em;
   text-transform: uppercase;
   color: var(--ember);
+  line-height: 1.6;
 }
-.eyebrow i, .hero__meta i, .book__addr i, .foot__row i { font-style: normal; opacity: .45; }
+.eyebrow i, .hero__meta i, .book__addr i, .foot__row i {
+  font-style: normal;
+  opacity: .45;
+  padding-inline: .18em;
+}
+@media (max-width: 30rem) {
+  .eyebrow, .hero__meta { letter-spacing: .14em; }
+}
 
 .h2 {
   font-family: var(--serif);
@@ -168,6 +177,10 @@ p { color: var(--ash); }
   z-index: 0;
   pointer-events: none;
 }
+/* The hearth. Two layers: a wide warm pool that lifts the bottom third of
+   the frame off black, and a hot core that breathes. The embers are seeded
+   over the same x, so the light and the sparks come from one fire rather
+   than from the stylesheet and the canvas separately. */
 .hero::after {
   content: '';
   position: absolute;
@@ -175,9 +188,22 @@ p { color: var(--ash); }
   z-index: 0;
   pointer-events: none;
   background:
-    radial-gradient(72% 58% at 26% 96%, rgba(226, 112, 58, .32) 0%, rgba(20, 16, 13, 0) 62%),
-    radial-gradient(90% 70% at 76% 8%, rgba(80, 60, 46, .28) 0%, rgba(20, 16, 13, 0) 60%);
+    radial-gradient(78% 62% at 26% 101%, rgba(232, 122, 62, .5) 0%, rgba(20, 16, 13, 0) 64%),
+    radial-gradient(34% 26% at 25% 103%, rgba(255, 168, 92, .42) 0%, rgba(20, 16, 13, 0) 70%),
+    radial-gradient(90% 70% at 76% 6%, rgba(84, 62, 46, .32) 0%, rgba(20, 16, 13, 0) 60%);
 }
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(20% 15% at 25% 102%, rgba(255, 196, 122, .55) 0%, rgba(20, 16, 13, 0) 72%);
+  /* opacity only, so the whole thing stays on the compositor */
+  animation: hearth 5.5s ease-in-out infinite alternate;
+}
+@keyframes hearth { from { opacity: .55; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .hero::before { animation: none; opacity: .8; } }
 .hero__inner, .hero__cue { position: relative; z-index: 1; }
 
 .hero__title {
@@ -274,7 +300,12 @@ p { color: var(--ash); }
   background: linear-gradient(to bottom, rgba(20,16,13,.94) 0%, rgba(20,16,13,.72) 26%, rgba(20,16,13,0) 56%);
 }
 @media (min-width: 56rem) {
-  .pass__scrim { background: linear-gradient(100deg, rgba(20,16,13,.92) 0%, rgba(20,16,13,.6) 30%, rgba(20,16,13,0) 58%); }
+  /* The copy column runs to about a third of the width, and the plate is at
+     its largest exactly where the reader is furthest down that column — so
+     the old ramp had the course's sub-line crossing a lit ceramic rim at
+     nowhere near enough contrast. The falloff now holds until the copy has
+     ended and only then lets the plate through. */
+  .pass__scrim { background: linear-gradient(100deg, rgba(20,16,13,.94) 0%, rgba(20,16,13,.86) 24%, rgba(20,16,13,.5) 42%, rgba(20,16,13,0) 62%); }
 }
 
 .pass__intro { position: relative; z-index: 1; padding-top: clamp(2rem, 6vh, 4rem); }
@@ -322,6 +353,12 @@ p { color: var(--ash); }
 
 /* ── the printed menu ────────────────────────────────────────────────── */
 
+/* The pass's stage is sticky, which makes it a positioned box at z-index 0 —
+   and a positioned box paints above every in-flow block that follows it. So
+   as the plate scrolled away it passed *over* this section rather than under
+   it, and the menu's first three lines were set on top of a lit ceramic disc.
+   Lifting the following sections into the same stacking layer settles it. */
+.menu, .room, .book, .foot { position: relative; z-index: 1; }
 .menu { padding: clamp(4rem, 12vh, 8rem) 0; border-top: 1px solid var(--line); background: var(--soot); }
 .menu__note { margin-top: 1.2rem; max-width: 48ch; }
 .menu__list { margin-top: clamp(2.4rem, 6vh, 4rem); border-top: 1px solid var(--line); }

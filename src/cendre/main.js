@@ -66,19 +66,28 @@ document.querySelectorAll('[data-count]').forEach((el) =>
   const ctx = canvas.getContext('2d', { alpha: true });
   if (!ctx) return;
 
-  const COUNT = q(40, 70, 110);
+  const COUNT = q(46, 80, 130);
   const rand = rng(608);
   let w = 0, h = 0, dpr = 1;
   const p = [];
 
+  /* Embers come off a fire, and the fire is in one place. Seeded across the
+     full width they read as dust in a beam; seeded in a narrow band over the
+     hearth and allowed to spread as they climb, they read as a plume — which
+     is the whole difference between atmosphere and grain. The hearth's x
+     matches the warm pool painted underneath in CSS. */
+  const HEARTH_X = 0.26;
+
   const seed = (i, initial) => ({
-    x: rand(),
+    x: HEARTH_X + (rand() - 0.5) * 0.2,
     y: initial ? rand() : 1 + rand() * 0.15,
-    r: 0.6 + rand() * 2.2,
+    // one ember in seven is a spark: bigger, brighter, and gone sooner
+    r: rand() < 0.14 ? 2.6 + rand() * 2.4 : 0.6 + rand() * 1.6,
     v: 0.02 + rand() * 0.055,
     d: rand() * TAU,
     s: 0.3 + rand() * 1.1,
     a: 0.25 + rand() * 0.6,
+    drift: (rand() - 0.5) * 1.15,
   });
   for (let i = 0; i < COUNT; i++) p.push(seed(i, true));
 
@@ -109,9 +118,13 @@ document.querySelectorAll('[data-count]').forEach((el) =>
       const e = p[i];
       e.y -= e.v * dt;
       if (e.y < -0.06) Object.assign(e, seed(i, false));
-      const x = (e.x + Math.sin(t * e.s + e.d) * 0.03) * w;
+      // the plume widens with height, and the flutter widens with it
+      const rise = 1 - e.y;
+      const x = (e.x + e.drift * rise * rise * 0.62
+                 + Math.sin(t * e.s + e.d) * 0.026 * (0.35 + rise)) * w;
       const y = e.y * h;
-      const fade = clamp(e.y * 1.6) * e.a;
+      // brightest just off the fire, gone by the top of the frame
+      const fade = clamp(e.y * 1.9) * clamp((1.02 - e.y) * 4) * e.a;
       const g = ctx.createRadialGradient(x, y, 0, x, y, e.r * 5);
       g.addColorStop(0, `rgba(255,180,110,${fade})`);
       g.addColorStop(0.4, `rgba(226,112,58,${fade * 0.5})`);
