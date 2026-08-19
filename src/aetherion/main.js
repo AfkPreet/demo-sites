@@ -10,6 +10,33 @@ import { clamp, seg, smoothstep, easeInOutCubic } from '../lib/math.js';
 
 boot({ split: false });
 
+/* ── the chapter copy dissolves rather than scrolling under the bar ─────
+   Every beat used to slide up behind the fixed header and stay legible
+   through it. Each now fades up on arrival and is gone before it reaches
+   the bar. Writes are guarded on a quantised value so a block of type is
+   not dirtied sixty times a second for a change nobody can see.
+   ─────────────────────────────────────────────────────────────────────── */
+(() => {
+  const beats = Array.from(document.querySelectorAll('.chapter .beat'));
+  if (!beats.length) return;
+  const rig = beats.map((el) => ({
+    el,
+    t: track(el, { start: 'top bottom', end: 'bottom top', scrub: 0 }),
+    o: -1,
+  }));
+  onTick(() => {
+    for (const b of rig) {
+      const p = b.t.progress;
+      const o = Math.round(
+        smoothstep(clamp((p - 0.12) / 0.2)) * (1 - smoothstep(clamp((p - 0.6) / 0.22))) * 50
+      ) / 50;
+      if (o === b.o) continue;
+      b.o = o;
+      b.el.style.opacity = o === 1 ? '' : String(o);
+    }
+  }, 25);
+})();
+
 const root = document.documentElement;
 
 /* ── header ───────────────────────────────────────────────────────────── */

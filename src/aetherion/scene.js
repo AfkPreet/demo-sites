@@ -58,7 +58,9 @@ void main() {
   vec3 cool = vec3(0.72, 0.82, 1.0);
   vec3 warm = vec3(1.0, 0.88, 0.72);
   vec3 col = mix(cool, warm, smoothstep(0.72, 1.0, vR));
-  gl_FragColor = vec4(col, vA * uFade * (0.55 + uWarp * 0.9));
+  // Brighter at rest: at 0.55 the sky read as empty black until the warp
+  // began, and the first thing this site has to sell is deep field.
+  gl_FragColor = vec4(col, vA * uFade * (0.82 + uWarp * 0.75));
 }
 `;
 
@@ -155,6 +157,53 @@ void main() {
   col += vec3(0.22, 0.46, 1.0) * fres * (0.35 + lit * 1.1);
 
   gl_FragColor = vec4(col, 1.0);
+}
+`;
+
+/* The halo.
+   A fresnel term on the planet itself can only brighten pixels that are
+   already on the disc, so the limb stopped dead at the silhouette and the
+   planet read as a painted ball. The first attempt at fixing that was a
+   slightly larger shell — but the rim of a shell is brightest exactly at its
+   own outer edge, which drew a hard blue ring around the world.
+   This is a camera-facing quad instead, drawn after the planet with depth
+   testing on, so the planet masks the middle of it and what survives is an
+   annulus of air: brightest where it leaves the surface, gone by the time it
+   reaches the quad's edge, and lit on the side the sun is on. */
+const HALO_VERT = /* glsl */ `
+varying vec2 vUv;
+varying vec3 vWorld;
+void main() {
+  vUv = uv;
+  vec4 wp = modelMatrix * vec4(position, 1.0);
+  vWorld = wp.xyz;
+  gl_Position = projectionMatrix * viewMatrix * wp;
+}
+`;
+
+const HALO_FRAG = /* glsl */ `
+precision mediump float;
+uniform vec3 uColor;
+uniform vec3 uLight;
+uniform vec3 uCentre;
+uniform float uInner;    // planet radius as a fraction of the quad half-width
+uniform float uFall;
+uniform float uStrength;
+varying vec2 vUv;
+varying vec3 vWorld;
+
+void main() {
+  float r = length(vUv - 0.5) * 2.0;
+  if (r > 1.0 || r < uInner * 0.97) discard;
+  float g = pow(clamp((1.0 - r) / (1.0 - uInner), 0.0, 1.0), uFall);
+  g *= smoothstep(uInner * 0.97, uInner * 1.06, r);
+  vec3 dir = normalize(vWorld - uCentre);
+  float lit = smoothstep(-0.45, 0.55, dot(dir, uLight));
+  float a = g * (0.05 + lit * 1.35) * uStrength;
+  /* Alpha carries the glow, not 1.0. The canvas is drawn over a page that has
+     its own background, and an additive pass that writes full alpha turns the
+     quad into an opaque black square over it. */
+  gl_FragColor = vec4(uColor * a, clamp(a, 0.0, 1.0));
 }
 `;
 
@@ -286,7 +335,7 @@ export function buildSpace(stage) {
     uFade: { value: 1 },
   };
   const stars = new THREE.LineSegments(
-    makeStars(seg(1400, 2600, 4200), SPAN),
+    makeStars(seg(2200, 4200, 6800), SPAN),
     new THREE.ShaderMaterial({
       vertexShader: STAR_VERT,
       fragmentShader: STAR_FRAG,
@@ -313,6 +362,36 @@ export function buildSpace(stage) {
   terra.rotation.z = 0.32;
   root.add(terra);
 
+  const halos = [];
+  const halo = (centre, planetR, spread, color, fall, strength) => {
+    const half = planetR * spread;
+    const m = new THREE.Mesh(
+      new THREE.PlaneGeometry(half * 2, half * 2),
+      new THREE.ShaderMaterial({
+        vertexShader: HALO_VERT,
+        fragmentShader: HALO_FRAG,
+        uniforms: {
+          uColor: { value: new THREE.Color(color) },
+          uLight: { value: sunDir },
+          uCentre: { value: centre.clone() },
+          uInner: { value: 1 / spread },
+          uFall: { value: fall },
+          uStrength: { value: strength },
+        },
+        transparent: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+      })
+    );
+    m.position.copy(centre);
+    m.renderOrder = 2;
+    root.add(m);
+    halos.push(m);
+    return m;
+  };
+
+  halo(LAYOUT.terra, LAYOUT.terraR, 1.30, 0x9fcaff, 2.6, 0.5);
+
   const giantU = {
     uLight: { value: sunDir },
     uTime: { value: 0 },
@@ -325,6 +404,8 @@ export function buildSpace(stage) {
   giant.position.copy(LAYOUT.giant);
   giant.rotation.z = -0.16;
   root.add(giant);
+
+  halo(LAYOUT.giant, LAYOUT.giantR, 1.22, 0xffd3ad, 2.8, 0.42);
 
   /* ---- ring system ------------------------------------------------- */
   const ringU = {
@@ -437,7 +518,10 @@ export function buildSpace(stage) {
     sun,
     sunDir,
     LAYOUT,
+    halos,
     update(dt, t) {
+      // Face the camera, or the annulus turns into a line.
+      for (let i = 0; i < halos.length; i++) halos[i].quaternion.copy(stage.camera.quaternion);
       terraU.uTime.value = t;
       giantU.uTime.value = t;
       terra.rotation.y += dt * 0.012;
