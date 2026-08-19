@@ -106,18 +106,28 @@ export function buildWatch(stage) {
   key.position.set(1.5, 2.1, 3.3);
   const rim = new THREE.DirectionalLight(0x9fc0ff, 1.25);
   rim.position.set(-3.1, 0.9, -2.1);
+
+  /* Two lights, still. The explosion needed an ambient floor so that parts
+     turning away from the softboxes did not go black, and a third analytic
+     light bought that at roughly twenty milliseconds a frame on a
+     fragment-bound scene. It is baked into the environment map instead — see
+     the ambient floor in studioEnv(). */
   stage.scene.add(key, rim);
 
   /* ---- materials -------------------------------------------------- */
   const M = {
     gold: new THREE.MeshStandardMaterial({ color: 0xc9a06a, metalness: 1, roughness: 0.23, envMapIntensity: 1.15 }),
     goldSoft: new THREE.MeshStandardMaterial({ color: 0xb98f52, metalness: 1, roughness: 0.34, envMapIntensity: 1.1 }),
-    steel: new THREE.MeshStandardMaterial({ color: 0x8f96a1, metalness: 1, roughness: 0.4, envMapIntensity: 0.72 }),
-    brass: new THREE.MeshStandardMaterial({ color: 0xc0a052, metalness: 1, roughness: 0.36, envMapIntensity: 0.95 }),
-    blued: new THREE.MeshStandardMaterial({ color: 0x2f4f96, metalness: 1, roughness: 0.22, envMapIntensity: 1.3 }),
+    /* Movement metals. Held just under full metalness on purpose — see the
+       hemisphere fill above. Brighter and glossier than the case, because
+       that is true of a real calibre: the finishing inside is where a maison
+       shows off, and it has to survive being seen from every angle at once. */
+    steel: new THREE.MeshStandardMaterial({ color: 0xa9b2be, metalness: 1, roughness: 0.3, envMapIntensity: 1.35 }),
+    brass: new THREE.MeshStandardMaterial({ color: 0xcdac5c, metalness: 1, roughness: 0.28, envMapIntensity: 1.45 }),
+    blued: new THREE.MeshStandardMaterial({ color: 0x3660b8, metalness: 1, roughness: 0.2, envMapIntensity: 1.6 }),
     ruby: new THREE.MeshStandardMaterial({
-      color: 0x9c1230, metalness: 0.1, roughness: 0.08,
-      emissive: 0x4a0512, emissiveIntensity: 0.55, envMapIntensity: 1.4,
+      color: 0xb01636, metalness: 0.1, roughness: 0.08,
+      emissive: 0x6b0a1c, emissiveIntensity: 0.9, envMapIntensity: 1.6,
     }),
     dark: new THREE.MeshStandardMaterial({ color: 0x14161a, metalness: 0.6, roughness: 0.55 }),
   };

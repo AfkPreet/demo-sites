@@ -43,6 +43,42 @@ document.querySelectorAll('[data-count]').forEach((el) =>
   });
 })();
 
+/* ── the story beats dissolve rather than scroll away ──────────────────
+   A beat that simply scrolls off the top slides underneath the header, where
+   it stayed legible through the blur and collided with the navigation. Each
+   one now fades up as it arrives and dissolves before it reaches the bar, on
+   a scroll track — measured once, so the per-frame cost is a subtraction.
+   ─────────────────────────────────────────────────────────────────────── */
+(() => {
+  const beats = Array.from(document.querySelectorAll('.journey .beat'));
+  if (!beats.length) return;
+
+  const rig = beats.map((el) => ({
+    el,
+    t: track(el, { start: 'top bottom', end: 'bottom top', scrub: 0 }),
+    o: -1,
+    y: -999,
+  }));
+
+  /* Writes are guarded on a quantised value. Assigning style.opacity every
+     frame to a number that has not visibly changed still dirties the element,
+     and eight blocks of type being invalidated sixty times a second cost more
+     than the whole watch render. */
+  onTick(() => {
+    for (const b of rig) {
+      const p = b.t.progress;
+      // in over 0.10–0.30, hold, out over 0.62–0.84 — the exit finishes well
+      // before the beat can reach the header.
+      const o = Math.round(
+        smoothstep(clamp((p - 0.1) / 0.2)) * (1 - smoothstep(clamp((p - 0.62) / 0.22))) * 50
+      ) / 50;
+      const y = Math.round((0.5 - p) * 26);
+      if (o !== b.o) { b.o = o; b.el.style.opacity = o === 1 ? '' : String(o); }
+      if (y !== b.y) { b.y = y; b.el.style.transform = y ? `translate3d(0, ${y}px, 0)` : ''; }
+    }
+  }, 25);
+})();
+
 /* ── the journey ──────────────────────────────────────────────────────── */
 (async () => {
   const canvas = document.getElementById('watch');
@@ -93,6 +129,26 @@ document.querySelectorAll('[data-count]').forEach((el) =>
     { rootMargin: '10% 0px' }
   ).observe(journey);
 
+  /* The end of the journey.
+     The sticky stage un-pins when the story runs out and slides up with the
+     page. At that point the watch is at its closest and fills the frame, so
+     the bottom edge of the stage drew a hard horizontal line straight through
+     the dial. Fading alone could not fix it — the edge is already halfway up
+     the screen before a fade would be complete. So the piece withdraws first:
+     the camera pulls back over the last stretch and only then does the stage
+     dissolve, which reads as the film ending rather than the canvas leaving. */
+  const outro = track(journey, { start: 'bottom bottom', end: 'bottom top', scrub: 6 });
+  const stageEl = journey.querySelector('.journey__stage');
+  if (stageEl) {
+    let shown = -1;
+    onTick(() => {
+      const o = Math.round((1 - smoothstep(clamp((outro.eased - 0.16) / 0.34))) * 50) / 50;
+      if (o === shown) return;
+      shown = o;
+      stageEl.style.opacity = o === 1 ? '' : String(o);
+    }, 24);
+  }
+
   let idle = 0;
   let camX = 0;
   const DEBUG = location.search.includes('debug');
@@ -130,8 +186,9 @@ document.querySelectorAll('[data-count]').forEach((el) =>
     z = lerp(z, 5.6, eH);
     z = lerp(z, 3.3, eD);
     z = lerp(z, 4.4, eC);
-    z = lerp(z, 2.65, eP);
+    z = lerp(z, wide ? 2.65 : 3.5, eP);   // a phone needs margin round the dial for the copy
     z += ex * (wide ? 5.2 : 9.4);
+    z += easeInOutCubic(outro.eased) * 7.5;   // the withdrawal, see above
 
     let rx = -0.55;
     rx = lerp(rx, -0.34, eH);

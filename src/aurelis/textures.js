@@ -110,7 +110,7 @@ export function guilloche(size = 1024) {
   x.letterSpacing = `${S * 0.006}px`;
   x.fillStyle = 'rgba(232, 210, 156, .62)';
   x.fillText('GENÈVE', 0, -S * 0.16);
-  x.fillText('AUTOMATIQUE', 0, S * 0.3);
+  x.fillText('AUTOMATIQUE', 0, S * 0.372);
 
   x.restore();
 
@@ -133,18 +133,33 @@ export function moonDisc(size = 512) {
   const W = size, H = size / 2;
 
   const g = x.createLinearGradient(0, 0, 0, H);
-  g.addColorStop(0, '#101d33');
-  g.addColorStop(1, '#050a14');
+  g.addColorStop(0, '#16294a');
+  g.addColorStop(0.55, '#0b1730');
+  g.addColorStop(1, '#050a16');
   x.fillStyle = g;
   x.fillRect(0, 0, W, H);
 
+  /* Pierced stars. Only a thin arc of this disc is ever visible through the
+     aperture at six o'clock, and the two moons take most of it, so the stars
+     have to be few and large — ninety sub-pixel specks simply averaged away
+     to nothing on the way through the texture filter. */
   const r = rng(88);
-  x.fillStyle = 'rgba(226,214,180,.85)';
-  for (let i = 0; i < 90; i++) {
-    const s = r() * 1.6 + 0.3;
-    x.globalAlpha = 0.25 + r() * 0.6;
+  for (let i = 0; i < 34; i++) {
+    const sx = r() * W;
+    const sy = r() * H;
+    const rad = H * (0.012 + r() * 0.022);
+    const a = 0.5 + r() * 0.5;
+    const g2 = x.createRadialGradient(sx, sy, 0, sx, sy, rad * 3.2);
+    g2.addColorStop(0, `rgba(255,248,222,${a})`);
+    g2.addColorStop(0.35, `rgba(226,214,180,${a * 0.35})`);
+    g2.addColorStop(1, 'rgba(226,214,180,0)');
+    x.fillStyle = g2;
     x.beginPath();
-    x.arc(r() * W, r() * H, s, 0, TAU);
+    x.arc(sx, sy, rad * 3.2, 0, TAU);
+    x.fill();
+    x.fillStyle = `rgba(255,251,236,${Math.min(1, a + 0.25)})`;
+    x.beginPath();
+    x.arc(sx, sy, rad, 0, TAU);
     x.fill();
   }
   x.globalAlpha = 1;
@@ -178,11 +193,19 @@ export function studioEnv(w = 512) {
   const c = cv(w, h);
   const x = c.getContext('2d');
 
+  /* The ambient floor.
+     Two hundred movement parts tumbling through the explosion turn away from
+     the softboxes at every possible angle, and against a near-black tent they
+     simply vanished. Lifting the floor here rather than adding a third
+     analytic light costs nothing per fragment — the image-based lookup is
+     already happening — and it lifts the darkest face of every part off pure
+     black without touching the crisp reflections that make the case read as
+     gold. */
   const g = x.createLinearGradient(0, 0, 0, h);
-  g.addColorStop(0, '#3a3a42');
-  g.addColorStop(0.42, '#17171c');
-  g.addColorStop(0.55, '#0a0a0d');
-  g.addColorStop(1, '#040405');
+  g.addColorStop(0, '#5c5c68');
+  g.addColorStop(0.42, '#31313a');
+  g.addColorStop(0.58, '#22222a');
+  g.addColorStop(1, '#191920');
   x.fillStyle = g;
   x.fillRect(0, 0, w, h);
 

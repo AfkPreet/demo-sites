@@ -114,7 +114,7 @@ p { color: var(--bone-2); }
   border-bottom: 1px solid transparent;
 }
 .hdr.is-solid {
-  background: rgba(11, 10, 8, .82);
+  background: rgba(11, 10, 8, .95);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom-color: var(--line);
@@ -177,14 +177,33 @@ p { color: var(--bone-2); }
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(66% 62% at 50% 46%, rgba(11,10,8,0) 42%, rgba(11,10,8,.55) 78%, rgba(11,10,8,.9) 100%);
+  /* Two painted gradients on one element, so no extra compositing pass.
+     The first is the reason: the sticky stage's own bottom edge used to draw
+     a hard horizontal line across the dial as it un-pinned. Its last 9% is
+     now solid page-colour, so the edge is invisible against what follows. */
+  background:
+    linear-gradient(to top, #0b0a08 0, rgba(11, 10, 8, 0) 9%),
+    radial-gradient(66% 62% at 50% 46%, rgba(11,10,8,0) 42%, rgba(11,10,8,.55) 78%, rgba(11,10,8,.9) 100%);
 }
 /* On phones the copy sits over the bottom of the frame, so it gets a floor. */
 .stage__scrim {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(to top, rgba(11,10,8,.94) 0%, rgba(11,10,8,.72) 22%, rgba(11,10,8,0) 52%);
+  /* Letterboxed, not floored. The story copy sits at the top of the frame on
+     a phone as often as the bottom — it was landing straight on the printed
+     dial with nothing behind it — so both ends of the frame are weighted and
+     the middle is left clear for the piece. */
+  background: linear-gradient(
+    to bottom,
+    rgba(11,10,8,.93) 0%,
+    rgba(11,10,8,.74) 16%,
+    rgba(11,10,8,.3) 34%,
+    rgba(11,10,8,0) 50%,
+    rgba(11,10,8,.2) 66%,
+    rgba(11,10,8,.8) 88%,
+    rgba(11,10,8,.96) 100%
+  );
 }
 @media (min-width: 56rem) {
   .stage__scrim {
@@ -401,9 +420,12 @@ p { color: var(--bone-2); }
   padding-block: .5rem 1.6rem;
 }
 .dialart {
-  width: min(72%, 15rem);
+  width: min(84%, 17.5rem);
   height: auto;
-  filter: drop-shadow(0 22px 34px rgba(0,0,0,.55));
+  /* No CSS filter. A drop-shadow over a few hundred vector elements is
+     re-rasterised every time the card is repainted, and measured at sixteen
+     milliseconds a frame on its own. The shadow is painted inside the SVG
+     instead, where it is just another ellipse. */
   transition: transform .8s cubic-bezier(.16,1,.3,1);
 }
 .ref:hover .dialart { transform: rotate(-4deg) scale(1.04); }
