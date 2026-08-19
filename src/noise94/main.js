@@ -82,7 +82,9 @@ document.querySelectorAll('.wall__row').forEach((row, i) => {
     s.className = 'tear__slice';
     s.style.setProperty('--i', String(i));
     s.style.setProperty('--dir', i % 2 ? '1' : '-1');
-    s.innerHTML = '<b>SEALED</b>';
+    // Two levels, so the poster carries the embargo the whole page has been
+    // repeating rather than one word in a box.
+    s.innerHTML = '<b>SEALED</b><i>Do not open before 14 Jun · 04:00 GMT</i>';
     frag.appendChild(s);
   }
   over.appendChild(frag);
