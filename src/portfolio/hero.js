@@ -1,398 +1,561 @@
 /*
- * Hero sculpture — "Obsidian".
+ * CAST — the hero object.
  *
- * A faceted, noise-displaced icosahedron lit like a cut stone, wrapped by a
- * thin orbiting ring and a haze of motes. As you scroll past the opening
- * chapters the solid dissolves into the particle cloud it was made of.
+ * A slab of plaster on a studio sweep, lit by one hard key that never moves
+ * for the entire page. The name is not text laid over a 3D thing; it is
+ * debossed into the thing, and it is legible because light is falling on it.
  *
- * Deliberate performance choices:
- *   · the background glow is CSS, not a fullscreen shader pass — the canvas
- *     only ever shades the small part of the screen the sculpture occupies
- *   · flat normals come from screen-space derivatives, so no normal
- *     recalculation in the vertex shader
- *   · tessellation and octave count both drop with device tier
+ * Two draw calls. No THREE.Light objects, no shadow map, no render target, no
+ * post pass, no image download:
+ *
+ *   1. the ground — one fullscreen quad carrying the sweep's falloff, the
+ *      horizon, the grain, and the slab's cast shadow as a screen-space
+ *      quad SDF whose softness grows with distance from the contact edge
+ *   2. the slab — extruded geometry with an analytic three-light rig, an
+ *      Oren–Nayar diffuse (plaster is rough; Lambert looks injection-moulded)
+ *      and a relief derived from one height texture by screen-space
+ *      derivatives, which is what removes the whole normal-map build step
+ *
+ * The DOM headline sits over the same ground in `mix-blend-mode: multiply`,
+ * so where the cast shadow passes, the letterforms darken with the ground.
+ * That is the point of the whole page: the type and the object are provably
+ * in one lighting environment.
  */
 
-import { Stage, THREE, pointer } from '../lib/gl.js';
+import { THREE, Stage } from '../lib/gl.js';
 import { onTick } from '../lib/ticker.js';
-import { track, scroll } from '../lib/scroll.js';
+import { track, viewport } from '../lib/scroll.js';
 import { env, q } from '../lib/env.js';
-import { NOISE, FBM } from '../lib/glsl.js';
-import { clamp, damp, seg, smoothstep, rng } from '../lib/math.js';
+import { clamp, lerp, damp, smoothstep } from '../lib/math.js';
+import { HASH } from '../lib/glsl.js';
 
-const VERT = /* glsl */ `
-${NOISE}
-${FBM}
-uniform float uTime;
-uniform float uAmp;
-uniform float uFreq;
-uniform float uOct;
-varying vec3 vPos;
-varying float vN;
+/* THE LAW. World space, upper-right and well to the side, and nothing may
+   move it. Lateral matters: a steep key throws its shadow almost straight
+   down a backdrop, and the whole point of this hero is that the shadow
+   travels sideways across the headline. Every CSS shadow on the site falls
+   the same way — down and to the left — from --shadow-x / --shadow-y. */
+const LIGHT = new THREE.Vector3(0.78, 0.34, 0.52).normalize();
+
+/* The sweep is a wall behind the object, not a floor: a camera looking down
+   its own axis sees a floor edge-on, and the cast shadow disappears into a
+   sliver at the bottom of the frame.
+
+   How far behind depends on the viewport, and this is the one honest way to
+   keep the law. A key this lateral throws its shadow 1.5 units sideways for
+   every unit of clearance; on a phone the frame is only 1.26 units wide, so a
+   desktop gap of 0.9 puts the entire shadow off-screen and the hero loses the
+   only thing it is about. The light does not move — the object is set nearer
+   the wall, which is what a photographer does in a small room. */
+const SWEEP_FAR = -0.9;
+const SWEEP_NEAR = -0.26;
+
+const STONE = new THREE.Color(0xbab5a6);
+const STONE_DEEP = new THREE.Color(0xa29d8e);
+const CHALK = new THREE.Color(0xf3f0e6);
+const SKY_FILL = new THREE.Color(0xc4cde0);
+
+
+/* ── the sweep ──────────────────────────────────────────────────────────── */
+
+const GROUND_VERT = /* glsl */ `
+varying vec2 vNdc;
+void main() {
+  vNdc = position.xy;
+  gl_Position = vec4(position.xy, 0.999, 1.0);
+}
+`;
+
+const GROUND_FRAG = /* glsl */ `
+precision mediump float;
+${HASH}
+uniform vec3 uStone;
+uniform vec3 uDeep;
+uniform vec2 uAspect;      // x: ndc→square correction
+uniform vec2 uQuad[4];     // the slab's corners projected onto the sweep, in ndc
+uniform vec2 uContact;     // the corner closest to the ground
+uniform float uSoft;
+uniform float uShade;      // how dark the shadow is right now
+uniform float uHorizon;    // ndc y of the value break
+varying vec2 vNdc;
+
+/* Linear → sRGB. A ShaderMaterial gets no colour-space epilogue from three,
+   so without this the canvas is several stops darker than the CSS ground it
+   is supposed to continue seamlessly. */
+vec3 toSRGB(vec3 c) {
+  return mix(c * 12.92, 1.055 * pow(max(c, vec3(0.0)), vec3(1.0 / 2.4)) - 0.055,
+             step(vec3(0.0031308), c));
+}
+
+/* Signed distance to a convex quad: negative inside, positive outside, and
+   the magnitude is the true distance to the nearest edge — which is what lets
+   the softness be a physical quantity rather than a tuned blur.
+
+   The winding has to be derived rather than assumed. The quad is not the
+   slab; it is the slab's four corners cast along the key onto the sweep, and
+   as the slab rotates past the light that projection flips handedness. Assume
+   one winding and the shadow inverts — everything *except* the shadow goes
+   dark — for part of the scroll. Twice the shoelace area gives the sign for
+   free. */
+float quadDist(vec2 p) {
+  float area = 0.0;
+  for (int i = 0; i < 4; i++) {
+    vec2 a = uQuad[i];
+    vec2 b = uQuad[i == 3 ? 0 : i + 1];
+    area += a.x * b.y - b.x * a.y;
+  }
+  float sgn = area > 0.0 ? -1.0 : 1.0;
+
+  float d = -1e9;
+  for (int i = 0; i < 4; i++) {
+    vec2 a = uQuad[i];
+    vec2 b = uQuad[i == 3 ? 0 : i + 1];
+    vec2 e = b - a;
+    float len = max(length(e), 1e-5);
+    d = max(d, sgn * (e.x * (p.y - a.y) - e.y * (p.x - a.x)) / len);
+  }
+  return d;
+}
 
 void main() {
-  vec3 p = position;
-  float n = fbm(p * uFreq + vec3(0.0, uTime * 0.06, uTime * 0.11), int(uOct));
-  float n2 = snoise(p * 2.3 + vec3(uTime * 0.18));
-  vN = n;
-  p += normal * (n * uAmp + n2 * uAmp * 0.22);
-  vec4 mv = modelViewMatrix * vec4(p, 1.0);
-  vPos = mv.xyz;
+  vec2 p = vNdc * uAspect;
+
+  /* The sweep. A studio sweep is brightest where the light hits it and
+     falls off upward into the cove; the break is what turns a background
+     into a place. */
+  float up = smoothstep(-1.0, 1.25, vNdc.y);
+  vec3 col = mix(uStone, uDeep, up * 0.42);
+  col = mix(col, uStone * 1.035, smoothstep(uHorizon + 0.22, uHorizon - 0.30, vNdc.y) * 0.5);
+
+  /* The cast shadow. The penumbra straddles the edge rather than sitting
+     outside it, and it widens with distance from the contact corner — which
+     is the one thing that separates a shadow from a shape. */
+  float d = quadDist(p);
+  float grow = 0.55 + 1.05 * clamp(length(p - uContact) / 1.5, 0.0, 1.0);
+  float soft = uSoft * grow;
+  float sh = 1.0 - smoothstep(-soft, soft, d);
+
+  /* A shadow on a warm sweep is not the sweep times a number. The key is out
+     of it, so what remains is sky — cooler and a little bluer. Darkening
+     alone gives you grey, and grey is the tell. */
+  vec3 shadowed = col * (1.0 - uShade) * vec3(0.95, 0.985, 1.075);
+  col = mix(col, shadowed, sh);
+
+  // the stone's tooth
+  float g = hash21(gl_FragCoord.xy) - 0.5;
+  col += g * 0.016;
+
+  gl_FragColor = vec4(toSRGB(col), 1.0);
+}
+`;
+
+/* ── the slab ───────────────────────────────────────────────────────────── */
+
+const SLAB_VERT = /* glsl */ `
+varying vec2 vUv;
+varying vec3 vN;
+varying vec3 vView;
+varying vec3 vLocal;
+void main() {
+  vUv = uv;
+  vLocal = position;
+  vN = normalize(normalMatrix * normal);
+  vec4 mv = modelViewMatrix * vec4(position, 1.0);
+  vView = normalize(-mv.xyz);
   gl_Position = projectionMatrix * mv;
 }
 `;
 
-const FRAG = /* glsl */ `
+const SLAB_FRAG = /* glsl */ `
 precision highp float;
-uniform vec3 uColA;
-uniform vec3 uColB;
+${HASH}
+uniform sampler2D uDeboss;
+uniform float uRelief;
+uniform vec3 uKeyDir;      // view space
+uniform vec3 uKeyCol;
+uniform vec3 uSkyCol;
+uniform vec3 uBounceCol;
 uniform vec3 uBase;
-uniform float uTime;
-uniform float uOpacity;
-varying vec3 vPos;
-varying float vN;
+uniform float uTooth;
+uniform float uOct;
+uniform vec2 uFace;        // half-extents of the face, for uv reconstruction
+varying vec2 vUv;
+varying vec3 vN;
+varying vec3 vView;
+varying vec3 vLocal;
+
+/* Linear → sRGB. A ShaderMaterial gets no colour-space epilogue from three,
+   so without this the canvas is several stops darker than the CSS ground it
+   is supposed to continue seamlessly. */
+vec3 toSRGB(vec3 c) {
+  return mix(c * 12.92, 1.055 * pow(max(c, vec3(0.0)), vec3(1.0 / 2.4)) - 0.055,
+             step(vec3(0.0031308), c));
+}
+
+/* Oren–Nayar, the cheap closed form. Plaster is rough; Lambert on a rough
+   dielectric always reads as injection-moulded plastic, and this is about six
+   extra instructions. */
+float oren(float NL, float NV, float LV, float sigma) {
+  float s2 = sigma * sigma;
+  float A = 1.0 - 0.5 * s2 / (s2 + 0.33);
+  float B = 0.45 * s2 / (s2 + 0.09);
+  float st = LV - NL * NV;
+  float t = st > 0.0 ? max(NL, NV) : 1.0;
+  return NL * (A + B * st / max(t, 1e-4));
+}
+
+float ggx(vec3 n, vec3 l, vec3 v, float rough) {
+  vec3 h = normalize(l + v);
+  float a = rough * rough;
+  float nh = max(dot(n, h), 0.0);
+  float d = nh * nh * (a * a - 1.0) + 1.0;
+  return (a * a) / max(3.14159 * d * d, 1e-4);
+}
+
+float valueNoise(vec2 p) {
+  vec2 i = floor(p), f = fract(p);
+  f = f * f * (3.0 - 2.0 * f);
+  float a = hash21(i);
+  float b = hash21(i + vec2(1.0, 0.0));
+  float c = hash21(i + vec2(0.0, 1.0));
+  float d = hash21(i + vec2(1.0, 1.0));
+  return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
+}
 
 void main() {
-  // Flat facet normal straight from the derivative of view-space position:
-  // exact, free, and immune to whatever the displacement did to the mesh.
-  vec3 n = normalize(cross(dFdx(vPos), dFdy(vPos)));
-  vec3 v = normalize(-vPos);
+  vec3 n = normalize(vN);
+  vec3 v = normalize(vView);
 
-  // Tight rim: the stone should read as near-black with light caught only on
-  // the edges, not as a glowing ball.
-  float ndv = clamp(dot(n, v), 0.0, 1.0);
-  float fres = pow(1.0 - ndv, 3.4);
+  /* The deboss. One texture fetch and two derivatives — the relief is
+     reconstructed from the height field's own slope, which is why there is
+     no normal map to bake and no idle pass to run. */
+  float h = texture2D(uDeboss, vUv).r;
+  float hx = dFdx(h);
+  float hy = dFdy(h);
+  // Sign matters: positive here raises the strokes, which reads as an
+  // embossed badge. Cut in is the whole idea.
+  vec3 relief = normalize(vec3(hx * uRelief, hy * uRelief, 1.0));
 
-  vec3 key  = normalize(vec3(-0.5, 0.82, 0.62));
-  vec3 fill = normalize(vec3(0.92, -0.3, 0.3));
-  float d1 = max(dot(n, key), 0.0);
-  float d2 = max(dot(n, fill), 0.0);
-  float spec = pow(max(dot(reflect(-key, n), v), 0.0), 68.0);
+  // the tooth of cast plaster
+  vec2 tp = vLocal.xy * 190.0;
+  float t1 = valueNoise(tp);
+  float t2 = uOct > 1.5 ? valueNoise(tp * 2.7) * 0.5 : 0.0;
+  float t3 = uOct > 2.5 ? valueNoise(tp * 6.1) * 0.25 : 0.0;
+  float tooth = (t1 + t2 + t3) / (1.0 + (uOct > 1.5 ? 0.5 : 0.0) + (uOct > 2.5 ? 0.25 : 0.0));
 
-  // Bias the hue toward violet; mint is the highlight, not the body.
-  float t = pow(0.5 + 0.5 * sin(vN * 2.4 + fres * 4.4 + uTime * 0.26), 1.9);
-  vec3 irid = mix(uColA, uColB, t);
+  // Perturb only where the face points at the viewer; the extruded sides keep
+  // their own normals so the chamfer stays crisp.
+  float faceness = clamp(abs(n.z) * 1.4, 0.0, 1.0);
+  n = normalize(n + vec3(relief.xy * faceness, 0.0)
+                  + vec3((tooth - 0.5) * uTooth, (tooth - 0.5) * uTooth, 0.0));
 
-  vec3 col = uBase;
-  col += irid * fres * 0.95;
-  col += irid * pow(d1, 2.0) * 0.055;
-  col += vec3(0.5, 0.53, 0.7) * pow(d2, 3.0) * 0.03;
-  col += mix(vec3(1.0), irid, 0.35) * spec * 0.55;
+  float NV = max(dot(n, v), 0.0);
 
-  gl_FragColor = vec4(col, uOpacity);
+  // key
+  vec3 l = normalize(uKeyDir);
+  float NL = max(dot(n, l), 0.0);
+  float LV = dot(l, v);
+  vec3 lit = uKeyCol * oren(NL, NV, LV, 0.5);
+  lit += uKeyCol * ggx(n, l, v, 0.62) * 0.06 * step(0.001, NL);
+
+  // sky fill from above, half-Lambert wrapped — the single thing that makes
+  // the shadow side read as plaster instead of grey plastic
+  vec3 sky = normalize(vec3(0.06, 1.0, 0.18));
+  lit += uSkyCol * (dot(n, sky) * 0.5 + 0.5) * 0.34;
+
+  // bounce off the sweep
+  vec3 bnc = normalize(vec3(0.1, -1.0, 0.35));
+  lit += uBounceCol * max(dot(n, bnc), 0.0) * 0.16;
+
+  vec3 col = uBase * lit;
+
+  // Cavity: the debossed strokes carry value as well as relief, so the name
+  // holds at grazing angles and at a phone's pixel ratio.
+  col *= mix(1.0, 0.6, h);
+  col *= 0.965 + tooth * 0.07;
+
+  gl_FragColor = vec4(toSRGB(col), 1.0);
 }
 `;
 
-const POINT_VERT = /* glsl */ `
-attribute vec3 aDir;
-attribute float aRand;
-uniform float uTime;
-uniform float uDissolve;
-uniform float uSize;
-uniform float uPix;
-varying float vA;
-varying float vR;
+/* ── the deboss height field ───────────────────────────────────────────── */
 
-void main() {
-  vec3 p = position;
-  float d = uDissolve;
-  p += aDir * d * (1.1 + aRand * 3.2);
-  p += vec3(
-    sin(uTime * 0.5 + aRand * 6.28),
-    cos(uTime * 0.42 + aRand * 5.1),
-    sin(uTime * 0.33 + aRand * 4.2)
-  ) * 0.09 * d;
+/* `tight` is the phone cut. A card 280 css pixels wide cannot hold two lines
+   of 8px letterpress — the relief falls below a pixel and the derivative
+   turns the strokes into noise. Real print solves this the same way: the
+   small format gets fewer words, set larger. */
+function debossCanvas(w, h, tight) {
+  const c = document.createElement('canvas');
+  c.width = w;
+  c.height = h;
+  const x = c.getContext('2d');
+  x.fillStyle = '#000';
+  x.fillRect(0, 0, w, h);
 
-  vec4 mv = modelViewMatrix * vec4(p, 1.0);
-  gl_Position = projectionMatrix * mv;
-  gl_PointSize = uSize * uPix * (0.55 + aRand * 0.9) * (3.0 / max(-mv.z, 0.001));
-  vA = smoothstep(0.0, 0.18, d) * (1.0 - smoothstep(0.62, 1.0, d));
-  vR = aRand;
+  // A slope, not a cliff: without the blur the relief has vertical walls and
+  // the derivative-based normal turns into an aliased outline.
+  x.filter = 'blur(1.3px)';
+  x.fillStyle = '#fff';
+  x.textAlign = 'left';
+
+  const left = w * 0.115;
+  const nameSize = w * (tight ? 0.128 : 0.108);
+  const nameTop = h * (tight ? 0.4 : 0.44);
+  x.font = `800 ${nameSize}px "Bricolage Grotesque", system-ui, sans-serif`;
+  x.letterSpacing = `${-nameSize * 0.02}px`;
+  x.fillText('PREET', left, nameTop);
+  x.fillText('KUMAR', left, nameTop + nameSize * 0.94);
+
+  const subSize = w * (tight ? 0.05 : 0.03);
+  x.font = `500 ${subSize}px "Bricolage Grotesque", system-ui, sans-serif`;
+  x.letterSpacing = `${subSize * (tight ? 0.1 : 0.16)}px`;
+  x.fillText('INTERACTION DESIGN', left + 2, h * 0.78);
+  if (!tight) x.fillText('CREATIVE DEVELOPMENT', left + 2, h * 0.78 + subSize * 1.7);
+
+  // a rule, cut in the same pass
+  x.fillRect(left, nameTop + nameSize * 1.32, w * 0.30, Math.max(2, w * 0.0035));
+  x.filter = 'none';
+  return c;
 }
-`;
 
-const POINT_FRAG = /* glsl */ `
-precision mediump float;
-uniform vec3 uColA;
-uniform vec3 uColB;
-varying float vA;
-varying float vR;
-
-void main() {
-  vec2 c = gl_PointCoord - 0.5;
-  float d = dot(c, c);
-  if (d > 0.25) discard;
-  float a = smoothstep(0.25, 0.02, d) * vA;
-  vec3 col = mix(uColA, uColB, vR);
-  gl_FragColor = vec4(col, a * 0.85);
-}
-`;
-
-const MOTE_VERT = /* glsl */ `
-attribute float aRand;
-uniform float uTime;
-uniform float uPix;
-varying float vA;
-void main() {
-  vec3 p = position;
-  p.y += sin(uTime * 0.22 + aRand * 6.28) * 0.28;
-  p.x += cos(uTime * 0.17 + aRand * 5.0) * 0.24;
-  vec4 mv = modelViewMatrix * vec4(p, 1.0);
-  gl_Position = projectionMatrix * mv;
-  gl_PointSize = (0.9 + aRand * 1.6) * uPix;
-  vA = 0.18 + 0.5 * (0.5 + 0.5 * sin(uTime * 0.9 + aRand * 12.0));
-}
-`;
-
-const MOTE_FRAG = /* glsl */ `
-precision mediump float;
-varying float vA;
-void main() {
-  vec2 c = gl_PointCoord - 0.5;
-  if (dot(c, c) > 0.25) discard;
-  gl_FragColor = vec4(0.82, 0.84, 0.95, vA * 0.55);
-}
-`;
+/* ── build ──────────────────────────────────────────────────────────────── */
 
 export function initHero(canvas) {
   const heroEl = document.querySelector('.hero');
-  const manifestoEl = document.querySelector('.manifesto');
-  if (!canvas || !heroEl) return null;
+  if (!heroEl) return;
 
   const stage = new Stage(canvas, {
-    alpha: true,
-    antialias: env.tier === 'high',
-    dprScale: env.tier === 'low' ? 0.85 : 1,
-    camera: { fov: 38, z: 5, near: 0.1, far: 40 },
+    alpha: false,
+    antialias: env.tier !== 'low',
+    camera: { fov: 24, z: 6.4, near: 0.1, far: 40 },
+    priority: 30,
   });
+  stage.renderer.setClearColor(0xbab5a6, 1);
 
-  const COL_A = new THREE.Color('#9d7cff');
-  const COL_B = new THREE.Color('#79f0d2');
-  const BASE = new THREE.Color('#050509');
-
-  const group = new THREE.Group();
-  stage.scene.add(group);
-
-  /* ── the solid ─────────────────────────────────────────────────────── */
-  const detail = q(3, 4, 5);
-  const geo = new THREE.IcosahedronGeometry(1, detail);
-
-  const uniforms = {
-    uTime: { value: 0 },
-    uAmp: { value: 0.34 },
-    uFreq: { value: 0.82 },
-    uOct: { value: q(2, 3, 4) },
-    uColA: { value: COL_A },
-    uColB: { value: COL_B },
-    uBase: { value: BASE },
-    uOpacity: { value: 1 },
+  /* ---- ground ---------------------------------------------------------- */
+  const quadPts = [
+    new THREE.Vector2(), new THREE.Vector2(), new THREE.Vector2(), new THREE.Vector2(),
+  ];
+  const groundU = {
+    uStone: { value: STONE.clone() },
+    uDeep: { value: STONE_DEEP.clone() },
+    uAspect: { value: new THREE.Vector2(1, 1) },
+    uQuad: { value: quadPts },
+    uContact: { value: new THREE.Vector2(0, 0) },
+    uSoft: { value: 0.09 },
+    uShade: { value: 0.3 },
+    uHorizon: { value: 0.18 },
   };
-
-  const mat = new THREE.ShaderMaterial({
-    vertexShader: VERT,
-    fragmentShader: FRAG,
-    uniforms,
-    transparent: true,
-    extensions: { derivatives: true },
-  });
-
-  const solid = new THREE.Mesh(geo, mat);
-  group.add(solid);
-
-  /* ── the dust it turns into ────────────────────────────────────────── */
-  const pDetail = q(2, 3, 4);
-  const pGeo = new THREE.IcosahedronGeometry(1, pDetail);
-  const pPos = pGeo.attributes.position;
-  const count = pPos.count;
-  const dirs = new Float32Array(count * 3);
-  const rands = new Float32Array(count);
-  const rand = rng(7351);
-  for (let i = 0; i < count; i++) {
-    const x = pPos.getX(i), y = pPos.getY(i), z = pPos.getZ(i);
-    const l = Math.hypot(x, y, z) || 1;
-    // outward, nudged by a stable per-point jitter so the cloud isn't a shell
-    dirs[i * 3] = x / l + (rand() - 0.5) * 0.5;
-    dirs[i * 3 + 1] = y / l + (rand() - 0.5) * 0.5;
-    dirs[i * 3 + 2] = z / l + (rand() - 0.5) * 0.5;
-    rands[i] = rand();
-  }
-  pGeo.setAttribute('aDir', new THREE.BufferAttribute(dirs, 3));
-  pGeo.setAttribute('aRand', new THREE.BufferAttribute(rands, 1));
-  pGeo.deleteAttribute('normal');
-  pGeo.deleteAttribute('uv');
-
-  const pUniforms = {
-    uTime: { value: 0 },
-    uDissolve: { value: 0 },
-    uSize: { value: 2.1 },
-    uPix: { value: 1 },
-    uColA: { value: COL_A },
-    uColB: { value: COL_B },
-  };
-
-  const dust = new THREE.Points(
-    pGeo,
+  const ground = new THREE.Mesh(
+    new THREE.PlaneGeometry(2, 2),
     new THREE.ShaderMaterial({
-      vertexShader: POINT_VERT,
-      fragmentShader: POINT_FRAG,
-      uniforms: pUniforms,
-      transparent: true,
+      vertexShader: GROUND_VERT,
+      fragmentShader: GROUND_FRAG,
+      uniforms: groundU,
+      depthTest: false,
       depthWrite: false,
-      blending: THREE.AdditiveBlending,
     })
   );
-  group.add(dust);
+  ground.frustumCulled = false;
+  ground.renderOrder = -1;
+  stage.scene.add(ground);
 
-  /* ── orbiting ring ─────────────────────────────────────────────────── */
-  const ringGeo = new THREE.TorusGeometry(1.44, 0.007, 3, q(90, 150, 220));
-  const ringMat = new THREE.MeshBasicMaterial({
-    color: new THREE.Color('#b9a6ff'),
-    transparent: true,
-    opacity: 0.42,
-    depthWrite: false,
+  /* ---- slab ------------------------------------------------------------ */
+  const W = 1.62;
+  const H = W / 1.5;
+  const D = W / 12;
+
+  const shape = new THREE.Shape();
+  shape.moveTo(-W / 2, -H / 2);
+  shape.lineTo(W / 2, -H / 2);
+  shape.lineTo(W / 2, H / 2);
+  shape.lineTo(-W / 2, H / 2);
+  shape.lineTo(-W / 2, -H / 2);
+
+  // the one signature mark on the site: a hole punched off-axis, through
+  // which the sweep is visible
+  const hole = new THREE.Path();
+  const hx = -W / 2 + W * 0.155;
+  const hy = H / 2 - H * 0.185;
+  const hr = W * 0.031;
+  hole.absarc(hx, hy, hr, 0, Math.PI * 2, true);
+  shape.holes.push(hole);
+
+  const geo = new THREE.ExtrudeGeometry(shape, {
+    depth: D,
+    bevelEnabled: true,
+    bevelSize: 0.01,
+    bevelThickness: 0.01,
+    bevelSegments: 2,
+    curveSegments: q(10, 14, 18),
   });
-  const ring = new THREE.Mesh(ringGeo, ringMat);
-  ring.rotation.x = 1.22;
-  ring.rotation.y = 0.35;
-  group.add(ring);
-
-  const ring2 = new THREE.Mesh(ringGeo, ringMat.clone());
-  ring2.material.opacity = 0.2;
-  ring2.material.color = new THREE.Color('#8fe8cf');
-  ring2.scale.setScalar(1.14);
-  ring2.rotation.x = -0.68;
-  ring2.rotation.z = 0.6;
-  group.add(ring2);
-
-  /* ── ambient motes ─────────────────────────────────────────────────── */
-  const moteCount = q(120, 240, 420);
-  const mPos = new Float32Array(moteCount * 3);
-  const mRand = new Float32Array(moteCount);
-  const mr = rng(9182);
-  for (let i = 0; i < moteCount; i++) {
-    const r = 2.1 + mr() * 3.6;
-    const th = mr() * Math.PI * 2;
-    const ph = Math.acos(2 * mr() - 1);
-    mPos[i * 3] = r * Math.sin(ph) * Math.cos(th);
-    mPos[i * 3 + 1] = r * Math.sin(ph) * Math.sin(th) * 0.7;
-    mPos[i * 3 + 2] = r * Math.cos(ph) * 0.6;
-    mRand[i] = mr();
+  geo.center();
+  // ExtrudeGeometry's uv generator maps the face in world units; rebuild the
+  // face uvs so the deboss texture lands exactly on the 3:2 rectangle.
+  {
+    const pos = geo.attributes.position;
+    const uv = geo.attributes.uv;
+    for (let i = 0; i < pos.count; i++) {
+      uv.setXY(i, (pos.getX(i) + W / 2) / W, (pos.getY(i) + H / 2) / H);
+    }
+    uv.needsUpdate = true;
   }
-  const moteGeo = new THREE.BufferGeometry();
-  moteGeo.setAttribute('position', new THREE.BufferAttribute(mPos, 3));
-  moteGeo.setAttribute('aRand', new THREE.BufferAttribute(mRand, 1));
-  const moteU = { uTime: { value: 0 }, uPix: { value: 1 } };
-  const motes = new THREE.Points(
-    moteGeo,
+
+  const TEX_W = q(640, 896, 1024);
+  const slabU = {
+    uDeboss: { value: null },
+    uRelief: { value: 26 },
+    uKeyDir: { value: new THREE.Vector3().copy(LIGHT) },
+    uKeyCol: { value: CHALK.clone() },
+    uSkyCol: { value: SKY_FILL.clone() },
+    uBounceCol: { value: STONE_DEEP.clone() },
+    uBase: { value: new THREE.Color(0xcfcabb) },
+    uTooth: { value: 0.035 },
+    uOct: { value: q(1, 2, 3) },
+    uFace: { value: new THREE.Vector2(W / 2, H / 2) },
+  };
+
+  const slab = new THREE.Mesh(
+    geo,
     new THREE.ShaderMaterial({
-      vertexShader: MOTE_VERT,
-      fragmentShader: MOTE_FRAG,
-      uniforms: moteU,
-      transparent: true,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending,
+      vertexShader: SLAB_VERT,
+      fragmentShader: SLAB_FRAG,
+      uniforms: slabU,
     })
   );
-  stage.scene.add(motes);
+  stage.scene.add(slab);
 
-  /* ── scroll wiring ─────────────────────────────────────────────────── */
-  const tHero = track(heroEl, { start: 'top top', end: 'bottom top', scrub: 9 });
-  const tOut = manifestoEl
-    ? track(manifestoEl, { start: 'top bottom', end: 'bottom center', scrub: 7 })
-    : { eased: 0 };
+  /* The deboss has to be drawn after the webfont has loaded or it bakes the
+     fallback face into the object for the life of the page. */
+  const makeDeboss = (tight) => {
+    const tex = new THREE.CanvasTexture(debossCanvas(TEX_W, Math.round(TEX_W / 1.5), tight));
+    tex.colorSpace = THREE.NoColorSpace;
+    tex.generateMipmaps = true;
+    tex.minFilter = THREE.LinearMipmapLinearFilter;
+    tex.anisotropy = Math.min(4, stage.renderer.capabilities.getMaxAnisotropy());
+    tex.needsUpdate = true;
+    const prev = slabU.uDeboss.value;
+    slabU.uDeboss.value = tex;
+    prev?.dispose();
+  };
+  const tight = () => viewport.w < 768;
+  let tightNow = tight();
+  makeDeboss(tightNow);
+  document.fonts?.ready.then(() => makeDeboss(tightNow));
+  // Only when the cut actually changes — a resize inside one bracket redraws
+  // nothing.
+  addEventListener('resize', () => {
+    const t2 = tight();
+    if (t2 === tightNow) return;
+    tightNow = t2;
+    makeDeboss(t2);
+  }, { passive: true });
 
-  const ptr = pointer();
-  let px = 0, py = 0;
-  let tiltX = 0, tiltY = 0;
-  if (env.touch) {
-    addEventListener(
-      'deviceorientation',
-      (e) => {
-        if (e.gamma == null) return;
-        tiltX = clamp(e.gamma / 45, -1, 1);
-        tiltY = clamp((e.beta - 50) / 45, -1, 1);
-      },
-      { passive: true }
-    );
+  /* ---- choreography ---------------------------------------------------- */
+  const t = track(heroEl, { start: 'top top', end: 'bottom bottom', scrub: 8 });
+
+  const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
+  if (!env.touch && !env.reducedMotion) {
+    addEventListener('pointermove', (e) => {
+      pointer.tx = (e.clientX / innerWidth) * 2 - 1;
+      pointer.ty = (e.clientY / innerHeight) * 2 - 1;
+    }, { passive: true });
   }
 
-  const place = () => {
-    const vw = document.documentElement.clientWidth;
-    const wide = vw >= 900;
-    const midW = vw >= 620;
-    // Wide: pushed right, clear of the headline column.
-    // Narrow: lifted into the top third, above where the copy begins.
-    group.position.x = wide ? 1.52 : 0.1;
-    group.position.y = wide ? 0.14 : 1.06;
-    const s = wide ? 1.08 : midW ? 0.86 : 0.7;
-    group.scale.setScalar(s);
-    group.userData.baseScale = s;
-    group.userData.baseY = group.position.y;
-    pUniforms.uPix.value = stage.renderer.getPixelRatio();
-    moteU.uPix.value = stage.renderer.getPixelRatio();
-  };
-  place();
-  stage.opts.onResize = place;
+  const corner = new THREE.Vector3();
+  const hit = new THREE.Vector3();
+  const ndc = new THREE.Vector3();
+  const CORNERS = [
+    new THREE.Vector3(-W / 2, -H / 2, D / 2),
+    new THREE.Vector3(W / 2, -H / 2, D / 2),
+    new THREE.Vector3(W / 2, H / 2, D / 2),
+    new THREE.Vector3(-W / 2, H / 2, D / 2),
+  ];
 
-  let opacity = 1;
+  let lastW = 0;
+  stage.onFrame((dt) => {
+    const p = t.eased;
+    const wide = viewport.w >= 900;
 
-  stage.onFrame((dt, t) => {
-    uniforms.uTime.value = t;
-    pUniforms.uTime.value = t;
-    moteU.uTime.value = t;
+    if (stage.width !== lastW) {
+      lastW = stage.width;
+      const a = stage.width / stage.height;
+      groundU.uAspect.value.set(a >= 1 ? a : 1, a >= 1 ? 1 : 1 / a);
+    }
 
-    const hp = tHero.eased;
-    const op = tOut.eased;
+    pointer.x = damp(pointer.x, pointer.tx, 9, dt);
+    pointer.y = damp(pointer.y, pointer.ty, 9, dt);
 
-    // dissolve ramps in over the back half of the hero exit
-    const dissolve = smoothstep(seg(op, 0.02, 0.72));
-    pUniforms.uDissolve.value = dissolve;
-    uniforms.uOpacity.value = 1 - smoothstep(seg(dissolve, 0.02, 0.55));
-    uniforms.uAmp.value = 0.2 + dissolve * 0.5;
+    /* Chained lerps, never `if (p > 0)`: the progress is damped and never
+       lands on zero, so a guard would latch for the rest of the session. */
+    const a1 = smoothstep(clamp(p / 0.35));
+    const a2 = smoothstep(clamp((p - 0.35) / 0.4));
+    const a3 = smoothstep(clamp((p - 0.75) / 0.25));
 
-    solid.visible = uniforms.uOpacity.value > 0.01;
+    let rx = lerp(-0.105, 0.21, a1);
+    rx = lerp(rx, 0.44, a2);
+    let ry = lerp(0.245, 0.035, a1);
+    ry = lerp(ry, -0.16, a2);
+    let rz = lerp(0.0, -0.055, a2);
 
-    // slow constant turn + scroll-driven spin
-    group.rotation.y += dt * 0.075;
-    group.rotation.y += (scroll.velocity * 0.00002);
-    group.rotation.x = -0.12 + hp * 0.5;
-    ring.rotation.z += dt * 0.09;
-    ring2.rotation.y -= dt * 0.06;
-    ringMat.opacity = 0.5 * (1 - dissolve);
-    ring2.material.opacity = 0.24 * (1 - dissolve);
+    if (!env.reducedMotion) {
+      rx += pointer.y * 0.05;
+      ry += pointer.x * 0.07;
+    }
+    slab.rotation.set(rx, ry, rz);
 
-    const base = group.userData.baseScale;
-    group.scale.setScalar(base * (1 - hp * 0.14 + dissolve * 0.06));
-    group.position.y = group.userData.baseY + hp * 0.55;
+    const baseX = wide ? 1.02 : 0;
+    const baseY = wide ? 0.30 : 0.62;
+    let x = baseX;
+    let y = baseY;
+    x = lerp(x, baseX - 0.30, a2);
+    y = lerp(y, baseY + 0.34, a2);
+    /* The exit leaves on the side it lives on. Dragging it left across the
+       headline turned the last third of the hero into a grey rectangle
+       sliding over the type, back-face first. */
+    x = lerp(x, baseX + 1.35, a3);
+    y = lerp(y, baseY + 2.1, a3);
+    /* On a phone the slab has to be an object you can see the edges of, not a
+       wall. At 0.82 it was 2.1× the frame width and read as a texture. */
+    const s = wide ? 1 : 0.55;
+    slab.position.set(x, y, 0);
+    slab.scale.setScalar(s);
 
-    // parallax: pointer on desktop, gyroscope on phones
-    const targetX = env.touch ? tiltX * 0.16 : (ptr.active ? ptr.tx * 0.2 : 0);
-    const targetY = env.touch ? tiltY * 0.12 : (ptr.active ? -ptr.ty * 0.14 : 0);
-    px = damp(px, targetX, 3.2, dt);
-    py = damp(py, targetY, 3.2, dt);
-    stage.camera.position.x = px;
-    stage.camera.position.y = py;
-    stage.camera.lookAt(group.position.x * 0.35, group.position.y * 0.35, 0);
+    /* The shadow. Four corners cast along the light onto the sweep, projected
+       to the screen — so its length and softness are always a consequence of
+       the slab's actual angle rather than a decoration. */
+    slab.updateMatrixWorld();
+    const sweepZ = wide ? SWEEP_FAR : SWEEP_NEAR;
+    let nearest = Infinity;
+    for (let i = 0; i < 4; i++) {
+      corner.copy(CORNERS[i]).applyMatrix4(slab.matrixWorld);
+      const tHit = (corner.z - sweepZ) / LIGHT.z;
+      hit.set(corner.x - LIGHT.x * tHit, corner.y - LIGHT.y * tHit, sweepZ);
+      ndc.copy(hit).project(stage.camera);
+      const ax = groundU.uAspect.value.x;
+      const ay = groundU.uAspect.value.y;
+      quadPts[i].set(ndc.x * ax, ndc.y * ay);
+      if (corner.z < nearest) {
+        nearest = corner.z;
+        groundU.uContact.value.copy(quadPts[i]);
+      }
+    }
+    /* Further off the wall → softer and weaker. The numbers are in
+       aspect-corrected ndc, where 1.0 is half the viewport height: a penumbra
+       of 0.05 is about twenty-two pixels on a laptop. Anything looser than
+       that stops being a hard key and becomes a smudge, and a smudge is
+       exactly the thing this page is arguing against. */
+    const lift = clamp((slab.position.z - sweepZ) / 2.6);
+    groundU.uSoft.value = 0.011 + lift * 0.05;
+    groundU.uShade.value = (0.4 - lift * 0.07) * (1 - a3 * 0.9);
+    groundU.uHorizon.value = 0.2 - a2 * 0.5;
 
-    motes.rotation.y += dt * 0.012;
+    // the key never moves in world space; it is only re-expressed in view space
+    slabU.uKeyDir.value.copy(LIGHT).transformDirection(stage.camera.matrixWorldInverse);
   });
 
-  // Layer fade lives on the global ticker, not on stage.onFrame — a paused
-  // stage stops calling its frame callbacks, so the thing that decides when to
-  // un-pause has to run outside of it.
-  onTick((dt) => {
-    const targetOpacity = 1 - smoothstep(seg(tOut.eased, 0.35, 0.95));
-    opacity = damp(opacity, targetOpacity, 8, dt);
-    canvas.style.opacity = opacity.toFixed(3);
-    stage.paused = opacity < 0.015;
-  }, 40);
-
-  // Reduced motion: hold a single beautiful frame, no rotation, no dissolve.
+  // Reduced motion: one composed frame, and the loop never runs again.
   if (env.reducedMotion) {
-    stage.onFrame(() => {
-      group.rotation.y = 0.6;
-      group.rotation.x = -0.12;
-    });
+    onTick(() => {}, 99);
   }
 
   return stage;

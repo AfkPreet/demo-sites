@@ -4,40 +4,47 @@ import { boot } from '../lib/site.js';
 import { onTick } from '../lib/ticker.js';
 import { scroll, viewport } from '../lib/scroll.js';
 import { env, hasWebGL } from '../lib/env.js';
-import { magnetic, cursor, countUp, scrollProgressBar } from '../lib/ui.js';
-import { clamp } from '../lib/math.js';
-import { initInk } from './inkfield.js';
+import { watch } from '../lib/reveal.js';
 
-boot();
+/* No line-splitting: type never animates on this site. */
+boot({ split: false });
 
-/* ── nav: solid on scroll, out of the way when reading downward ───────── */
+/* ── the stone's tooth ─────────────────────────────────────────────────────
+   A 128×128 tileable value-noise tile, generated once and handed to CSS as a
+   data URI. It is painted on the ground elements themselves, underneath the
+   type — never a fixed full-viewport overlay, never blended over text, never
+   animated. That is the difference between a material and a filter.
+   ─────────────────────────────────────────────────────────────────────────*/
 (() => {
-  const nav = document.getElementById('nav');
-  if (!nav) return;
-  let hidden = false;
-  let solid = false;
-  onTick(() => {
-    const y = scroll.y;
-    const wantSolid = y > 40;
-    if (wantSolid !== solid) {
-      solid = wantSolid;
-      nav.classList.toggle('is-solid', solid);
-    }
-    const wantHidden = y > 520 && scroll.direction > 0 && scroll.velocity > 60;
-    const wantShown = scroll.direction < 0 || y < 200;
-    if (wantHidden && !hidden) {
-      hidden = true;
-      nav.classList.add('is-hidden');
-    } else if (wantShown && hidden) {
-      hidden = false;
-      nav.classList.remove('is-hidden');
-    }
-  }, 60);
+  if (viewport.w < 380) return;
+  const S = 128;
+  const c = document.createElement('canvas');
+  c.width = S;
+  c.height = S;
+  const x = c.getContext('2d', { alpha: true });
+  if (!x) return;
+  const img = x.createImageData(S, S);
+  const d = img.data;
+  let seed = 20260819;
+  const rnd = () => {
+    seed = (seed * 1664525 + 1013904223) >>> 0;
+    return seed / 4294967296;
+  };
+  for (let i = 0; i < S * S; i++) {
+    const v = rnd();
+    const a = v < 0.5 ? 10 : 8;              // half dark specks, half light
+    d[i * 4] = v < 0.5 ? 0 : 255;
+    d[i * 4 + 1] = d[i * 4];
+    d[i * 4 + 2] = d[i * 4];
+    d[i * 4 + 3] = Math.round(a * (0.35 + rnd() * 0.65));
+  }
+  x.putImageData(img, 0, 0);
+  document.documentElement.style.setProperty('--grain', `url(${c.toDataURL('image/png')})`);
 })();
 
-/* ── hero WebGL (progressively enhanced) ──────────────────────────────── */
+/* ── the hero object ──────────────────────────────────────────────────── */
 (async () => {
-  const canvas = document.getElementById('stage');
+  const canvas = document.getElementById('slab');
   if (!canvas) return;
   if (!hasWebGL()) {
     canvas.remove();
@@ -48,120 +55,77 @@ boot();
   initHero(canvas);
 })();
 
-/* ── generative ink drawing in the Studio section ─────────────────────── */
-initInk(document.getElementById('ink'), {
-  caption: document.querySelector('.studio__cap'),
+/* ── rules draw; nothing else does ────────────────────────────────────────
+   The site's single entrance move. A 1px hairline runs left to right across
+   a section's top in 380ms. The content beneath it does not animate — it is
+   simply there when you arrive.
+   ─────────────────────────────────────────────────────────────────────────*/
+document.querySelectorAll('.rule-draw').forEach((el) => {
+  watch(el, () => el.classList.add('is-in'), null, { rootMargin: '0px 0px -8% 0px' });
 });
 
-/* ── the stacked work cards ───────────────────────────────────────────── */
+/* ── the light moves across the work, because the work moves past it ──────
+   The key is fixed relative to the viewport, not the page, so a plate's cast
+   shadow swings as it travels. Quantised to whole pixels, so a typical frame
+   writes nothing at all.
+   ─────────────────────────────────────────────────────────────────────────*/
 (() => {
-  const list = document.querySelector('.work__list');
-  const slots = Array.from(document.querySelectorAll('.wslot'));
-  if (!list || !slots.length) return;
+  const plates = Array.from(document.querySelectorAll('.plate__art'));
+  if (!plates.length) return;
+  if (env.tier === 'low' || env.reducedMotion) return;
 
-  const cards = slots.map((s) => s.querySelector('.wcard'));
+  const section = document.querySelector('.work');
+  let live = false;
+  if (section) watch(section, () => (live = true), () => (live = false), { rootMargin: '20% 0px' });
+
   let tops = [];
-  let pinTop = 0;
-  let sectionVisible = false;
-  let live = -2;
-
-  const absTop = (el) => {
-    let y = 0;
-    let n = el;
-    while (n) {
-      y += n.offsetTop;
-      n = n.offsetParent;
-    }
-    return y;
-  };
-
-  // Both getBoundingClientRect() and offsetTop report a sticky element at its
-  // *pinned* position, not where it sits in layout. Measuring mid-page would
-  // therefore collapse every already-pinned slot onto the same offset. Drop
-  // the slots out of sticky for the duration of the read — they are ordinary
-  // block-level <li>s either way, so layout is identical.
   const measure = () => {
-    for (const s of slots) s.style.position = 'static';
-    tops = slots.map(absTop);
-    for (const s of slots) s.style.position = '';
-    pinTop = parseFloat(getComputedStyle(slots[0]).top) || 0;
+    tops = plates.map((el) => {
+      const r = el.getBoundingClientRect();
+      return { y: r.top + window.scrollY + r.height / 2, h: r.height };
+    });
   };
-
   measure();
   addEventListener('resize', () => setTimeout(measure, 200), { passive: true });
   addEventListener('load', measure, { passive: true });
   document.fonts?.ready.then(measure);
 
-  new IntersectionObserver(
-    ([e]) => {
-      sectionVisible = e.isIntersecting;
-      if (!sectionVisible) {
-        cards.forEach((c) => c.classList.remove('is-live'));
-        live = -2;
-      }
-    },
-    { rootMargin: '20% 0px 20% 0px' }
-  ).observe(list);
-
-  const last = slots.length - 1;
+  const last = plates.map(() => ({ x: -99, y: -99 }));
 
   onTick(() => {
-    if (!sectionVisible || !tops.length) return;
-    const y = scroll.smooth;
-    let active = -1;
-
-    for (let i = 0; i < slots.length; i++) {
-      const start = tops[i] - pinTop;
-      if (y >= start - viewport.h * 0.55) active = i;
-
-      // How far the *next* card has come to cover this one.
-      const span = i < last ? tops[i + 1] - tops[i] : viewport.h;
-      const p = i < last ? clamp((y - start) / span) : 0;
-
-      const card = cards[i];
-      if (p <= 0.0005 && card.dataset.flat === '1') continue;
-      card.dataset.flat = p <= 0.0005 ? '1' : '0';
-      card.style.transform = `translate3d(0, ${(-p * 26).toFixed(2)}px, 0) scale(${(1 - p * 0.07).toFixed(4)})`;
-      card.style.setProperty('--dim', (p * 0.55).toFixed(3));
+    if (!live || viewport.w < 768 || !tops.length) return;
+    // the light, in page coordinates, sitting above and left of the viewport
+    const lx = scroll.y + 0;                       // unused on x — the light is fixed
+    const ly = scroll.y - viewport.h * 0.55;
+    void lx;
+    for (let i = 0; i < plates.length; i++) {
+      const dy = tops[i].y - ly;
+      const k = Math.max(0.35, Math.min(2.2, dy / (viewport.h * 1.15)));
+      const sx = -Math.round(3 + k * 4);
+      const sy = Math.round(4 + k * 5);
+      if (sx === last[i].x && sy === last[i].y) continue;
+      last[i].x = sx;
+      last[i].y = sy;
+      plates[i].style.setProperty('--shadow-x', `${sx}px`);
+      plates[i].style.setProperty('--shadow-y', `${sy}px`);
     }
-
-    if (active !== live) {
-      cards.forEach((c, i) => c.classList.toggle('is-live', i === active || i === active + 1));
-      live = active;
-    }
-  }, 20);
+  }, 22);
 })();
 
-/* ── micro-interactions ───────────────────────────────────────────────── */
-document.querySelectorAll('[data-magnetic]').forEach((el) => magnetic(el));
-document.querySelectorAll('[data-count]').forEach((el) =>
-  countUp(el, { to: parseFloat(el.dataset.count) })
-);
-scrollProgressBar(document.getElementById('scrollbar'));
-if (!env.touch) cursor();
-
-/* ── copy email ───────────────────────────────────────────────────────── */
+/* ── the rail's specimen label snaps, it does not fade ────────────────── */
 (() => {
-  const btn = document.getElementById('copyMail');
-  const hint = document.getElementById('hint');
-  if (!btn) return;
-  let t;
-  btn.addEventListener('click', async () => {
-    const text = btn.dataset.copy;
-    try {
-      await navigator.clipboard.writeText(text);
-      btn.classList.add('is-copied');
-      clearTimeout(t);
-      t = setTimeout(() => btn.classList.remove('is-copied'), 1800);
-    } catch {
-      if (!hint) return;
-      hint.hidden = false;
-      hint.querySelector('span').textContent = text;
-      hint.classList.add('is-on');
-      clearTimeout(t);
-      t = setTimeout(() => hint.classList.remove('is-on'), 4000);
-    }
-  });
+  const sections = Array.from(document.querySelectorAll('.sec'));
+  if (!sections.length) return;
+  for (const sec of sections) {
+    const rail = sec.querySelector('.sec__rail-in');
+    if (!rail) continue;
+    watch(
+      sec,
+      () => rail.style.setProperty('opacity', '1'),
+      () => rail.style.setProperty('opacity', '0.34'),
+      { rootMargin: '-30% 0px -55% 0px' }
+    );
+  }
 })();
 
 /* ── housekeeping ─────────────────────────────────────────────────────── */

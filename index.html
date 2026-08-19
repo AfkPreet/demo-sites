@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Preet Kumar — Interaction Designer &amp; Creative Developer</title>
-<meta name="description" content="I design and build scroll-driven, real-time 3D websites that stay smooth on the phone in your client's hand. Six complete demo worlds inside — open any of them.">
-<meta name="theme-color" content="#07070B">
-<meta name="color-scheme" content="dark">
+<meta name="description" content="Interaction design and front-end development, done by the same person. Six complete brand worlds — every layout, every typeface decision, every line of shader code. Open any of them.">
+<meta name="theme-color" content="#BAB5A6">
+<meta name="color-scheme" content="light">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Preet Kumar — Interaction Designer &amp; Creative Developer">
-<meta property="og:description" content="Scroll-driven, real-time 3D websites. Six complete demo worlds inside — open any of them.">
+<meta property="og:description" content="Six brands. Six worlds. One pair of hands.">
 <meta property="og:image" content="/og/portfolio.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -18,7 +18,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
 <script type="module" src="/src/portfolio/main.js"></script>
 </head>
@@ -26,168 +26,96 @@
 <body>
 <a class="skip" href="#main">Skip to content</a>
 
-<!-- Fixed WebGL layer: the obsidian form that carries the first three chapters -->
-<canvas id="stage" class="gl-fixed" aria-hidden="true"></canvas>
-<div class="grain" aria-hidden="true"></div>
-<div class="scroll-bar" aria-hidden="true"><i id="scrollbar"></i></div>
-
-<header class="nav" id="nav">
-  <a class="nav__brand" href="#top" aria-label="Preet Kumar — top of page">
-    <span class="nav__mark">PK</span>
-    <span class="nav__name">Preet&nbsp;Kumar</span>
-  </a>
+<header class="nav">
+  <a class="nav__name" href="#top">Preet Kumar</a>
   <nav class="nav__links" aria-label="Primary">
     <a href="#work">Work</a>
     <a href="#studio">Studio</a>
-    <a href="#contact" class="nav__cta">
-      <span class="nav__pulse" aria-hidden="true"></span>
-      Work with me
-    </a>
+    <a href="#contact">Contact</a>
   </nav>
 </header>
 
 <main id="main">
 
-<!-- ══════════════════════════════════════ 01 · HERO ══════════════════════ -->
-<section class="hero" id="top">
-  <div class="hero__inner">
-    <p class="eyebrow hero__eyebrow" data-rv="up">
-      <span class="dot" aria-hidden="true"></span>
-      Interaction designer &amp; creative developer
-    </p>
+<!-- ══════════════════════════════ 00 · HERO ═════════════════════════════ -->
+<section class="hero ground" id="top">
+  <div class="hero__stage">
+    <canvas id="slab" aria-hidden="true"></canvas>
 
-    <h1 class="hero__title" data-split data-rv="lines">
-      I build websites people <em>remember,</em> and clients keep.
-    </h1>
-
-    <p class="hero__lede" data-rv="up" style="--rv-delay:520ms">
-      Scroll-driven stories, real-time 3D, and interfaces engineered to stay
-      silky on a mid-range phone. Six finished worlds live below — open any
-      of them.
-    </p>
-
-    <div class="hero__actions" data-rv="up" style="--rv-delay:660ms">
-      <a class="btn btn--primary" href="#work" data-magnetic>
-        <span>Explore the six worlds</span>
-        <svg viewBox="0 0 16 16" aria-hidden="true" width="14" height="14"><path d="M8 1v14M2.5 9.5 8 15l5.5-5.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-      <a class="btn btn--ghost" href="#contact" data-magnetic>Work with me</a>
+    <div class="hero__fallback" aria-hidden="true">
+      <b>PREET KUMAR</b>
+      <span class="lbl-s">Interaction design · Creative development</span>
     </div>
-  </div>
 
-  <div class="hero__foot">
-    <div class="hero__meta" data-rv="up" style="--rv-delay:820ms">
-      <span>Bengaluru <span aria-hidden="true">·</span> working worldwide</span>
-      <span class="hero__sep" aria-hidden="true"></span>
-      <span>Available for new projects</span>
-    </div>
-    <div class="hero__scroll" aria-hidden="true">
-      <span class="hero__scroll-label">Scroll</span>
-      <span class="hero__scroll-rail"><i></i></span>
+    <div class="hero__copy">
+      <div class="wrap">
+        <h1 class="hero__h1">Six&nbsp;brands.<br>Six&nbsp;worlds.<br>One&nbsp;pair<br>of&nbsp;hands.</h1>
+        <p class="lede hero__lede">
+          Interaction design and front-end development, done by the same
+          person. Below are six complete brand worlds — every layout, every
+          typeface decision, every line of shader code. Open any of them.
+        </p>
+        <p class="hero__foot">
+          <span class="lbl-s">Available now</span>
+          <span class="lbl-s">Six demonstrations below</span>
+        </p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════ 02 · MANIFESTO ═════════════════ -->
-<section class="manifesto" id="manifesto">
-  <div class="wrap">
-    <p class="eyebrow" data-rv="up">01 — Why it matters</p>
-    <h2 class="manifesto__line" data-split data-rv="lines">
-      A visitor decides how much to trust you in about two seconds. Everything
-      I do lives inside those two seconds.
-    </h2>
-    <div class="manifesto__cols">
-      <p data-rv="up" style="--rv-delay:120ms">
-        Most websites are brochures with a nicer font. They present information
-        and hope. The ones that convert do something else entirely — they
-        <em>move</em>, they reveal, they reward the scroll, and by the time
-        someone reaches your contact form they already feel like they know how
-        you work.
-      </p>
-      <p data-rv="up" style="--rv-delay:240ms">
-        That feeling is not decoration. It is the product. It is built out of
-        timing, easing curves, restraint, and an obsession with the frame
-        budget — because beauty that stutters reads as broken, and broken reads
-        as amateur.
-      </p>
+<!-- ══════════════════════════════ 01 · METHOD ═══════════════════════════ -->
+<section class="manifesto ground" id="method">
+  <div class="wrap sec">
+      <div class="sec__rail">
+        <div class="sec__rail-in">
+          <span class="lbl-s sec__no">01</span>
+          <span class="lbl-s">Method</span>
+        </div>
+      </div>
+    <div class="sec__body">
+      <span class="rule-draw" data-rv="fade" aria-hidden="true"></span>
+      <p class="quiet" style="margin-top:clamp(20px,3vw,36px)">Everything here is lit by the same light.</p>
+      <div class="manifesto__cols">
+        <p>
+          That is the whole method. One decision made early — where the light
+          comes from — and then a hundred small ones that agree with it. Which
+          edge catches, which one falls away, what casts a shadow onto what.
+        </p>
+        <p>
+          It is not a style. It is the reason a page feels made rather than
+          assembled, and it is the only thing I know of that a template cannot
+          fake.
+        </p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════ 03 · STUDIO / ABOUT ════════════ -->
-<section class="studio" id="studio">
-  <div class="wrap studio__grid">
-    <div class="studio__art" data-rv="scale">
-      <canvas id="ink" aria-hidden="true"></canvas>
-      <div class="studio__art-frame" aria-hidden="true"></div>
-      <figcaption class="studio__cap">
-        <span class="mono">fig. 01</span>
-        Curl-noise flow field, 9,000 strokes, drawn in the browser at load.
-        No image files were used anywhere on this site.
-      </figcaption>
-    </div>
+<!-- ══════════════════════════════ 02 · WORK ═════════════════════════════ -->
+<section class="work ground" id="work">
+  <div class="wrap sec">
+      <div class="sec__rail">
+        <div class="sec__rail-in">
+          <span class="lbl-s sec__no">02</span>
+          <span class="lbl-s">Work</span>
+        </div>
+      </div>
+    <div class="sec__body">
+      <span class="rule-draw" data-rv="fade" aria-hidden="true"></span>
+      <div class="work__head" style="margin-top:clamp(20px,3vw,36px)">
+        <h2>Six worlds, no two by the same studio.</h2>
+        <p>
+          Each one is a complete site with its own brand, story and signature
+          interaction. They open in this tab — every one of them has a way
+          back in the corner.
+        </p>
+      </div>
 
-    <div class="studio__text">
-      <p class="eyebrow" data-rv="up">02 — Who you'd be working with</p>
-      <h2 class="h2" data-split data-rv="lines">
-        I'm Preet. I design the thing, then I build the thing.
-      </h2>
-      <p class="lede" data-rv="up" style="--rv-delay:150ms">
-        No handoff, no telephone game between a designer's file and a
-        developer's approximation of it. The motion you approve is the motion
-        that ships, because the person choosing the easing curve is the person
-        writing it.
-      </p>
-      <p data-rv="up" style="--rv-delay:250ms">
-        I work in the narrow band where art direction meets engineering:
-        WebGL and shaders, scroll choreography, type systems, and the deeply
-        unglamorous performance work that makes all of it feel effortless on a
-        four-year-old Android.
-      </p>
-
-      <ul class="chips" data-rv="up" data-rv-stagger style="--rv-delay:340ms">
-        <li>Art direction</li>
-        <li>Scroll choreography</li>
-        <li>WebGL &amp; shaders</li>
-        <li>Design systems</li>
-        <li>Front-end engineering</li>
-        <li>Performance</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="wrap">
-    <ul class="stats" data-rv="up" data-rv-stagger>
-      <li><b><span data-count="7">7</span></b><span>complete sites in this build</span></li>
-      <li><b><span data-count="7">7</span></b><span>independent design systems</span></li>
-      <li><b><span data-count="0">0</span></b><span>stock photos — every visual authored</span></li>
-      <li><b>60<i>fps</i></b><span>the budget everything is built to</span></li>
-    </ul>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════ 04 · WORK ══════════════════════ -->
-<section class="work" id="work">
-  <div class="wrap work__head">
-    <p class="eyebrow" data-rv="up">03 — Selected work</p>
-    <h2 class="h2 work__title" data-split data-rv="lines">
-      Six worlds, held to one rule: no two may feel like the <em>same studio</em>
-      made them.
-    </h2>
-    <p class="work__note" data-rv="up" style="--rv-delay:180ms">
-      Every one is a complete, explorable site with its own brand, story and
-      signature moment. Open them — then come back with the button that never
-      leaves the corner.
-    </p>
-  </div>
-
-  <ol class="work__list">
-
-    <!-- ─────────── 01 AURELIS ─────────── -->
-    <li class="wslot">
-      <article class="wcard wcard--aurelis">
-        <a class="wcard__link" href="/demos/aurelis/" data-cursor="Open">
-          <div class="wcard__art" aria-hidden="true">
+      <ol class="plates">
+      <li>
+        <a class="plate" href="/demos/aurelis/">
+          <span class="plate__art">
             <svg class="poster poster--aurelis" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
               <defs>
                 <radialGradient id="au-glow" cx="50%" cy="46%" r="58%">
@@ -244,27 +172,19 @@
               </g>
               <g class="po-sweep"><rect x="-320" y="-60" width="200" height="720" fill="#ffeec2" opacity=".05" transform="skewX(-16)"/></g>
             </svg>
-          </div>
-          <div class="wcard__body">
-            <p class="wcard__index"><span class="mono">01</span> <span>Luxury horology</span></p>
-            <h3 class="wcard__name">Aurelis</h3>
-            <p class="wcard__brand">Maison Aurelis, Genève — <i>“Le temps, rendu éternel.”</i></p>
-            <p class="wcard__sig">
-              <span class="wcard__sig-tag">Signature moment</span>
-              The Nocturne 01 comes apart into 214 floating components mid-scroll,
-              turns in the dark, and rebuilds itself.
-            </p>
-            <span class="wcard__go">Open the site <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-          </div>
+          </span>
+          <span class="plate__edge" aria-hidden="true"></span>
+          <span class="plate__meta">
+            <span class="lbl-s plate__idx">01 / 06</span>
+            <span class="plate__name">AURELIS</span>
+            <span class="plate__desc">Genevan watchmaker</span>
+            <span class="lbl-s plate__tags">Horology · Genève</span>
+          </span>
         </a>
-      </article>
-    </li>
-
-    <!-- ─────────── 02 AETHERION ─────────── -->
-    <li class="wslot">
-      <article class="wcard wcard--aetherion">
-        <a class="wcard__link" href="/demos/aetherion/" data-cursor="Open">
-          <div class="wcard__art" aria-hidden="true">
+      </li>
+      <li>
+        <a class="plate" href="/demos/aetherion/">
+          <span class="plate__art">
             <svg class="poster poster--aetherion" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
               <defs>
                 <radialGradient id="ae-sky" cx="18%" cy="20%" r="95%">
@@ -298,27 +218,19 @@
                 <path d="M0 0-120 0" stroke="#9ad7ff" stroke-width="1.6" opacity=".5"/>
               </g>
             </svg>
-          </div>
-          <div class="wcard__body">
-            <p class="wcard__index"><span class="mono">02</span> <span>Space exploration</span></p>
-            <h3 class="wcard__name">Aetherion</h3>
-            <p class="wcard__brand">Deep-field passenger flight — <i>“The sky was never the limit.”</i></p>
-            <p class="wcard__sig">
-              <span class="wcard__sig-tag">Signature moment</span>
-              You fall through the ring plane of a gas giant — the debris whips
-              past the camera and the whole page turns to daylight.
-            </p>
-            <span class="wcard__go">Open the site <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-          </div>
+          </span>
+          <span class="plate__edge" aria-hidden="true"></span>
+          <span class="plate__meta">
+            <span class="lbl-s plate__idx">02 / 06</span>
+            <span class="plate__name">AETHERION</span>
+            <span class="plate__desc">Deep-space passenger flight</span>
+            <span class="lbl-s plate__tags">Travel · Deep field</span>
+          </span>
         </a>
-      </article>
-    </li>
-
-    <!-- ─────────── 03 NOISE94 ─────────── -->
-    <li class="wslot">
-      <article class="wcard wcard--noise94">
-        <a class="wcard__link" href="/demos/noise94/" data-cursor="Open">
-          <div class="wcard__art" aria-hidden="true">
+      </li>
+      <li>
+        <a class="plate" href="/demos/noise94/">
+          <span class="plate__art">
             <svg class="poster poster--noise94" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
               <rect width="800" height="600" fill="#0d0d0d"/>
               <g class="po-slab">
@@ -338,27 +250,19 @@
                 <rect x="262" y="516" width="120" height="10"/><rect x="262" y="538" width="70" height="10"/><rect x="262" y="560" width="150" height="10"/>
               </g>
             </svg>
-          </div>
-          <div class="wcard__body">
-            <p class="wcard__index"><span class="mono">03</span> <span>Streetwear</span></p>
-            <h3 class="wcard__name">Noise94</h3>
-            <p class="wcard__brand">Drop 07: Concrete Bloom — <i>“Made for the misfits.”</i></p>
-            <p class="wcard__sig">
-              <span class="wcard__sig-tag">Signature moment</span>
-              Drag the shutter across the drop to tear it open — the type
-              shatters into fragments and slams back together.
-            </p>
-            <span class="wcard__go">Open the site <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-          </div>
+          </span>
+          <span class="plate__edge" aria-hidden="true"></span>
+          <span class="plate__meta">
+            <span class="lbl-s plate__idx">03 / 06</span>
+            <span class="plate__name">NOISE94</span>
+            <span class="plate__desc">Streetwear drop</span>
+            <span class="lbl-s plate__tags">Fashion · Peckham</span>
+          </span>
         </a>
-      </article>
-    </li>
-
-    <!-- ─────────── 04 CENDRE ─────────── -->
-    <li class="wslot">
-      <article class="wcard wcard--cendre">
-        <a class="wcard__link" href="/demos/cendre/" data-cursor="Open">
-          <div class="wcard__art" aria-hidden="true">
+      </li>
+      <li>
+        <a class="plate" href="/demos/cendre/">
+          <span class="plate__art">
             <svg class="poster poster--cendre" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
               <defs>
                 <radialGradient id="ce-bg" cx="50%" cy="88%" r="78%">
@@ -388,27 +292,19 @@
               </g>
               <path class="po-smoke" d="M400 220c-30-50 30-80 0-130s26-70 26-70" fill="none" stroke="#f3e2cf" stroke-width="2" opacity=".18" stroke-linecap="round"/>
             </svg>
-          </div>
-          <div class="wcard__body">
-            <p class="wcard__index"><span class="mono">04</span> <span>Fine dining</span></p>
-            <h3 class="wcard__name">Cendre</h3>
-            <p class="wcard__brand">Kitchen of fire and ash — <i>“Everything here has met the flame.”</i></p>
-            <p class="wcard__sig">
-              <span class="wcard__sig-tag">Signature moment</span>
-              Each course's ingredients orbit the empty plate, then fall into
-              place as the finished dish while the menu reads itself aloud in type.
-            </p>
-            <span class="wcard__go">Open the site <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-          </div>
+          </span>
+          <span class="plate__edge" aria-hidden="true"></span>
+          <span class="plate__meta">
+            <span class="lbl-s plate__idx">04 / 06</span>
+            <span class="plate__name">CENDRE</span>
+            <span class="plate__desc">Wood-fired restaurant</span>
+            <span class="lbl-s plate__tags">Hospitality · Ardèche</span>
+          </span>
         </a>
-      </article>
-    </li>
-
-    <!-- ─────────── 05 MOSSFOOT ─────────── -->
-    <li class="wslot">
-      <article class="wcard wcard--mossfoot">
-        <a class="wcard__link" href="/demos/mossfoot/" data-cursor="Open">
-          <div class="wcard__art" aria-hidden="true">
+      </li>
+      <li>
+        <a class="plate" href="/demos/mossfoot/">
+          <span class="plate__art">
             <svg class="poster poster--mossfoot" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
               <defs>
                 <linearGradient id="mo-sky" x1="0" y1="0" x2="0" y2="1">
@@ -439,27 +335,19 @@
                 <circle cx="620" cy="200" r="6" opacity=".9"/><circle cx="680" cy="260" r="4" opacity=".7"/><circle cx="140" cy="300" r="5" opacity=".8"/>
               </g>
             </svg>
-          </div>
-          <div class="wcard__body">
-            <p class="wcard__index"><span class="mono">05</span> <span>Indie game studio</span></p>
-            <h3 class="wcard__name">Mossfoot</h3>
-            <p class="wcard__brand">Makers of <i>Lumen &amp; the Lantern Rot</i> — “Small hands, big woods.”</p>
-            <p class="wcard__sig">
-              <span class="wcard__sig-tag">Signature moment</span>
-              Pip watches your cursor across the whole page, blinks, flinches
-              when you get too close, and cheers when you click.
-            </p>
-            <span class="wcard__go">Open the site <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-          </div>
+          </span>
+          <span class="plate__edge" aria-hidden="true"></span>
+          <span class="plate__meta">
+            <span class="lbl-s plate__idx">05 / 06</span>
+            <span class="plate__name">MOSSFOOT</span>
+            <span class="plate__desc">Indie game studio</span>
+            <span class="lbl-s plate__tags">Games · Bristol</span>
+          </span>
         </a>
-      </article>
-    </li>
-
-    <!-- ─────────── 06 VOLUME ZERO ─────────── -->
-    <li class="wslot wslot--last">
-      <article class="wcard wcard--volumezero">
-        <a class="wcard__link" href="/demos/volume-zero/" data-cursor="Open">
-          <div class="wcard__art" aria-hidden="true">
+      </li>
+      <li>
+        <a class="plate" href="/demos/volume-zero/">
+          <span class="plate__art">
             <svg class="poster poster--vz" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
               <rect width="800" height="600" fill="#eceae5"/>
               <g stroke="#b9b5ad" stroke-width=".6" opacity=".8">
@@ -488,128 +376,146 @@
                 <text x="40" y="566">HOUSE FOR A GLASSBLOWER — SEC. A-A</text>
               </g>
             </svg>
-          </div>
-          <div class="wcard__body">
-            <p class="wcard__index"><span class="mono">06</span> <span>Architecture</span></p>
-            <h3 class="wcard__name">Volume Zero</h3>
-            <p class="wcard__brand">Architects, Copenhagen — <i>“Build less. Mean more.”</i></p>
-            <p class="wcard__sig">
-              <span class="wcard__sig-tag">Signature moment</span>
-              A house assembles itself slab by slab out of an exploded
-              axonometric — foundation, structure, envelope — as you scroll.
-            </p>
-            <span class="wcard__go">Open the site <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-          </div>
+          </span>
+          <span class="plate__edge" aria-hidden="true"></span>
+          <span class="plate__meta">
+            <span class="lbl-s plate__idx">06 / 06</span>
+            <span class="plate__name">VOLUME ZERO</span>
+            <span class="plate__desc">Copenhagen architects</span>
+            <span class="lbl-s plate__tags">Architecture · København</span>
+          </span>
         </a>
-      </article>
-    </li>
-  </ol>
-</section>
-
-<!-- ══════════════════════════════════════ 05 · PROCESS ═══════════════════ -->
-<section class="process" id="process">
-  <div class="wrap">
-    <p class="eyebrow" data-rv="up">04 — How it goes</p>
-    <h2 class="h2" data-split data-rv="lines">Four steps. No mystery, no drift.</h2>
-
-    <ol class="steps">
-      <li class="step" data-rv="up">
-        <span class="step__n mono">01</span>
-        <h3>A 30-minute call</h3>
-        <p>You tell me what the site has to <em>do</em> — the client it has to win, the objection it has to answer. I tell you straight whether I'm the right person for it.</p>
       </li>
-      <li class="step" data-rv="up" style="--rv-delay:110ms">
-        <span class="step__n mono">02</span>
-        <h3>Direction, not mockups</h3>
-        <p>Within a week you get one art direction, one motion study, and the actual hero built in the browser. You approve the feeling before anyone builds a page.</p>
-      </li>
-      <li class="step" data-rv="up" style="--rv-delay:220ms">
-        <span class="step__n mono">03</span>
-        <h3>Build in the open</h3>
-        <p>A live staging link from day one, updated as I go. You watch it come together on your own phone rather than in a slide deck.</p>
-      </li>
-      <li class="step" data-rv="up" style="--rv-delay:330ms">
-        <span class="step__n mono">04</span>
-        <h3>Ship, measure, hand over</h3>
-        <p>Deployed, fast, documented, and yours — with the CMS or the codebase set up so your team can keep moving without me.</p>
-      </li>
-    </ol>
+      </ol>
+    </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════ 06 · CONTACT ═══════════════════ -->
-<section class="contact" id="contact">
-  <div class="wrap contact__inner">
-    <p class="eyebrow" data-rv="up">05 — Work with me</p>
+<!-- ══════════════════════════════ 03 · STUDIO ═══════════════════════════ -->
+<section class="about ground" id="studio">
+  <div class="wrap sec">
+      <div class="sec__rail">
+        <div class="sec__rail-in">
+          <span class="lbl-s sec__no">03</span>
+          <span class="lbl-s">Studio</span>
+        </div>
+      </div>
+    <div class="sec__body">
+      <div class="panel">
+        <h2>One person, start to finish.</h2>
+        <div class="about__cols">
+        <div class="about__body">
+          <p>
+            I design and build. There is no handoff, no spec document that
+            loses half its intent on the way to a developer, and no second
+            invoice for making it move. The six sites above were art-directed,
+            typeset, written and shipped by me — the shaders included.
+          </p>
+          <p>
+            The work sits in the narrow band where art direction meets
+            engineering: real-time 3D, scroll choreography, type systems, and
+            the deeply unglamorous performance work that makes all of it feel
+            effortless on a four-year-old Android.
+          </p>
+          <p>
+            Available for new work <b>now</b>, booking two to four weeks out.
+            Based in <b>Bengaluru</b>, working across time zones.
+          </p>
+        </div>
 
-    <h2 class="contact__title" data-split data-rv="lines">
-      If you've read this far, we should probably talk.
-    </h2>
-
-    <p class="contact__lede" data-rv="up" style="--rv-delay:160ms">
-      Tell me who you're trying to convince and what's in the way. I reply to
-      every genuine enquiry within one working day — with an honest yes, or an
-      honest referral to someone better suited.
-    </p>
-
-    <div class="contact__actions" data-rv="up" style="--rv-delay:280ms">
-      <a class="btn btn--primary btn--lg" id="mailBtn"
-         href="mailto:preetkr.2002@gmail.com?subject=Project%20enquiry&body=Hi%20Preet%2C%0A%0AWe're%20building%3A%20%0AThe%20site%20has%20to%20convince%3A%20%0ARough%20timing%3A%20%0ARough%20budget%3A%20%0A%0A"
-         data-magnetic data-cursor="Say hi">
-        <span>Start a project</span>
-        <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M2 4h12v8H2zM2 4.6 8 9l6-4.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
-      </a>
-      <button class="btn btn--ghost btn--lg" id="copyMail" type="button" data-copy="preetkr.2002@gmail.com">
-        <span class="copy__label">preetkr.2002@gmail.com</span>
-        <span class="copy__done" aria-hidden="true">Copied</span>
-      </button>
+        <aside class="kit">
+          <h3 class="lbl-s kit__h">The kit</h3>
+          <dl>
+            <div><dt>Design</dt><dd>Figma when it earns its keep, the browser when it does not</dd></div>
+            <div><dt>Build</dt><dd>Plain JavaScript and Vite. A framework only if you have a reason</dd></div>
+            <div><dt>Three dimensions</dt><dd>Three.js on WebGL2, with the shaders written by hand</dd></div>
+            <div><dt>Motion</dt><dd>One animation loop for the whole page. No motion library</dd></div>
+            <div><dt>Type</dt><dd>Variable fonts, self-hosted and subset to what the page sets</dd></div>
+            <div><dt>Hosting</dt><dd>Anything that serves static files — yours or mine</dd></div>
+          </dl>
+        </aside>
+        </div>
+      </div>
     </div>
+  </div>
+</section>
 
-    <ul class="contact__grid" data-rv="up" data-rv-stagger style="--rv-delay:360ms">
-      <li>
-        <span class="mono">Availability</span>
-        <b><span class="dot dot--live" aria-hidden="true"></span> Taking on new projects</b>
-        <p>Usually booking two to four weeks out.</p>
-      </li>
-      <li>
-        <span class="mono">Good fit for</span>
-        <b>Launches, rebrands, hero pages</b>
-        <p>Brand sites, product launches, and the one page that has to do the convincing.</p>
-      </li>
-      <li>
-        <span class="mono">How I work</span>
-        <b>Fixed scope, fixed price</b>
-        <p>Quoted per project, not per hour, so the estimate can't drift on you.</p>
-      </li>
-      <li>
-        <span class="mono">Timezone</span>
-        <b>IST — overlaps EU &amp; US East</b>
-        <p>Async by default, on a call when it actually helps.</p>
-      </li>
-    </ul>
+<!-- ══════════════════════════════ 04 · PROCESS ══════════════════════════ -->
+<section class="process ground" id="process">
+  <div class="wrap sec">
+      <div class="sec__rail">
+        <div class="sec__rail-in">
+          <span class="lbl-s sec__no">04</span>
+          <span class="lbl-s">Process</span>
+        </div>
+      </div>
+    <div class="sec__body">
+      <h2>Four weeks, five steps, no mystery.</h2>
+      <ol class="steps">
+        <li>
+          <span class="quiet num">01</span>
+          <h3>Look</h3>
+          <p>I read everything you already have and tell you what the site is actually for. One page, no deck.</p>
+          <span class="lbl-s step__out">A one-page brief</span>
+        </li>
+        <li>
+          <span class="quiet num">02</span>
+          <h3>Decide</h3>
+          <p>Palette, type, grid, and the one idea the site is built around. Fixed before a line of code.</p>
+          <span class="lbl-s step__out">One screen, signed off</span>
+        </li>
+        <li>
+          <span class="quiet num">03</span>
+          <h3>Build</h3>
+          <p>Design and front-end together, in the browser, from the first week. You see it move, not a picture of it.</p>
+          <span class="lbl-s step__out">A staging URL, from week one</span>
+        </li>
+        <li>
+          <span class="quiet num">04</span>
+          <h3>Load</h3>
+          <p>Performance, accessibility, and the phone in your pocket. Sixty frames a second or it does not ship.</p>
+          <span class="lbl-s step__out">Frame timings on real devices</span>
+        </li>
+        <li>
+          <span class="quiet num">05</span>
+          <h3>Hand over</h3>
+          <p>Plain HTML, CSS and JavaScript you can host anywhere and hire anyone to edit.</p>
+          <span class="lbl-s step__out">The repository, and a walkthrough</span>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ 05 · CONTACT ══════════════════════════ -->
+<section class="pigment" id="contact">
+  <div class="wrap sec">
+      <div class="sec__rail">
+        <div class="sec__rail-in">
+          <span class="lbl-s sec__no">05</span>
+          <span class="lbl-s">Contact</span>
+        </div>
+      </div>
+    <div class="sec__body">
+      <span class="rule-draw" data-rv="fade" aria-hidden="true"></span>
+      <h2 style="color:var(--chalk);margin-top:clamp(20px,3vw,36px)">Tell me who you have to convince.</h2>
+      <a class="mail" href="mailto:preetkr.2002@gmail.com?subject=Project%20enquiry&amp;body=Hi%20Preet%2C%0A%0AWe%27re%20building%3A%20%0AThe%20site%20has%20to%20convince%3A%20%0ARough%20timing%3A%20%0ARough%20budget%3A%20%0A%0A">preetkr.2002@gmail.com</a>
+
+      <ul class="facts">
+        <li><span class="label">Reply within</span><span>One working day</span></li>
+        <li><span class="label">Based</span><span>Bengaluru, working worldwide</span></li>
+        <li><span class="label">Available</span><span>Now — booking two to four weeks out</span></li>
+        <li><span class="label">Rate</span><span>Fixed scope, fixed price</span></li>
+      </ul>
+
+      <p class="lbl-s foot">
+        Preet Kumar, <span id="year">2026</span>. Set in Bricolage Grotesque and Spectral.
+      </p>
+    </div>
   </div>
 </section>
 
 </main>
-
-<footer class="foot">
-  <div class="wrap foot__inner">
-    <a class="foot__top" href="#top">
-      <span class="foot__mark">PK</span>
-      <span>Back to the top</span>
-    </a>
-    <p class="foot__note">
-      Designed &amp; built by Preet Kumar. Every graphic on these seven sites —
-      the 3D, the illustration, the textures — was generated in the browser or
-      drawn by hand. No stock photography, no template.
-    </p>
-    <p class="foot__meta mono"><span id="year">2026</span> — Bengaluru</p>
-  </div>
-</footer>
-
-<div class="hint" id="hint" hidden>
-  <span></span>
-</div>
 
 </body>
 </html>
