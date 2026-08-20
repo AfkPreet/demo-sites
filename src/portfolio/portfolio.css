@@ -48,7 +48,22 @@
   --rail: clamp(0px, 8vw, 132px);
   --rake: 4.19vw;              /* holds −2.4° at every width */
 
-  --t-h1:      clamp(3.25rem, 9.8vw, 9rem);
+  /* Sized off the width, but never taller than what is left of the frame.
+
+     Four lines of a headline sized purely off `vw` is a fixed block in a
+     frame whose height varies independently of it, and with the masthead out
+     of flow nothing stops the first line rising up behind it — which is what
+     happened at 1600x840, and worse at every common laptop height below that:
+     1440x800, 1440x700 and 1280x720 all had the headline running under the
+     bar.
+
+     A plain `svh` cap does not fix it, because the lede and the baseline
+     strip beneath the headline are a fixed cost the cap cannot see. 25rem is
+     that cost — masthead, lede, strip and the insets around them — and 3.62
+     is what four lines of this face measure per unit of font size. Above
+     about 880 pixels of height the width term still wins and nothing changes;
+     below it the headline gives way rather than the layout. */
+  --t-h1:      min(clamp(3.25rem, 9.8vw, 9rem), calc((100svh - 25rem) / 3.62));
   --t-h2:      clamp(2rem, 4.6vw, 3.5rem);
   --t-quiet:   clamp(2.5rem, 5.4vw, 4rem);
   --t-h3:      clamp(1.375rem, 2.2vw, 1.75rem);
