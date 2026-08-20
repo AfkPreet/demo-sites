@@ -49,15 +49,27 @@ document.querySelectorAll('[data-count]').forEach((el) =>
      texture. Narrow screens get the viewBox cropped to the plan and its
      dimensions — the same drawing, at a size you can actually read. */
   const svg = fig.querySelector('.plan');
-  if (svg) {
-    const FULL = '0 0 1700 372';
-    const PLAN = '66 0 520 372';
-    let narrow = null;
+  const clip = fig.querySelector('#vz-clip');
+  if (svg && clip) {
+    /* Three windows onto one sheet, cut where the drawing itself divides:
+       the plan and its dimensions; those plus the key, north point and scale;
+       or the whole sheet with the section and title block. A phone gets the
+       first, a tablet the second — cropping by aspect instead would slice a
+       section in half, which is worse than showing less of it. */
+    const FULL = [0, 1700];
+    const KEYED = [66, 814];
+    const PLAN = [66, 520];
+    let bracket = null;
     const fit = () => {
-      const want = innerWidth < 1024;
-      if (want === narrow) return;
-      narrow = want;
-      svg.setAttribute('viewBox', want ? PLAN : FULL);
+      const want = innerWidth >= 1024 ? 'full' : innerWidth >= 640 ? 'keyed' : 'plan';
+      if (want === bracket) return;
+      bracket = want;
+      const [x, w] = want === 'full' ? FULL : want === 'keyed' ? KEYED : PLAN;
+      svg.setAttribute('viewBox', `${x} 0 ${w} 372`);
+      // The clip has to move with the window, or the sheet keeps drawing into
+      // whatever width the viewBox did not fill.
+      clip.setAttribute('x', String(x));
+      clip.setAttribute('width', String(w));
     };
     fit();
     addEventListener('resize', fit, { passive: true });

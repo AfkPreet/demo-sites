@@ -621,3 +621,23 @@ p { color: var(--bone-2); }
   color: var(--bone-2);
 }
 .foot__note { font-size: .74rem; color: var(--muted); max-width: 46ch; line-height: 1.7; }
+
+/* A phone held sideways.
+   The hero is a column: wordmark at the top, the piece filling the space
+   beneath it. In a frame 390 pixels tall there is no space beneath it — the
+   watch rendered straight through NOCTURNE 01 and the specification line fell
+   off the bottom. The type is capped against the height so the copy holds the
+   upper third, and main.js pulls the piece down and back to take the rest. */
+@media (max-height: 34rem) and (min-width: 34rem) {
+  .hero {
+    padding-top: calc(var(--chrome-fixed, 4.5rem) + .6rem);
+    align-items: flex-start;
+    text-align: left;
+  }
+  .hero .label { justify-content: flex-start; }
+  .hero__inner { padding-top: 0; gap: .4rem; align-items: flex-start; max-width: 54%; }
+  .hero__title { font-size: min(13vw, 15svh); }
+  .hero__fr { font-size: min(3vw, 5.4svh); }
+  .hero__spec { font-size: .62rem; letter-spacing: .18em; }
+  .hero__cue { align-self: flex-start; }
+}

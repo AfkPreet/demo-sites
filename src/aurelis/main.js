@@ -181,8 +181,12 @@ document.querySelectorAll('[data-count]').forEach((el) =>
     const eC = easeInOutCubic(pC);
     const eP = easeInOutCubic(pP);
 
+    /* A phone held sideways is a wide frame with no height. The piece has to
+       come back and drop, or it renders straight through the wordmark that
+       sits above it. */
     const wide = viewport.w >= 900;
-    let z = wide ? 9.4 : 9.9;
+    const short = viewport.h < 520 && viewport.w / viewport.h >= 1.5;
+    let z = short ? 10.6 : wide ? 9.4 : 9.9;
     z = lerp(z, 5.6, eH);
     z = lerp(z, 3.3, eD);
     z = lerp(z, 4.4, eC);
@@ -215,7 +219,7 @@ document.querySelectorAll('[data-count]').forEach((el) =>
        slides left — except while the calibre is in the air, which owns the
        whole frame. Chapter III lifts the piece so the moon aperture centres. */
     // Hero: wordmark occupies the top third, so the piece is framed below it.
-    let wy = wide ? -1.06 : -1.36;
+    let wy = short ? -0.25 : wide ? -1.06 : -1.36;
     wy = lerp(wy, -0.12, eH);
     wy = lerp(wy, 0, eD);
     wy = lerp(wy, 0, eC);
@@ -224,7 +228,11 @@ document.querySelectorAll('[data-count]').forEach((el) =>
 
     const targetX = wide ? -0.62 * eH * (1 - ex * 0.9) : 0;
     camX = damp(camX, targetX, 6, dt);
-    rig.watch.position.x = camX;
+    /* The camera tracks camX as well, so that offset never moves the piece
+       within the frame — it moves the whole world. To sit the watch on one
+       side of a short landscape frame it has to be offset against a camera
+       that stays put, and only until the story starts. */
+    rig.watch.position.x = camX + (short ? 2.5 * (1 - eH) : 0);
 
     stage.camera.position.set(0, 0, z);
     stage.camera.lookAt(0, 0, 0);

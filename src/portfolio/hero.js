@@ -437,18 +437,26 @@ export function initHero(canvas) {
     slabU.uDeboss.value = tex;
     prev?.dispose();
   };
-  const tight = () => viewport.w < 768;
-  let tightNow = tight();
+  /* Which cut of the deboss, decided by how big the slab actually lands on
+     screen rather than by how wide the window is. Those two came apart in the
+     middle: at 768 the framing had already switched to the phone's small,
+     centred slab while the deboss was still the full two-line cut, so the
+     card carried eight-pixel letterpress and the sub-lines turned to mush.
+     One number, measured off the thing itself. */
+  let slabPx = 0;                       // measured by the frame loop, below
+  const tight = () => slabPx < 380;
+  /* The first draw happens before a frame has run, so it guesses from the
+     framing bracket — which is right at both ends and only ever wrong for the
+     one frame it takes the loop to measure the real thing. */
+  let tightNow = viewport.w < 900;
+  const cut = () => {
+    const t = tight();
+    if (t === tightNow) return;
+    tightNow = t;
+    makeDeboss(t);
+  };
   makeDeboss(tightNow);
   document.fonts?.ready.then(() => makeDeboss(tightNow));
-  // Only when the cut actually changes — a resize inside one bracket redraws
-  // nothing.
-  addEventListener('resize', () => {
-    const t2 = tight();
-    if (t2 === tightNow) return;
-    tightNow = t2;
-    makeDeboss(t2);
-  }, { passive: true });
 
   /* ---- choreography ---------------------------------------------------- */
   const t = track(heroEl, { start: 'top top', end: 'bottom bottom', scrub: 8 });
@@ -472,9 +480,16 @@ export function initHero(canvas) {
   ];
 
   let lastW = 0;
+  let lastCut = 0;
   stage.onFrame((dt) => {
     const p = t.eased;
-    const wide = viewport.w >= 900;
+    /* "Wide" is a question about the frame's shape, not its pixel count. A
+       phone held sideways is 844 by 390 — narrower than a laptop but more
+       than twice as wide as it is tall, and the composition it wants is the
+       laptop's: copy down the left, object to the right. Judged on width
+       alone it got the portrait treatment, and the slab came out 130 pixels
+       across with a name on it nobody could read. */
+    const wide = viewport.w >= 900 || viewport.w / viewport.h >= 1.5;
 
     if (stage.width !== lastW) {
       lastW = stage.width;
@@ -503,22 +518,45 @@ export function initHero(canvas) {
     }
     slab.rotation.set(rx, ry, rz);
 
-    const baseX = wide ? 1.02 : 0;
-    const baseY = wide ? 0.30 : 0.62;
+    /* Framing, in shares of the frame rather than in metres.
+
+       The camera's field of view is vertical, so a narrower window shows less
+       of the world across — which means an object of fixed size grows as a
+       share of the frame until it runs off the edge. The slab was placed at
+       x = 1.02 and scaled to 1, both tuned against a 1440-wide window; at 900
+       the same numbers put its right edge 155 pixels past the side of the
+       screen. Everything below is expressed against the half-frame instead,
+       so the composition holds at every width it can be opened at.
+
+       On narrow screens the constraint changes from width to height — there
+       the slab has to clear the headline underneath it — so its share is
+       capped rather than followed. */
+    const halfH = Math.tan((stage.camera.fov * Math.PI) / 360) * stage.camera.position.z;
+    const halfW = halfH * (stage.width / stage.height);
+
+    const s = wide
+      ? (halfW * 2 * 0.372) / W
+      : Math.min((halfW * 2 * 0.72) / W, 0.56);
+
+    const baseX = wide ? halfW * 0.468 : 0;
+    /* A frame this short has no room to lift the object clear of the masthead
+       and clear of the copy at the same time — at the laptop's height the
+       card's top corner slid behind the navigation. On a short frame it sits
+       on the centre line, where the copy is beside it rather than under it. */
+    const short = viewport.h < 520;
+    const baseY = wide ? (short ? 0.02 : 0.30) : 0.62;
     let x = baseX;
     let y = baseY;
-    x = lerp(x, baseX - 0.30, a2);
+    x = lerp(x, baseX - halfW * 0.138, a2);
     y = lerp(y, baseY + 0.34, a2);
     /* The exit leaves on the side it lives on. Dragging it left across the
        headline turned the last third of the hero into a grey rectangle
        sliding over the type, back-face first. */
-    x = lerp(x, baseX + 1.35, a3);
+    x = lerp(x, baseX + halfW * 0.62 + W * s, a3);
     y = lerp(y, baseY + 2.1, a3);
-    /* On a phone the slab has to be an object you can see the edges of, not a
-       wall. At 0.82 it was 2.1× the frame width and read as a texture. */
-    const s = wide ? 1 : 0.55;
     slab.position.set(x, y, 0);
     slab.scale.setScalar(s);
+    slabPx = (W * s) / (halfW * 2) * viewport.w;
 
     /* The shadow. Four corners cast along the light onto the sweep, projected
        to the screen — so its length and softness are always a consequence of
@@ -551,6 +589,10 @@ export function initHero(canvas) {
 
     // the key never moves in world space; it is only re-expressed in view space
     slabU.uKeyDir.value.copy(LIGHT).transformDirection(stage.camera.matrixWorldInverse);
+
+    // Redrawing the deboss is a canvas fill and a texture upload, so it is
+    // gated on the bracket changing and rate-limited besides.
+    if (tight() !== tightNow && (lastCut += dt) > 0.25) { lastCut = 0; cut(); }
   });
 
   // Reduced motion: one composed frame, and the loop never runs again.

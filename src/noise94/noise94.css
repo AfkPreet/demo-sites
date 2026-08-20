@@ -191,7 +191,15 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: clamp(2.5rem, 7vh, 6rem) var(--pad) clamp(2rem, 5vh, 4rem);
+  /* The top pad has to clear the fixed bar and ticker before it starts
+     spacing anything. On a tall screen the clamp is deeper than they are and
+     it never comes up; turn the phone sideways and the clamp collapses to its
+     floor, the bar and the ticker are still 82 pixels tall, and DROP 07 loses
+     its cap line to the marquee. */
+  padding:
+    calc(var(--chrome-fixed, 5.2rem) + clamp(.6rem, 3vh, 2.4rem))
+    var(--pad)
+    clamp(1.4rem, 5vh, 4rem);
   overflow: hidden;
   isolation: isolate;
 }
@@ -794,4 +802,19 @@ html[data-reduced="true"] .tear.is-tearing .tear__big { animation: none; }
 
 @media (prefers-reduced-motion: reduce) {
   .shutter__grabby, .ticker__track { animation: none !important; }
+}
+
+/* A phone held sideways.
+   Nineteen per cent of 844 pixels is a hundred and sixty a line, in a frame
+   with about two hundred and forty to spend on everything. The display sizes
+   are capped against the height, and the atmosphere — the type wall, the
+   stickers — steps out, because there is no room for atmosphere. */
+@media (max-height: 34rem) and (min-width: 34rem) {
+  .hero__h1 { font-size: min(19vw, 20svh); }
+  .hero__sub { font-size: min(5.2vw, 7svh); }
+  .hero__foot { margin-top: clamp(.6rem, 3svh, 1.4rem); padding-top: .7rem; }
+  .run { margin-top: clamp(.6rem, 3svh, 1.4rem); }
+  .run li { padding: .45rem .5rem .5rem; }
+  .run span { font-size: 1.05rem; }
+  .wall, .sticker { display: none; }
 }
