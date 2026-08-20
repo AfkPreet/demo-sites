@@ -34,7 +34,10 @@ function measureChrome() {
     const cs = getComputedStyle(el);
     if (cs.position !== 'fixed' && cs.position !== 'sticky') continue;
     const r = el.getBoundingClientRect();
-    if (r.height === 0 || r.top > 80) continue;    // a bar at the top, not the back-link
+    // A bar: at the top, and short. Without the height test this also catches
+    // a fixed full-screen backdrop, which reports its bottom as the whole
+    // viewport and hands every hero a padding the height of the screen.
+    if (r.height === 0 || r.height > 160 || r.top > 80) continue;
     fixed = Math.max(fixed, Math.round(r.bottom));
   }
   root.style.setProperty('--chrome-fixed', `${fixed}px`);

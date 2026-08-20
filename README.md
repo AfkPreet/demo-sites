@@ -88,10 +88,22 @@ They all run against a `npm run preview` server.
 node tools/qa.mjs --all      # every page, phone + desktop: overflow, console,
                              # frame times, back-link, doc height
 node tools/links.mjs         # every link, every #anchor, accessible names
+node tools/vp.mjs 768 1024   # the viewports between the two everything was
+node tools/vp.mjs --landscape  # composed at — and the phone turned sideways
+node tools/kbd.mjs /          # tab through: does every stop show a ring, and
+                             # is it clipped or off-screen when it does
+node tools/degrade.mjs reduce  # with prefers-reduced-motion
+node tools/degrade.mjs nogl    # with WebGL refused
+node tools/forms.mjs         # fill every form, bad input then good
 node tools/shots.mjs /demos/cendre/ ".hero,.pass"    # section screenshots
 node tools/interact.mjs /demos/noise94/ tear         # rehearse an interaction
 node tools/og.mjs            # regenerate public/og/*.jpg social cards
 ```
+
+The last five exist because a screenshot of a page at rest, at one of two
+widths, hides most of what can be wrong with it: a focus ring nobody can see,
+a form that throws, a hero composed for a frame twice as tall as the one it
+is being opened in.
 
 Headless Chromium renders WebGL through SwiftShader, so the frame numbers are a
 software-rasteriser floor, not a prediction for real hardware. They are for

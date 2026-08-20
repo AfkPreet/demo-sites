@@ -197,7 +197,7 @@ body {
      floor, the bar and the ticker are still 82 pixels tall, and DROP 07 loses
      its cap line to the marquee. */
   padding:
-    calc(var(--chrome-fixed, 5.2rem) + clamp(.6rem, 3vh, 2.4rem))
+    calc(max(var(--chrome-fixed, 0px), 5.2rem) + clamp(.6rem, 3vh, 2.4rem))
     var(--pad)
     clamp(1.4rem, 5vh, 4rem);
   overflow: hidden;

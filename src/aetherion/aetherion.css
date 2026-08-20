@@ -657,3 +657,31 @@ html[data-reduced="true"] .cut-ring { animation: none; }
   color: var(--d-mut);
 }
 .foot__row span { opacity: .45; }
+
+/* A phone held sideways.
+   The wordmark is gradient-clipped, so its middle stops are a mid blue — the
+   same value as the lit face of the planet, which in a frame this short ends
+   up directly behind it and swallows the last four letters. The copy block
+   gets a scrim of its own here, cast the way the light in this scene falls,
+   and the display sizes are capped against the height so the block does not
+   need the whole screen. */
+@media (max-height: 34rem) and (min-width: 34rem) {
+  .hero { padding-top: calc(max(var(--chrome-fixed, 0px), 4.2rem) + .5rem); }
+  /* The scrim is the block's own background rather than a pseudo-element
+     behind it — no new stacking context, nothing to get the paint order
+     wrong. The negative margin lets it bleed past the measure. */
+  .hero__mid {
+    --bleed: min(12%, var(--pad));
+    margin-top: auto;
+    /* Bleeding by a percentage of the measure pushed the scrim fifty pixels
+       past both edges of an 844-wide screen, which only stayed invisible
+       because something further up happened to clip it. Bleed by the page's
+       own margin instead: it reaches the edge exactly and never past it. */
+    margin-inline: calc(var(--bleed) * -1);
+    padding: .9rem var(--bleed) .7rem;
+    background: radial-gradient(52% 128% at 26% 50%,
+      rgba(4, 10, 22, .9) 0%, rgba(4, 10, 22, .6) 44%, rgba(4, 10, 22, 0) 100%);
+  }
+  .hero__title { font-size: min(11.5vw, 19svh); }
+  .hero__sub { margin-top: .35rem; font-size: min(2.6vw, 5.4svh); }
+}

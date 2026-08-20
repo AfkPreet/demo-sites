@@ -213,14 +213,21 @@ p { color: var(--bone-2); }
 
 /* No WebGL: a large static dial keeps the page composed rather than empty. */
 .stage__fallback { display: none; }
+/* The fallback stands in for the rendered piece, so it has to stand where the
+   rendered piece stands. Centred in the frame it sat exactly where the
+   wordmark is: NOCTURNE 01 ran straight through the case and the calibre line
+   was set on the dial. The real watch sits low, under the copy, and so does
+   this. */
 .no-webgl .stage__fallback {
   display: grid;
   place-items: center;
+  align-items: end;
   position: absolute;
   inset: 0;
+  padding-bottom: clamp(4.5rem, 16svh, 9rem);
 }
 .no-webgl .stage__fallback svg {
-  width: min(62vw, 26rem);
+  width: min(46vw, 20rem);
   height: auto;
   filter: drop-shadow(0 30px 60px rgba(0,0,0,.7));
 }
@@ -630,7 +637,7 @@ p { color: var(--bone-2); }
    upper third, and main.js pulls the piece down and back to take the rest. */
 @media (max-height: 34rem) and (min-width: 34rem) {
   .hero {
-    padding-top: calc(var(--chrome-fixed, 4.5rem) + .6rem);
+    padding-top: calc(max(var(--chrome-fixed, 0px), 4.5rem) + .6rem);
     align-items: flex-start;
     text-align: left;
   }

@@ -62,7 +62,7 @@ document.querySelectorAll('[data-count]').forEach((el) =>
 /* ── hero embers, 2D and cheap ────────────────────────────────────────── */
 (() => {
   const canvas = document.getElementById('heroEmbers');
-  if (!canvas || env.reducedMotion) return;
+  if (!canvas) return;
   const ctx = canvas.getContext('2d', { alpha: true });
   if (!ctx) return;
 
@@ -108,7 +108,7 @@ document.querySelectorAll('[data-count]').forEach((el) =>
   new IntersectionObserver(([e]) => (visible = e.isIntersecting)).observe(canvas);
 
   let t = 0;
-  onTick((dt) => {
+  const draw = (dt) => {
     if (!ready) { ready = size(); return; }
     if (!visible) return;
     t += dt;
@@ -135,7 +135,20 @@ document.querySelectorAll('[data-count]').forEach((el) =>
       ctx.fill();
     }
     ctx.globalCompositeOperation = 'source-over';
-  }, 35);
+  };
+
+  /* Reduced motion means do not move things — not remove them. Cutting the
+     embers out entirely left the top two thirds of the hero as an empty brown
+     rectangle, which is a worse page, not a calmer one. The field is drawn
+     once, from the same seeded positions, and then never touched again. */
+  if (env.reducedMotion) {
+    const still = () => { ready = size(); visible = true; draw(0); };
+    still();
+    addEventListener('resize', () => setTimeout(still, 150), { passive: true });
+    return;
+  }
+
+  onTick(draw, 35);
 })();
 
 /* ── booking ──────────────────────────────────────────────────────────── */
